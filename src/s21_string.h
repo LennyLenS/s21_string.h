@@ -1,13 +1,11 @@
 #ifndef SRC_S21_STRING_H_
 #define SRC_S21_STRING_H_
 
-#include <limits.h>
 #include <math.h>
-#include <stdarg.h>
 #include <stdlib.h>
 
-#define s21_size_t unsigned int;     // или через  typedef unsigned int size_t;
-#define NULL // <either 0, 0L, or (void *)0> [0 in C++]   не знаю как правильно, (void *)0  - ok
+#define s21_size_t unsigned int;     // или через  typedef unsigned int size_t; ?  будем привязываться к размеру адреса?
+#define NULL // <either 0, 0L, or (void *)0> [0 in C++]  нашел это, но не знаю как правильно, (void *)0  - ok
 
 void *memchr(const void *str, int c, size_t n)   // Выполняет поиск первого вхождения символа c (беззнаковый тип) в первых n байтах строки, на которую указывает аргумент str.
 int memcmp(const void *str1, const void *str2, size_t n)   // Сравнивает первые n байтов str1 и str2.
