@@ -2,9 +2,11 @@
 #define SRC_S21_STRING_H_
 
 #include <math.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
-char *strerror(int errnum);
-size_t strcspn(const char *str1, const char *str2);
+char *s21_strerror(int errnum);
+int s21_strncmp(const char *str1, const char *str2, size_t n);
+int s21_strcmp(const char *str1, const char *str2);
 
 #endif

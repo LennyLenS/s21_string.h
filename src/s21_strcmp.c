@@ -4,12 +4,6 @@
 // Сравнивает строку, на которую указывает str1, со строкой, на которую
 // указывает str2.
 
-int main() {
-  const char str1[16] = "12345";
-  const char str2[16] = "12345";
-  s21_strcmp(str1, str2);
-}
-
 int s21_strcmp(const char *str1, const char *str2) {
   int res = 0;
   bool flag = true;

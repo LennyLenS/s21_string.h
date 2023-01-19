@@ -254,7 +254,7 @@ static const char *maserror[] = {"No error information",
 
 // Выполняет поиск во внутреннем массиве номера ошибки errnum и возвращает
 // указатель на строку с сообщением об ошибке.
-char *strerror(int errnum) {
+char *s21_strerror(int errnum) {
   char *res;
   // ERROR
   if (errnum > MAXMASERROR || errnum < MINMASERROR) {
