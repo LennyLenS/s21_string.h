@@ -10,7 +10,7 @@
 
 char *s21_strncat(
     char *dest, const char *src,
-    size_t n);  // Добавляет строку, на которую указывает src, в конец строки,
+    s21_size_t n);  // Добавляет строку, на которую указывает src, в конец строки,
                 // на которую указывает dest, длиной до n символов.
 char *s21_strchr(
     const char *str,
