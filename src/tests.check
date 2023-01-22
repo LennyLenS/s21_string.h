@@ -1,0 +1,41 @@
+#include "s21_string.h"
+
+#test s21_strcpy_test
+char test_1[] = "123456";
+char test_2[] = "      ";
+char test_3[] = "123\056";
+char test_4[] = "copy\0 don't copy";
+char test_5[] = "";
+char test_6[] = "School 21 it's a best school of programming";
+char test_7[] = "123\156";
+char test_8[] = "1234567";
+
+ck_assert_str_eq(strcpy(test_1,test_2), s21_strcpy(test_1,test_2));
+ck_assert_str_eq(strcpy(test_2,test_3), s21_strcpy(test_2,test_3));
+ck_assert_str_eq(strcpy(test_4,test_5), s21_strcpy(test_4,test_5));
+ck_assert_str_eq(strcpy(test_5,test_4), s21_strcpy(test_5,test_4));
+ck_assert_str_eq(strcpy(test_6,test_5), s21_strcpy(test_6,test_5));
+ck_assert_str_eq(strcpy(test_8,test_7), s21_strcpy(test_8,test_7));
+
+#test s21_strncpy_test
+char test_1[] = "123456";
+char test_2[7] = "";
+//char test_2_1[7] = "";
+char test_3[] = "123\056";
+char test_4[] = "copy\0 don't copy";
+char test_5[17] = "";
+char test_7[] = "123\156";
+char test_8[] = "1234567";
+char src1[] = "test test";
+char dest1[] = "test_1";
+
+
+ck_assert_str_eq(strncpy(test_2,test_1,3), s21_strncpy(test_2,test_1,3));
+ck_assert_str_eq(strncpy(test_2,test_3,5), s21_strncpy(test_1,test_2,5));
+ck_assert_str_eq(strncpy(test_5,test_4,4), s21_strncpy(test_5,test_4,4));
+ck_assert_str_eq(strncpy(test_8,test_7,7), s21_strncpy(test_8,test_7,7));
+ck_assert_str_eq(strncpy(test_8,test_7,4), s21_strncpy(test_8,test_7,4));
+ck_assert_str_eq(strncpy(test_7,test_8,5), s21_strncpy(test_7,test_8,5));
+ck_assert_str_eq(strncpy(src1,dest1,7), s21_strncpy(src1,dest1,7));
+ck_assert_str_eq(strncpy(src1,dest1,6), s21_strncpy(src1,dest1,6));
+ck_assert_str_eq(strncpy(src1,dest1,8), s21_strncpy(src1,dest1,8));

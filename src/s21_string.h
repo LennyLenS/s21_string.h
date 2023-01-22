@@ -1,9 +1,13 @@
 #ifndef SRC_S21_STRING_H_
 #define SRC_S21_STRING_H_
 
+#include <ctype.h>
+#include <float.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char *s21_strerror(int errnum);
 int s21_strncmp(const char *str1, const char *str2, size_t n);

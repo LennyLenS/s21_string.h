@@ -258,9 +258,9 @@ char *s21_strerror(int errnum) {
   char *res;
   // ERROR
   if (errnum > MAXMASERROR || errnum < MINMASERROR) {
-    s21_sprintf(result, ERROR,
-                errornumber);  // нужен будет sprintf для проверки
-                               // работоспособности strerror
+    // s21_sprintf(result, ERROR,
+    //             errornumber);  // нужен будет sprintf для проверки
+    // работоспособности strerror
     // res =
   } else {
     res = (char *)maserror[errnum];
