@@ -11,7 +11,7 @@ LEAK=-fsanitize=address
 CTESTFLAGS=-lcheck -lm -lpthread $(LEAK) 
 TEST = tests_functions.c
 LIBRARY = s21_string.a
-COMPILE = test.c
+COMPILE = s21_strcmp.c
 
 
 all: clean $(LIBRARY) test
