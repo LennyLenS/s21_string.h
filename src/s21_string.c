@@ -10,6 +10,47 @@ s21_size_t s21_strlen(const char *str) {
     return size;
 }
 
+void *s21_memcpy(void *dest, const void *src, size_t n){
+    size_t i = 0;
+    while(i < n) {
+        *(char *)(dest + i) = *(char*)(src + i);
+        i++;
+    }
+    return dest;
+}
+
+char *s21_strcat(char *dest, const char *src){
+    int p = (int)strlen(dest);
+    int i = 0;
+    while(*src != '\0') {
+        *(dest + p +i) = *src;
+        i++;
+        src++;
+    };
+    return dest;
+}
+
+size_t s21_strspn(const char *str1, const char *str2){
+    size_t count = 0;
+    int flag = 0;
+    while(*str1 != '\0' && flag == 0) {
+        const char *str_tmp = str2;
+        while(*str_tmp != '\0'){
+            if(*str1 == *str_tmp){
+                count++;
+                flag =0;
+                break;
+            } else {
+                flag =1;
+                str_tmp++;
+            }
+        }
+        str1++;
+        if(flag == 1) break;
+    }
+    return count;
+}
+
 char *s21_strtok(char *str, const char *delim) {
     int str_ind = 0;
     static int ret_ind;
