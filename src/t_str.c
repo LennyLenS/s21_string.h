@@ -6,8 +6,8 @@ char *s21_strstr(const char *haystack, const char *needle);
 int main (void)
 {    
   // Массив со строкой для поиска
-  char haystack [44]="//$/test1//te@st2/test3//sd";
-  char needle [44]="te";
+  char haystack [44]="abcdefghijklmnopqrstuvwxyz";
+  char needle [44]="bcd";
 //   char str [44]="uu/uuu/uuuu";
 //   char str2 [44]="uu/uuu/uuuu";
   // Набор символов, которые должны входить в искомый сегмент

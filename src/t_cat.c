@@ -7,8 +7,8 @@ int main (void)
 {    
   // Массив со строкой для поиска
   char str1 [70]="ert43d2542345d2f345dw4svf5fhg";
-  char str2 [70]="//t435dqxfvg4664he464234";
-  char str3 [70]="ert43d2542345d2f345erfdw45fhg";
+  char *str2 ="//t435dqxfvg4664he464234";
+  char str3 [70] ="ert43d2542345d2f345erfdw45fhg";
 //   char str [44]="uu/uuu/uuuu";
 //   char str2 [44]="uu/uuu/uuuu";
 
@@ -27,6 +27,7 @@ char *s21_strcat(char *dest, const char *src){
     int p = (int)strlen(dest);
     int i = 0;
     while(*src != '\0') {
+      printf("q %c  %c\n", *dest, *src);
         *(dest + p +i) = *src;
         i++;
         src++;

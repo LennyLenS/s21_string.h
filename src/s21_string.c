@@ -20,7 +20,7 @@ void *s21_memcpy(void *dest, const void *src, size_t n){
 }
 
 char *s21_strcat(char *dest, const char *src){
-    int p = (int)strlen(dest);
+    int p = (int)s21_strlen(dest);
     int i = 0;
     while(*src != '\0') {
         *(dest + p +i) = *src;
@@ -85,11 +85,6 @@ char *s21_strtok(char *str, const char *delim) {
         int match = 0;
         while(delim[delim_ind] != '\0'){
             if(str[str_ind] == delim[delim_ind]){
-                if(str_ind != 0 && (str[str_ind - 1] == '\0')) {
-                    ret_ind++;
-                    match++;
-                    break;
-                };
                 str[str_ind] = '\0';
                 match++;
                 break;
@@ -118,5 +113,5 @@ char *s21_strstr(const char *haystack, const char *needle) {
         if(needle[j] == '\0') return (char*)haystack + i;
     i++;
     }
-    return NULL;
+    return S21_NULL;
 }

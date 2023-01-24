@@ -11,12 +11,17 @@ s21_size_t s21_strlen(const char *str);
 int main (void)
 {    
   // Массив со строкой для поиска
-  char str [44]="//$/test1//te@st2/test3//sd";
-  char str2 [44]="//$/test1//te@st2/test3//sd";
+  char str[50] = "//$/test1//te@st2/test3//sd";
+  char str2[50] = "//$/test1//te@st2/test3//sd";
+  char *sep = "t";
+
+//   char str [44]="//$/test1//te@st2/test3//sd";
+//   char str2 [44]="//$/test1//te@st2/test3//sd";
+
 //   char str [44]="uu/uuu/uuuu";
 //   char str2 [44]="uu/uuu/uuuu";
   // Набор символов, которые должны входить в искомый сегмент
-  char sep [10]="#/@";
+//   char sep [10]="@2";
 //   char sep [10]="e";
   // Переменная, в которую будут заноситься начальные адреса частей
   // строки str
