@@ -337,6 +337,21 @@ START_TEST(strspn9) {
 }
 END_TEST
 
+START_TEST(to_upper1) {
+  char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
+  char *str2 = s21_to_upper(str);
+  ck_assert_str_eq(str2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890 *-+/=");
+  free(str2);
+}
+END_TEST
+
+START_TEST(to_lower1) {
+  char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
+  char *str2 = s21_to_lower(str);
+  ck_assert_str_eq(str2, "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=");
+  free(str2);
+}
+END_TEST
 
 // Функция создания набора тестов.
 Suite *example_suite_create(void)
@@ -393,6 +408,10 @@ Suite *example_suite_create(void)
     tcase_add_test(tcase_core, strspn7);
     tcase_add_test(tcase_core, strspn8);
     tcase_add_test(tcase_core, strspn9);
+
+    tcase_add_test(tcase_core, to_upper1);
+
+    tcase_add_test(tcase_core, to_lower1);
     
     // Добавление теста в тестовый набор.
     suite_add_tcase(suite, tcase_core);
