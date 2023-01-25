@@ -4,8 +4,14 @@
 // выводиться Unknown error: <номер несуществующего кода ошибки>
 
 // Ошибки MAC
+
+// int main() {
+//   int num = 0;
+//   s21_strerror(num);
+// }
+
 #if defined(__APPLE__)
-#define ERROR "Unknown error: "
+#define ERROR "Unknown error:"
 #define MAXMASERROR 107
 #define MINMASERROR 0
 static const char *maserror[] = {
@@ -115,7 +121,7 @@ static const char *maserror[] = {
 
 #elif defined(__linux__)
 #define ERROR "No error information"
-#define MAXMASERROR 131
+#define MAXMASERROR 132
 #define MINMASERROR 0
 
 static const char *maserror[] = {"No error information",
@@ -255,15 +261,17 @@ static const char *maserror[] = {"No error information",
 // Выполняет поиск во внутреннем массиве номера ошибки errnum и возвращает
 // указатель на строку с сообщением об ошибке.
 char *s21_strerror(int errnum) {
-  char *res;
+  static char res[256];
   // ERROR
-  if (errnum > MAXMASERROR || errnum < MINMASERROR) {
-    // s21_sprintf(result, ERROR,
-    //             errornumber);  // нужен будет sprintf для проверки
-    // работоспособности strerror
-    // res =
+  if (errnum >= MAXMASERROR || errnum < MINMASERROR) {
+#if defined(__APPLE__)
+    sprintf(res, "%s %d", ERROR,
+            errnum);  // Не забыть поменять на свой s21_printf !!!
+#elif defined(__linux__)
+    sprintf(res, "%s", ERROR);  // Не забыть поменять на свой s21_printf !!!
+#endif
   } else {
-    res = (char *)maserror[errnum];
+    s21_strcpy(res, (char *)maserror[errnum]);
   }
   return res;
 }
