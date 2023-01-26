@@ -353,6 +353,58 @@ START_TEST(to_lower1) {
 }
 END_TEST
 
+START_TEST(insert1) {
+  char *src = "abcdef";
+  char *str = "8888";
+  char *str2 = NULL;
+  char *src2 = NULL;
+  char *src3 = "";
+  char *str3 = "";
+
+  char *res = s21_insert(src, str, 3);
+  ck_assert_str_eq(res, "abc8888def");
+  free(res);
+
+  res = s21_insert(src, str, 6);
+  ck_assert_str_eq(res, "abcdef8888");
+  free(res);
+
+  res = s21_insert(src, str, 0);
+  ck_assert_str_eq(res, "8888abcdef");
+  free(res);
+
+  res = s21_insert(src3, str, 0);
+  ck_assert_str_eq(res, "8888");
+  free(res);
+
+  res = s21_insert(src, str3, 3);
+  ck_assert_str_eq(res, "abcdef");
+  free(res);
+
+  res = s21_insert(src, str2, 3);
+  ck_assert_ptr_null(res);
+  free(res);
+
+  res = s21_insert(src2, str, 3);
+  ck_assert_ptr_null(res);
+  free(res);
+
+  res = s21_insert(src, str, -3);
+  ck_assert_ptr_null(res);
+  free(res);
+
+  res = s21_insert(src, str, 23);
+  ck_assert_ptr_null(res);
+  free(res);
+
+  res = s21_insert(src2, str, 3);
+  ck_assert_ptr_null(res);
+  free(res);
+
+}
+END_TEST
+
+
 // Функция создания набора тестов.
 Suite *example_suite_create(void)
 {
@@ -412,6 +464,8 @@ Suite *example_suite_create(void)
     tcase_add_test(tcase_core, to_upper1);
 
     tcase_add_test(tcase_core, to_lower1);
+
+    tcase_add_test(tcase_core, insert1);
     
     // Добавление теста в тестовый набор.
     suite_add_tcase(suite, tcase_core);

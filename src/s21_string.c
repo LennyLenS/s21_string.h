@@ -117,10 +117,10 @@ char *s21_strstr(const char *haystack, const char *needle) {
 }
 
 void *s21_to_upper(const char *str){
-    if(str == NULL) return NULL;
+    if(str == S21_NULL) return S21_NULL;
     s21_size_t n = s21_strlen(str);
     char *str_copy = (char *)malloc((n+1) * sizeof(char));
-    if(str_copy == NULL) return NULL;
+    if(str_copy == S21_NULL) return S21_NULL;
     for(s21_size_t i = 0; i < n; i++){
         if((str[i] > 96) && (str[i] < 123)) {
             str_copy[i] = str[i] - 32;
@@ -135,7 +135,7 @@ void *s21_to_upper(const char *str){
 void *s21_to_lower(const char *str){
     s21_size_t n = s21_strlen(str);
     char *str_copy = (char *)malloc((n+1) * sizeof(char));
-    if(str_copy == NULL) return NULL;
+    if(str_copy == S21_NULL) return S21_NULL;
     for(s21_size_t i = 0; i < n; i++){
         if((str[i] > 64) && (str[i] < 91)) {
             str_copy[i] = str[i] + 32;
@@ -145,4 +145,33 @@ void *s21_to_lower(const char *str){
     }
     str_copy[n] = '\0';
     return (void *)str_copy;
+}
+
+void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
+    s21_size_t i = 0;
+    s21_size_t src_ind = 0;
+    if(str == S21_NULL || src == S21_NULL) return S21_NULL;
+    s21_size_t src_len = s21_strlen(src);
+    s21_size_t str_len = s21_strlen(str);
+    if(src_len < start_index ) return S21_NULL;
+
+    char *src_new = (char *)malloc(sizeof(char) * (src_len + str_len + 1));
+    if(src_new == S21_NULL) return S21_NULL;
+    while(i < start_index){
+        src_new[i] = src[i];
+        i++;
+        src_ind++;
+    };
+    while(*str != '\0'){
+        src_new[i] = *str;
+        str++;
+        i++;
+    };
+    while(src[src_ind] != '\0'){
+        src_new[i] = src[src_ind];
+        i++;
+        src_ind++;
+    };
+    src_new[i] = '\0';    
+    return (void *)src_new;
 }
