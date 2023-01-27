@@ -2,18 +2,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "s21_string.h"
 
 size_t s21_strlen(const char *str);
 void *s21_to_upper(const char *str);
 void *s21_to_lower(const char *str);
 void *s21_insert(const char *src, const char *str, size_t start_index);
+void *s21_trim(const char *src, const char *trim_chars);
 
 int main()
 {
+    // trim
+    char *src = "0123456789";
+    char *trim_chars = NULL;
+    printf("aa /%s/   %ld\n", (char*)s21_trim(src, trim_chars), s21_strlen(src));
+
     // insert
-    char *src = "abcdef";
-    char *str = "X vvvvvvvvvvvvvvvvvvvvvvv X";
-    printf("%s  %s   %d\n%s", src, str, 3, (char *)s21_insert(src, str, 3));
+    // char *src = "abcdef";
+    // char *str = "X vvvvvvvvvvvvvvvvvvvvvvv X";
+    // printf("%s  %s   %d\n%s", src, str, 3, (char *)s21_insert(src, str, 3));
     
     // upp low
     // char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
@@ -26,6 +33,56 @@ int main()
     // printf("= %s\n", (char*)s21_to_lower(str));   // for NULL
     
     return 0;
+}
+
+void *s21_trim(const char *src, const char *trim_chars){
+    if(src == NULL) return NULL;
+    // if(trim_chars == NULL) {
+    //  trim_chars = "* '48'9";
+    // };
+    printf("qq %s\n", trim_chars);
+    s21_size_t src_len = s21_strlen(src);
+    char *str_new = (char *)malloc(sizeof(char) * (src_len +1));
+    s21_size_t ind_bgn = s21_strspn(src, trim_chars);
+    s21_size_t ind_end = src_len;  // to stand pointer on \0
+    
+    printf("ind %ld  %ld\n", ind_bgn, ind_end);
+
+    char *src_tmp = (char *)src + ind_end;
+    char *src_end = src_tmp;
+
+    while(src_tmp == src_end) {
+        src_tmp--;
+        //src_end = src_tmp;
+        src_end = strpbrk (src_tmp, trim_chars);
+        if(src_end == NULL) src_end = src_tmp + 1;
+        if(src_tmp != src_end) break;
+    };
+
+    // int ii = 0;
+    // while(ii < 33){
+    //     printf("%d  %c\n", ii, src[ii]);
+    //     ii++;
+    // };
+    printf("ind2 %ld  %ld\n", ind_bgn, ind_end);
+
+    if(ind_end != ind_bgn) ind_end = src_tmp - src;
+    
+    printf("ind3 %ld  %ld\n", ind_bgn, ind_end);
+    int i = 0;
+    while(ind_bgn <= ind_end){
+        // printf("ee %c", src[ind_bgn]);
+        *(str_new + i) = src[ind_bgn];
+        ind_bgn++;
+        i++;
+    };
+    printf("ind4 %ld  %ld\n", ind_bgn, ind_end);
+    //printf("\n");
+    
+    //printf("end #%s   @%s  %ld\n", src_tmp, src_end, src_tmp - src);
+    //printf("ib %ld   %c\n", ind_bgn, src[ind_end]);
+
+    return (void *)str_new;
 }
 
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
@@ -96,11 +153,32 @@ void *s21_to_lower(const char *str){
 }
 
 s21_size_t s21_strlen(const char *str) {
-    s21_size_t size =0;
+    s21_size_t size = 0;
     const char *p = str;
     while(*p != '\0') {
         size++;
         p++;
     };
     return size;
+}
+
+size_t s21_strspn(const char *str1, const char *str2){
+    size_t count = 0;
+    int flag = 0;
+    while(*str1 != '\0' && flag == 0) {
+        const char *str_tmp = str2;
+        while(*str_tmp != '\0'){
+            if(*str1 == *str_tmp){
+                count++;
+                flag =0;
+                break;
+            } else {
+                flag =1;
+                str_tmp++;
+            }
+        }
+        str1++;
+        if(flag == 1) break;
+    }
+    return count;
 }
