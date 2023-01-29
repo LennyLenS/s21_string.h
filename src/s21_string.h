@@ -5,7 +5,8 @@
 #include <stdlib.h>
 
 #define s21_size_t unsigned long     // или через  typedef unsigned int size_t; ?  будем привязываться к размеру адреса?
-#define S21_NULL ((void *)0)           // <either 0, 0L, or (void *)0> [0 in C++]  нашел это, но не знаю как правильно, (void *)0  - ok
+#define S21_NULL ((void *)0)
+// <either 0, 0L, or (void *)0> [0 in C++]  нашел это, но не знаю как правильно, (void *)0  - ok
 
 // void *s21_memchr(const void *str, int c, size_t n);   // Выполняет поиск первого вхождения символа c (беззнаковый тип) в первых n байтах строки, на которую указывает аргумент str.
 // int s21_memcmp(const void *str1, const void *str2, size_t n);   // Сравнивает первые n байтов str1 и str2.
@@ -35,7 +36,7 @@ void *s21_to_upper(const char *str);   // Возвращает копию стр
 void *s21_to_lower(const char *str);   // Возвращает копию строки (str), преобразованной в нижний регистр. В случае какой-либо ошибки следует вернуть значение NULL
 void *s21_insert(const char *src, const char *str, size_t start_index);   // Возвращает новую строку, в которой указанная строка (str) вставлена в указанную позицию (start_index) 
 //                                                                           // в данной строке (src). В случае какой-либо ошибки следует вернуть значение NULL
-// void *s21_trim(const char *src, const char *trim_chars);   // Возвращает новую строку, в которой удаляются все начальные и конечные вхождения набора заданных символов (trim_chars) 
+void *s21_trim(const char *src, const char *trim_chars);   // Возвращает новую строку, в которой удаляются все начальные и конечные вхождения набора заданных символов (trim_chars) 
 //                                                            // из данной строки (src). В случае какой-либо ошибки следует вернуть значение NULL
 
 

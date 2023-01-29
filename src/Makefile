@@ -3,6 +3,7 @@ all:
 
 test:
 	gcc $(FLAGS) -lcheck s21_test_string.c s21_string.c -o tests_string
+	#gcc $(FLAGS) -lcheck test_strtok.c s21_string.c -o tests_string
 	./tests_string
 s21_string.a:
 
