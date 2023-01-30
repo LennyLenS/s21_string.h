@@ -7,11 +7,11 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c11 $(DEBUG)
 S21_MATH=-L. s21_math.a
 DEBUG =-g
-LEAK=-fsanitize=address
+#LEAK=-fsanitize=address
 CTESTFLAGS=-lcheck -lm -lpthread $(LEAK) 
-TEST = tests_functions.c
+TEST = tests_functions.c  
 LIBRARY = s21_string.a
-COMPILE = s21_strcmp.c
+COMPILE = sprintf.c
 
 
 all: clean $(LIBRARY) test
@@ -29,7 +29,7 @@ $(LIBRARY): s21_string.h $(CFILES)
 	rm -f $(OBJ)
 
 clean:
-	rm -rf *.o *.a test *.gcda *.gcno *.info coverage *.dSYM tests_functions.c
+	rm -rf *.o *.a test *.gcda *.gcno *.info coverage *.dSYM *.out
 
 style:
 	clang-format -style=google -i *.c
