@@ -15,12 +15,12 @@ typedef struct {
 
 typedef struct {
   int specification;  // спецификаторы
-  int flags;          // флаги спринтфа -, +, " ", #, 0
-  int minus_flags;
-  int plus_flags;
-  int space_flags;
-  int zero_flags;
-  int sharp_flags;
+  // int flags;          // флаги спринтфа -, +, " ", #, 0
+  int minus_flag;
+  int plus_flag;
+  int space_flag;
+  int zero_flag;
+  int sharp_flag;
   int width;  // Ширина (число), *
   int width_star;
   int precision;  // Точность
@@ -31,5 +31,7 @@ typedef struct {
 Prototype s21_init_prototype();
 int s21_sprintf(char *str, const char *format, ...);
 int s21_parser(char *str, const char *format, va_list args);
+int s21_read_format(Prototype *prot, const char *format, int i);
+bool s21_check_width();
 
 #endif
