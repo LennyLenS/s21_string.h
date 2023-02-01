@@ -2,13 +2,18 @@
 #define SRC_S21_STRING_H_
 
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-#define s21_size_t unsigned int;     // или через  typedef unsigned int size_t; ?  будем привязываться к размеру адреса?
-#define NULL // <either 0, 0L, or (void *)0> [0 in C++]  нашел это, но не знаю как правильно, (void *)0  - ok
+#define s21_size_t unsigned long int
+#define s21_NULL (void *)0
 
-void *memchr(const void *str, int c, size_t n);
-int memcmp(const void *str1, const void *str2, size_t n);
-void *memmove(void *dest, const void *src, size_t n);
-void *memset(void *str, int c, size_t n);
-size_t strlen(const char *str);
+
+void *s21_memchr(const void *str, int c, size_t n);
+int s21_memcmp(const void *str1, const void *str2, size_t n);
+void *s21_memmove(void *dest, const void *src, size_t n);
+void *s21_memset(void *str, int c, size_t n);
+s21_size_t s21_strlen(const char *str);
+
+
+#endif
