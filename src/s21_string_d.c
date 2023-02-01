@@ -214,14 +214,15 @@ void *s21_trim(const char *src, const char *trim_chars){
     };
 
     if(ind_end != ind_bgn) ind_end = src_tmp - src;
-    
-    int i = 0;
-    while(ind_bgn <= ind_end){
-        *(str_new + i) = src[ind_bgn];
-        ind_bgn++;
-        i++;
-    };
-    *(str_new + i) = '\0';
 
+    if (str_new) {
+        int i = 0;
+        while(ind_bgn <= ind_end){
+            *(str_new + i) = src[ind_bgn];
+            ind_bgn++;
+            i++;
+        };
+        if(src_len != 0) *(str_new + i) = '\0';
+    };
     return (void *)str_new;
 }
