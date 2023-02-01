@@ -29,9 +29,9 @@ typedef struct {
 } Prototype;
 
 Prototype s21_init_prototype();
-int s21_sprintf(char *str, const char *format, ...);
-int s21_parser(char *str, const char *format, va_list args);
-int s21_read_format(Prototype *prot, const char *format, int i);
-bool s21_check_width();
+void s21_sprintf(char *str, const char *format, ...);
+void s21_parser(char *str, const char *format, va_list args);
+void s21_read_format(Prototype *prot, const char *format, int i);
+bool s21_check_number_width(const char *format, int i, int this_is_width);
 
 #endif
