@@ -1,10 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 CC=gcc -std=c11 -D_GNU_SOURCE
 CFLAGS=-c -Wall -Wextra -Werror
 TEST_FLAGS=-lcheck -lm -lpthread
 GCOV_FLAGS=--coverage -Wall -Wextra -Werror
-SOURCES=s21_strlen.c s21_memmove.c s21_memcmp.c s21_memchr.c s21_memset.c
+SOURCES=s21_string_files/*.c
 OBJECTS=$(SOURCES:.c=.o)
 TESTS_SOURCES=test_main.c $(wildcard tests/*.c)
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
@@ -36,8 +34,6 @@ make_style:
 	clang-format -style=google -i s21_*.c ./tests/*.c
 	clang-format -style=google -i s21_*.h ./tests/*.h
 
-clean:
-	rm -rf $(OBJECTS) $(EXECUTABLE) $(TESTS_OBJECTS) s21_string.a *.gcov *.gcno *.gcda *.info report test
 
 test: $(TESTS_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
@@ -50,89 +46,3 @@ gcov_report: $(TESTS_OBJECTS)
 	lcov -t "s21_string" -o s21_string.info -c -d . --rc lcov_branch_coverage=1
 	genhtml -o report s21_string.info --rc lcov_branch_coverage=1
 	open report/index.html
-=======
-CFILES = $(wildcard s21*.c)
-OBJ = $(patsubst %.c, %.o, $(CFILES))
-TARGET = s21_math
-CHECK:=$(shell pkg-config --cflags --libs check)
-FLAG_COV = --coverage
-CC=gcc
-CFLAGS=-Wall -Werror -Wextra -std=c11 $(DEBUG)
-S21_MATH=-L. s21_math.a
-DEBUG =-g
-#LEAK=-fsanitize=address
-CTESTFLAGS=-lcheck -lm -lpthread $(LEAK) 
-TEST = tests_functions.c  
-LIBRARY = s21_string.a
-COMPILE = sprintf.c
-
-
-all: clean $(LIBRARY) test
-
-#$(TARGET): s21_math.o
-#	$(CC) s21_math.o -o $(TARGET)
-
-compile : $(COMPILE)
-	$(CC) $(CFLAGS) $(LEAK) $(COMPILE)
-
-$(LIBRARY): s21_string.h $(CFILES)
-	$(CC) $(CFLAGS) -c $(CFILES)
-	ar rc $(LIBRARY) $(OBJ)
-	ranlib $(LIBRARY)
-	rm -f $(OBJ)
-
-clean:
-	rm -rf *.o *.a test *.gcda *.gcno *.info coverage *.dSYM *.out
-
-style:
-	clang-format -style=google -i *.c
-	clang-format -style=google -i *.h
-	clang-format -style=google -n *.c
-	clang-format -style=google -n *.h
-
-checkstyle:
-	clang-format -style=google -n *.c
-	clang-format -style=google -n *.h
-
-		
-gcov_report: $(LIBRARY)
-	$(CC) $(FLAG_COV) $(CFLAGS) $(CTESTFLAGS) $(TEST) -o test $(CHECK) $(S21_MATH)
-	./test
-	lcov -t "test" -o test.info -c -d .
-	genhtml -o coverage test.info
-	open coverage/index.html 
-
-test: $(LIBRARY)
-	checkmk tests.check > tests_functions.c
-	checkmk clean_mode=1 tests.check > tests_functions.c
-	$(CC) $(CTESTFLAGS) $(TEST) $(LIBRARY) -o test
-	./test
-
-rebuild:
-	make clean
-	make
->>>>>>> arnoldrh
-=======
-FLAGS = -Wall -Werror -Wextra
-all:
-
-test:
-	gcc $(FLAGS) -lcheck s21_test_string.c s21_string.c -o tests_string
-	#gcc $(FLAGS) -lcheck test_strtok.c s21_string.c -o tests_string
-	./tests_string
-s21_string.a:
-
-gcov_report: clean
-	gcc --coverage s21_test_string.c s21_string.c $(FLAGS) -lcheck -o tests_string
-	./tests_string
-	lcov -t "tests_string" -o test.info -c -d .
-	genhtml -o report test.info
-	open report/index.html
-clean:
-	rm -rf *.o *.a a.out
-	rm -rf tests_string
-	rm -rf *.gcda *.gcno
-	rm -rf test.info test report
-
-rebuild: clean all
->>>>>>> dima
