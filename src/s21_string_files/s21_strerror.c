@@ -1,3 +1,4 @@
+#include <string.h>
 #include "s21_string.h"
 
 // Ошибки strerror на маке всего 107 ошибка, когда код ошибки > 107 или < 0 то

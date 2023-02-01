@@ -7,6 +7,7 @@ OBJECTS=$(SOURCES:.c=.o)
 TESTS_SOURCES=test_main.c $(wildcard tests/*.c)
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 EXECUTABLE=s21_string
+LIBRARY = s21_string.a
 
 ifeq ($(shell uname -s),Linux)
 	TEST_FLAGS += -lrt -lsubunit
@@ -22,7 +23,9 @@ $(EXECUTABLE): $(OBJECTS)
 
 rebuild: clean all
 
-s21_string.a: $(OBJECTS)
+
+$(LIBRARY): s21_string_files/s21_string.h $(SOURCES)
+	$(CC) $(CFLAGS) -c $(SOURCES)
 	ar -rc s21_string.a $(OBJECTS)
 	ranlib s21_string.a
 

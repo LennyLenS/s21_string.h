@@ -6,11 +6,11 @@
 
 int s21_strcmp(const char *str1, const char *str2) {
   int res = 0;
-  bool flag = true;
-  while (*str1 == *str2 && flag == true) {
+  int flag = 1;
+  while (*str1 == *str2 && flag == 1) {
     str1++;
     str2++;
-    if (*str1 == '\0' && *str2 == '\0') flag = false;
+    if (*str1 == '\0' && *str2 == '\0') flag = 0;
   }
   res = *str1 - *str2;
   return res;

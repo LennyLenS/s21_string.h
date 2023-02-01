@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "s21_string.h"
+#include "../s21_string_files/s21_string.h"
 
 // Функция тестирования какой-либо задачи.
 START_TEST(strlen1) {

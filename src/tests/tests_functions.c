@@ -5,7 +5,7 @@
 
 #include <check.h>
 
-#include "s21_string.h"
+#include "../s21_string_files/s21_string.h"
 
 START_TEST(s21_strcpy_test)
 {

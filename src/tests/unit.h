@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../s21_string.h"
+#include "../s21_string_files/s21_string.h"
 
 Suite *suite_s21_memchr();
 Suite *suite_s21_memcmp();

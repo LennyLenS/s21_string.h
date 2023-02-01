@@ -42,4 +42,3 @@ void *s21_trim(const char *src, const char *trim_chars);   // Возвращае
 
 
 #endif  // SRC_S21_STRING_H_
->>>>>>> dima
