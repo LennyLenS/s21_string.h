@@ -1,5 +1,6 @@
 #include "s21_string.h"
 
+<<<<<<< HEAD
 s21_size_t s21_strlen(const char *str){
     s21_size_t size = 0;
     if(str != NULL) {
@@ -11,4 +12,15 @@ s21_size_t s21_strlen(const char *str){
     }
     return size;
 
+=======
+// Длина сроки
+s21_size_t s21_strlen(const char *str) {
+  s21_size_t size = 0;
+  const char *p = str;
+  while (*p != '\0') {
+    size++;
+    p++;
+  };
+  return size;
+>>>>>>> bahus
 }
