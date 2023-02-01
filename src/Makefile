@@ -30,16 +30,16 @@ $(LIBRARY): s21_string_files/s21_string.h $(SOURCES)
 	ranlib s21_string.a
 
 style:
-	clang-format -style=google -n s21_*.c ./tests/*.c
-	clang-format -style=google -n s21_*.h ./tests/*.h
+	clang-format -style=google -n s21_*.c ./tests/*.c ./s21_string_files/*.c
+	clang-format -style=google -n s21_*.h ./tests/*.h ./s21_string_files/*.h
 
 make_style:
-	clang-format -style=google -i s21_*.c ./tests/*.c
-	clang-format -style=google -i s21_*.h ./tests/*.h
+	clang-format -style=google -i s21_*.c ./tests/*.c ./s21_string_files/*.c
+	clang-format -style=google -i s21_*.h ./tests/*.h ./s21_string_files/*.h
 
 
 clean : 
-	rm -rf *.o *.a tests/*.o
+	rm -rf *.o *.a tests/*.o *.gcno
 test: $(TESTS_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
 	./test

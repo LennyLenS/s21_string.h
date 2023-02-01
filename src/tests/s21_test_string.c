@@ -20,7 +20,6 @@ START_TEST(strlen1) {
   str = "qwe rty";
   ck_assert_int_eq(s21_strlen(str), strlen(str));
 
-
   str = " qwe rty ";
   ck_assert_int_eq(s21_strlen(str), strlen(str));
 }
@@ -219,12 +218,11 @@ START_TEST(strtok7) {
   char str2[50] = "//$/test1//te@st2/test3//sd";
   char *sep = "/";
   ck_assert_pstr_eq(s21_strtok(str1, sep), strtok(str2, sep));
-  for(int i = 0; i < 5; i++){
+  for (int i = 0; i < 5; i++) {
     ck_assert_pstr_eq(s21_strtok(NULL, sep), strtok(NULL, sep));
   };
 }
 END_TEST
-
 
 START_TEST(memcpy1) {
   char str1[50] = "";
@@ -271,7 +269,6 @@ START_TEST(memcpy6) {
   char str2[50] = "oreijgoie";
   char *str3 = "934875770928357009284579";
   ck_assert_mem_eq(s21_memcpy(str1, str3, 16), memcpy(str2, str3, 16), 16);
-
 }
 END_TEST
 
@@ -339,17 +336,23 @@ START_TEST(strspn9) {
 END_TEST
 
 START_TEST(to_upper1) {
-  char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
+  char *str =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
   char *str2 = s21_to_upper(str);
-  ck_assert_str_eq(str2, "ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ 01234567890 *-+/=");
+  ck_assert_str_eq(str2,
+                   "ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                   "01234567890 *-+/=");
   free(str2);
 }
 END_TEST
 
 START_TEST(to_lower1) {
-  char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
+  char *str =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
   char *str2 = s21_to_lower(str);
-  ck_assert_str_eq(str2, "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=");
+  ck_assert_str_eq(str2,
+                   "abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz "
+                   "01234567890 *-+/=");
   free(str2);
 }
 END_TEST
@@ -401,7 +404,6 @@ START_TEST(insert1) {
   res = s21_insert(src2, str, 3);
   ck_assert_ptr_null(res);
   free(res);
-
 }
 END_TEST
 
@@ -515,84 +517,81 @@ START_TEST(test_trim_11) {
 }
 END_TEST
 
-
-
 // Функция создания набора тестов.
-Suite *example_suite_create(void)
-{
-    Suite *suite = suite_create("Main_suite");
-    // Набор разбивается на группы тестов, разделённых по каким-либо критериям.
-    TCase *tcase_core = tcase_create("Main_case");
-    
-    // Добавление теста в группу тестов.
-    tcase_add_test(tcase_core, strlen1);
+Suite *example_suite_create(void) {
+  Suite *suite = suite_create("Main_suite");
+  // Набор разбивается на группы тестов, разделённых по каким-либо критериям.
+  TCase *tcase_core = tcase_create("Main_case");
 
-    tcase_add_test(tcase_core, strcat1);
-    tcase_add_test(tcase_core, strcat2);
-    tcase_add_test(tcase_core, strcat3);
-    tcase_add_test(tcase_core, strcat4);
-    tcase_add_test(tcase_core, strcat5);
-    tcase_add_test(tcase_core, strcat6);
-    tcase_add_test(tcase_core, strcat7);
+  // Добавление теста в группу тестов.
+  tcase_add_test(tcase_core, strlen1);
 
-    tcase_add_test(tcase_core, strstr0);
-    tcase_add_test(tcase_core, strstr1);
-    tcase_add_test(tcase_core, strstr2);
-    tcase_add_test(tcase_core, strstr3);
-    tcase_add_test(tcase_core, strstr4);
-    tcase_add_test(tcase_core, strstr5);
-    tcase_add_test(tcase_core, strstr6);
-    tcase_add_test(tcase_core, strstr7);
-    tcase_add_test(tcase_core, strstr8);
-    tcase_add_test(tcase_core, strstr9);
-    tcase_add_test(tcase_core, strstr10);
-    tcase_add_test(tcase_core, strstr11);
+  tcase_add_test(tcase_core, strcat1);
+  tcase_add_test(tcase_core, strcat2);
+  tcase_add_test(tcase_core, strcat3);
+  tcase_add_test(tcase_core, strcat4);
+  tcase_add_test(tcase_core, strcat5);
+  tcase_add_test(tcase_core, strcat6);
+  tcase_add_test(tcase_core, strcat7);
 
-    tcase_add_test(tcase_core, strtok1);
-    tcase_add_test(tcase_core, strtok2);
-    tcase_add_test(tcase_core, strtok3);
-    tcase_add_test(tcase_core, strtok4);
-    tcase_add_test(tcase_core, strtok5);
-    tcase_add_test(tcase_core, strtok6);
-    tcase_add_test(tcase_core, strtok7);
+  tcase_add_test(tcase_core, strstr0);
+  tcase_add_test(tcase_core, strstr1);
+  tcase_add_test(tcase_core, strstr2);
+  tcase_add_test(tcase_core, strstr3);
+  tcase_add_test(tcase_core, strstr4);
+  tcase_add_test(tcase_core, strstr5);
+  tcase_add_test(tcase_core, strstr6);
+  tcase_add_test(tcase_core, strstr7);
+  tcase_add_test(tcase_core, strstr8);
+  tcase_add_test(tcase_core, strstr9);
+  tcase_add_test(tcase_core, strstr10);
+  tcase_add_test(tcase_core, strstr11);
 
-    tcase_add_test(tcase_core, memcpy1);
-    tcase_add_test(tcase_core, memcpy2);
-    tcase_add_test(tcase_core, memcpy3);
-    tcase_add_test(tcase_core, memcpy4);
-    tcase_add_test(tcase_core, memcpy5);
-    tcase_add_test(tcase_core, memcpy6);
+  tcase_add_test(tcase_core, strtok1);
+  tcase_add_test(tcase_core, strtok2);
+  tcase_add_test(tcase_core, strtok3);
+  tcase_add_test(tcase_core, strtok4);
+  tcase_add_test(tcase_core, strtok5);
+  tcase_add_test(tcase_core, strtok6);
+  tcase_add_test(tcase_core, strtok7);
 
-    tcase_add_test(tcase_core, strspn1);
-    tcase_add_test(tcase_core, strspn2);
-    tcase_add_test(tcase_core, strspn3);
-    tcase_add_test(tcase_core, strspn4);
-    tcase_add_test(tcase_core, strspn5);
-    tcase_add_test(tcase_core, strspn6);
-    tcase_add_test(tcase_core, strspn7);
-    tcase_add_test(tcase_core, strspn8);
-    tcase_add_test(tcase_core, strspn9);
+  tcase_add_test(tcase_core, memcpy1);
+  tcase_add_test(tcase_core, memcpy2);
+  tcase_add_test(tcase_core, memcpy3);
+  tcase_add_test(tcase_core, memcpy4);
+  tcase_add_test(tcase_core, memcpy5);
+  tcase_add_test(tcase_core, memcpy6);
 
-    tcase_add_test(tcase_core, to_upper1);
+  tcase_add_test(tcase_core, strspn1);
+  tcase_add_test(tcase_core, strspn2);
+  tcase_add_test(tcase_core, strspn3);
+  tcase_add_test(tcase_core, strspn4);
+  tcase_add_test(tcase_core, strspn5);
+  tcase_add_test(tcase_core, strspn6);
+  tcase_add_test(tcase_core, strspn7);
+  tcase_add_test(tcase_core, strspn8);
+  tcase_add_test(tcase_core, strspn9);
 
-    tcase_add_test(tcase_core, to_lower1);
+  tcase_add_test(tcase_core, to_upper1);
 
-    tcase_add_test(tcase_core, insert1);
+  tcase_add_test(tcase_core, to_lower1);
 
-    tcase_add_test(tcase_core, test_trim_1);
-    tcase_add_test(tcase_core, test_trim_2);
-    tcase_add_test(tcase_core, test_trim_3);
-    tcase_add_test(tcase_core, test_trim_4);
-    tcase_add_test(tcase_core, test_trim_5);
-    tcase_add_test(tcase_core, test_trim_6);
-    tcase_add_test(tcase_core, test_trim_7);
-    tcase_add_test(tcase_core, test_trim_8);
-    tcase_add_test(tcase_core, test_trim_9);
-    tcase_add_test(tcase_core, test_trim_10);
-    tcase_add_test(tcase_core, test_trim_11);
-    
-    // Добавление теста в тестовый набор.
-    suite_add_tcase(suite, tcase_core);
-    
-    return suite;
+  tcase_add_test(tcase_core, insert1);
+
+  tcase_add_test(tcase_core, test_trim_1);
+  tcase_add_test(tcase_core, test_trim_2);
+  tcase_add_test(tcase_core, test_trim_3);
+  tcase_add_test(tcase_core, test_trim_4);
+  tcase_add_test(tcase_core, test_trim_5);
+  tcase_add_test(tcase_core, test_trim_6);
+  tcase_add_test(tcase_core, test_trim_7);
+  tcase_add_test(tcase_core, test_trim_8);
+  tcase_add_test(tcase_core, test_trim_9);
+  tcase_add_test(tcase_core, test_trim_10);
+  tcase_add_test(tcase_core, test_trim_11);
+
+  // Добавление теста в тестовый набор.
+  suite_add_tcase(suite, tcase_core);
+
+  return suite;
 }

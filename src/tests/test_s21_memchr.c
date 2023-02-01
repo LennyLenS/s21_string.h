@@ -1,11 +1,11 @@
 #include "unit.h"
 
 START_TEST(s21_memchr_test) {
-	char *test_1 = "123456";
-	char *test_2 = "      ";
-	char *test_3 = "asdfg\1asdft";
-	char *test_4 = "true\0fail";
-	char *test_5 = "";
+  char *test_1 = "123456";
+  char *test_2 = "      ";
+  char *test_3 = "asdfg\1asdft";
+  char *test_4 = "true\0fail";
+  char *test_5 = "";
 
   ck_assert_str_eq(s21_memchr(test_1, '3', 5), memchr(test_1, '3', 5));
   ck_assert_pstr_eq(s21_memchr(test_1, '1', 2), memchr(test_1, '1', 2));

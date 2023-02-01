@@ -1,7 +1,6 @@
 #include "unit.h"
 
 START_TEST(s21_memset_test) {
-
   char *res = (char *)malloc(20);
   char *res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memset(res, '0', 2), memset(res_2, '0', 2), 2);
@@ -31,11 +30,8 @@ START_TEST(s21_memset_test) {
   ck_assert_mem_eq(s21_memset(res, '5', 2), memset(res_2, '5', 2), 2);
   free(res);
   free(res_2);
-
-
 }
 END_TEST
-
 
 Suite *suite_s21_memset() {
   Suite *s = suite_create("s21_memset");

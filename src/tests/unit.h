@@ -2,9 +2,9 @@
 #define SRC_TESTS_UNIT_H
 
 #include <check.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../s21_string_files/s21_string.h"
 

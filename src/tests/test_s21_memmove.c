@@ -1,11 +1,11 @@
 #include "unit.h"
 
 START_TEST(s21_memmove_test) {
-	char *test_1 = "123456";
-	char *test_2 = "      ";
-	char *test_3 = "asdfg\1asdft";
-	char *test_4 = "true\0fail";
-	char *test_5 = "";
+  char *test_1 = "123456";
+  char *test_2 = "      ";
+  char *test_3 = "asdfg\1asdft";
+  char *test_4 = "true\0fail";
+  char *test_5 = "";
 
   char *res = (char *)malloc(20);
   char *res_2 = (char *)malloc(20);
@@ -22,37 +22,37 @@ START_TEST(s21_memmove_test) {
   res = (char *)malloc(20);
   res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memmove(res, test_2, 3), memmove(res_2, test_2, 3), 3);
-  
+
   free(res);
   free(res_2);
   res = (char *)malloc(20);
   res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memmove(res, test_2, 4), memmove(res_2, test_2, 4), 4);
-  
+
   free(res);
   free(res_2);
   res = (char *)malloc(20);
   res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memmove(res, test_3, 7), memmove(res_2, test_3, 7), 7);
-  
+
   free(res);
   free(res_2);
   res = (char *)malloc(20);
   res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memmove(res, test_3, 2), memmove(res_2, test_3, 2), 2);
-  
+
   free(res);
   free(res_2);
   res = (char *)malloc(20);
   res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memmove(res, test_4, 7), memmove(res_2, test_4, 7), 7);
-  
+
   free(res);
   free(res_2);
   res = (char *)malloc(20);
   res_2 = (char *)malloc(20);
   ck_assert_mem_eq(s21_memmove(res, test_4, 3), memmove(res_2, test_4, 3), 3);
-  
+
   free(res);
   free(res_2);
   res = (char *)malloc(20);
