@@ -38,7 +38,7 @@ int main()
     return 0;
 }
 
-option spec = {0}; 
+option spec = {0};    // инициализируем структуру и заполняем ее нулями. Второй вариант {}
 
 typedef struct {
     char spec_type;
@@ -59,14 +59,14 @@ int j = 0;
 while (*format != "\0"){
     c = *format;
     if (c != "%"){
-        if(c == "%" && *(format -1) == "%") {
+        if(c == "%" && *(format - 1) == "%") {
             *str[j] = "%";
-        };
-        *str[j] = c;
+        } else {
+            *str[j] = c;
+        };        
         format++;
         j++;
         continue;
-    }
-    
+    };
     format++;
 }
