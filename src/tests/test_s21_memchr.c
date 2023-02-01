@@ -8,24 +8,24 @@ START_TEST(s21_memchr_test) {
 	char *test_5 = "";
 
   ck_assert_str_eq(s21_memchr(test_1, '3', 5), memchr(test_1, '3', 5));
-  ck_assert_str_eq(s21_memchr(test_1, '1', 2), memchr(test_1, '1', 2));
-  ck_assert_ptr_null(s21_memchr(test_1, 'e', 5));
+  ck_assert_pstr_eq(s21_memchr(test_1, '1', 2), memchr(test_1, '1', 2));
+  ck_assert_pstr_eq(s21_memchr(test_1, 'e', 5), memchr(test_1, 'e', 5));
 
   ck_assert_str_eq(s21_memchr(test_2, ' ', 2), memchr(test_2, ' ', 2));
-  ck_assert_ptr_null(s21_memchr(test_2, 'k', 5));
+  ck_assert_pstr_eq(s21_memchr(test_2, 'k', 5), memchr(test_2, 'k', 5));
 
   ck_assert_str_eq(s21_memchr(test_3, 'a', 5), memchr(test_3, 'a', 5));
-  ck_assert_ptr_null(s21_memchr(test_3, 'g', 2));
-  ck_assert_ptr_null(s21_memchr(test_3, 't', 5));
+  ck_assert_pstr_eq(s21_memchr(test_3, 'g', 2), memchr(test_3, 'g', 2));
+  ck_assert_pstr_eq(s21_memchr(test_3, 't', 5), memchr(test_3, 't', 5));
 
-  ck_assert_ptr_null(s21_memchr(test_4, '\0', 2));
+  ck_assert_pstr_eq(s21_memchr(test_4, '\0', 2), memchr(test_4, '\0', 2));
   ck_assert_str_eq(s21_memchr(test_4, '\0', 6), memchr(test_4, '\0', 6));
   ck_assert_str_eq(s21_memchr(test_4, 'i', 8), memchr(test_4, 'i', 8));
-  ck_assert_ptr_null(s21_memchr(test_4, 'y', 5));
+  ck_assert_pstr_eq(s21_memchr(test_4, 'y', 5), memchr(test_4, 'y', 5));
 
-  ck_assert_ptr_null(s21_memchr(test_5, '3', 5));
-  ck_assert_ptr_null(s21_memchr(test_5, '1', 2));
-  ck_assert_ptr_null(s21_memchr(test_5, 'e', 5));
+  ck_assert_pstr_eq(s21_memchr(test_5, '3', 5), memchr(test_5, '3', 5));
+  ck_assert_pstr_eq(s21_memchr(test_5, '1', 2), memchr(test_5, '1', 2));
+  ck_assert_pstr_eq(s21_memchr(test_5, 'e', 5), memchr(test_5, 'e', 5));
 
   ck_assert_ptr_null(s21_memchr(NULL, 'e', 5));
 }

@@ -3,7 +3,7 @@ CFLAGS=-c -Wall -Wextra -Werror
 TEST_FLAGS=-lcheck -lm -lpthread
 GCOV_FLAGS=--coverage -Wall -Wextra -Werror
 SOURCES=s21_string_files/*.c
-OBJECTS=$(SOURCES:.c=.o)
+OBJECTS=*.o
 TESTS_SOURCES=test_main.c $(wildcard tests/*.c)
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 EXECUTABLE=s21_string
@@ -38,6 +38,8 @@ make_style:
 	clang-format -style=google -i s21_*.h ./tests/*.h
 
 
+clean : 
+	rm -rf *.o *.a tests/*.o
 test: $(TESTS_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
 	./test

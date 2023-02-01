@@ -1,8 +1,3 @@
-
-// Удалить string.h
-#include <string.h>
-#include <stdio.h>
-
 #include "s21_string.h"
 
 
@@ -12,9 +7,9 @@ void *s21_trim(const char *src, const char *trim_chars){
     if(src == S21_NULL) return S21_NULL;
     char trim_chars_tmp[512];
     if(trim_chars != NULL && s21_strlen(trim_chars) != 0) {
-        strcpy(trim_chars_tmp, trim_chars);
+        s21_strcpy(trim_chars_tmp, trim_chars);
     } else {
-        strcpy(trim_chars_tmp, "\t\n\v\r\f ");
+        s21_strcpy(trim_chars_tmp, "\t\n\v\r\f ");
     };
     s21_size_t src_len = s21_strlen(src);
     char *str_new = (char *)malloc(sizeof(char) * (src_len +1));
@@ -26,7 +21,7 @@ void *s21_trim(const char *src, const char *trim_chars){
 
     while(src_tmp == src_end) {
         src_tmp--;
-        src_end = strpbrk (src_tmp, trim_chars_tmp);
+        src_end = s21_strpbrk (src_tmp, trim_chars_tmp);
         if(src_end == NULL) src_end = src_tmp + 1;
         if(src_tmp != src_end) break;
     };

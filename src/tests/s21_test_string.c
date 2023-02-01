@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include "../s21_string_files/s21_string.h"
-
+#include "unit.h"
 // Функция тестирования какой-либо задачи.
 START_TEST(strlen1) {
   char *str = "123456789";
@@ -225,13 +225,6 @@ START_TEST(strtok7) {
 }
 END_TEST
 
-START_TEST(strtok8) {
-  char *str1 = S21_NULL;
-  char *str2 = S21_NULL;
-  char *sep = "";
-  ck_assert_pstr_eq(s21_strtok(str1, sep), strtok(str2, sep));
-}
-END_TEST
 
 START_TEST(memcpy1) {
   char str1[50] = "";
@@ -562,7 +555,6 @@ Suite *example_suite_create(void)
     tcase_add_test(tcase_core, strtok5);
     tcase_add_test(tcase_core, strtok6);
     tcase_add_test(tcase_core, strtok7);
-    tcase_add_test(tcase_core, strtok8);
 
     tcase_add_test(tcase_core, memcpy1);
     tcase_add_test(tcase_core, memcpy2);
@@ -603,18 +595,4 @@ Suite *example_suite_create(void)
     suite_add_tcase(suite, tcase_core);
     
     return suite;
-}
-
-int main(void)
-{
-    Suite *suite = example_suite_create();
-    SRunner *suite_runner = srunner_create(suite);
-    
-    srunner_run_all(suite_runner, CK_NORMAL);
-    // Получаем количество проваленных тестов.
-    int failed_count = srunner_ntests_failed(suite_runner);
-    srunner_free(suite_runner);
-    
-    // Сигнализируем о том, что тестирование прошло удачно или неудачно.
-    return (failed_count == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

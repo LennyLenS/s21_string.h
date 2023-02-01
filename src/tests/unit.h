@@ -12,4 +12,6 @@ Suite *suite_s21_memchr();
 Suite *suite_s21_memcmp();
 Suite *suite_s21_memmove();
 Suite *suite_s21_memset();
+Suite *example_suite_create();
+Suite *arn_test();
 #endif  //  SRC_TESTS_UNIT_H

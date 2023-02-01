@@ -9,5 +9,4 @@ s21_size_t s21_strlen(const char *str) {
     p++;
   };
   return size;
->>>>>>> bahus
 }
