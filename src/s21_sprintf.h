@@ -1,5 +1,5 @@
 #ifndef SRC_S21_SPRINTF_H_
-#define SRC_S21_SPRINTF_H_
+#define SRC_S21_SPRINTF_H_1
 
 #include <stdarg.h>
 
@@ -13,25 +13,28 @@ typedef struct {
            // (вывод чисел должен совпадать с точностью до e-6)
 } Specifications;
 
+// %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
-  int specification;  // спецификаторы
-  // int flags;          // флаги спринтфа -, +, " ", #, 0
-  int minus_flag;
-  int plus_flag;
-  int space_flag;
-  int zero_flag;
-  int sharp_flag;
-  int width;  // Ширина (число), *
+  int spec;          // спецификаторы
+  int minus_flag;    // флаг -
+  int plus_flag;     // флаг +
+  int space_flag;    // флаг ' '
+  int zero_flag;     // флаг 0
+  int sharp_flag;    // флаг #
+  int width_number;  // Ширина (число), *
   int width_star;
-  int precision;  // Точность
-  int length;     // Длина
-
+  int prec;
+  int prec_number;  // Точность если .число
+  int prec_star;    // Точность если .*
+  int length;       // Длина
+  int length_h;
+  int length_l;
+  int length_L;
 } Prototype;
 
-Prototype s21_init_prototype();
 void s21_sprintf(char *str, const char *format, ...);
 void s21_parser(char *str, const char *format, va_list args);
-void s21_read_format(Prototype *prot, const char *format, int i);
-bool s21_check_number_width(const char *format, int i, int this_is_width);
+int s21_read_format(Prototype *prot, const char *format, int i);
+bool s21_check_number(const char *format, int i);
 
 #endif
