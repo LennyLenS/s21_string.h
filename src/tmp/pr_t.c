@@ -2,31 +2,30 @@
 
 typedef struct {
     char spec_type;
-    int flag_minus;
-    int flag_plus;
-    int flag_space;
-    int flag_sharp;
-    int flag_zero;
+    int minus_flag;
+    int plus_flag;
+    int space_flag;
+    int sharp_flag;
+    int zero_flag;
     int width;
-    int accur;
+    int precision;
     char length;
 } option;
 
 int main(){
     char str[50];
-    char *format = "abcd%%wefg";
+    char *format = "abc%%%%dwefg";
     
     char c;
     int j = 0;
 
-    int k = printf("abcd%%wefg\n");
+    int k = printf("abc%%%%dwefg\n");
     
     option spec = {0};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
                           // потом перенести в первый while()
     
 
-    while (*format != '\0'){
-        c = *format;
+    while ((c = *format) != '\0'){
         printf("%d", j);
         if (c != '%'){
             str[j] = c;
@@ -34,11 +33,12 @@ int main(){
             j++;
             continue;
         };
+        format++;
 
         // тут инициализируем структуру
 
-        // Simuletion of %%
-        if(c == '%' && *(format - 1) == '%') {
+        // processing of %%
+        if((c = *format) == '%') {
             str[j] = '%';
             j++;
             format++;
@@ -54,7 +54,7 @@ int main(){
     };
     //j++;
     str[j] = '\0';
-    printf("\nj%d k%d  str %s  spec.width %d ", j, k, str, spec.width);   // j возвращаемое значение, k контрольное
+    printf("\nj%d k%d  str %s  spec.width %d ", j+1, k, str, spec.width);   // j возвращаемое значение, k контрольное
 }
 
 
