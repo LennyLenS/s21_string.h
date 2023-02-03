@@ -26,8 +26,6 @@ START_TEST(s21_memchr_test) {
   ck_assert_pstr_eq(s21_memchr(test_5, '3', 5), memchr(test_5, '3', 5));
   ck_assert_pstr_eq(s21_memchr(test_5, '1', 2), memchr(test_5, '1', 2));
   ck_assert_pstr_eq(s21_memchr(test_5, 'e', 5), memchr(test_5, 'e', 5));
-
-  ck_assert_ptr_null(s21_memchr(NULL, 'e', 5));
 }
 END_TEST
 

@@ -1,6 +1,6 @@
 #include "s21_string.h"
 
-size_t s21_strspn(const char *str1, const char *str2) {
+size_t s21_strcspn(const char *str1, const char *str2) {
   size_t count = 0;
   int flag = 0;
   while (*str1 != '\0' && flag == 0) {

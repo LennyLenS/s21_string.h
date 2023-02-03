@@ -39,7 +39,8 @@ make_style:
 
 
 clean : 
-	rm -rf *.o *.a tests/*.o *.gcno
+	rm -rf *.o *.a test *.gcda *.gcno *.info coverage *.dSYM *.out report
+
 test: $(TESTS_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
 	./test
