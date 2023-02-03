@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
 
 typedef struct {
     char spec_type;
@@ -12,21 +14,30 @@ typedef struct {
     char length;
 } option;
 
+int s21_sprintf(char *str, const char *format, ...);
+
 int main(){
     char str[50];
-    char *format = "abc%%%%dwefg";
+    // char *format = "abc%%%%dwefg";
     
+    int k =            printf("pr_ abc%c%d%cdwefg\n", 'R', 20, 'G');
+    int jn = s21_sprintf(str, "s21 abc%c%d%cdwefg\n", 'R', 2, 'G');
+    printf("%s", str);
+    printf("\nj%d k%d  str %s \n", jn, k, str);   // j возвращаемое значение, k контрольное
+}
+
+
+int s21_sprintf(char *str, const char *format, ...) {
     char c;
+    int dig;
     int j = 0;
 
-    int k = printf("abc%%%%dwefg\n");
-    
-    option spec = {0};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
-                          // потом перенести в первый while()
-    
 
-    while ((c = *format) != '\0'){
-        printf("%d", j);
+    va_list args;
+    va_start(args, format);
+    
+        while ((c = *format) != '\0'){
+        // printf("%d", j);
         if (c != '%'){
             str[j] = c;
             format++;
@@ -36,26 +47,97 @@ int main(){
         format++;
 
         // тут инициализируем структуру
+        option spec = {0};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
+                            // потом перенести в первый while()
 
-        // processing of %%
+        // обработка %%
         if((c = *format) == '%') {
             str[j] = '%';
             j++;
             format++;
             continue;
         };
-        
-        spec.width = 1;
+
+        switch(c)  // simple parser
+        {
+            case 'd':
+                spec.spec_type = 'd';
+                break;
+            case 'c':
+                spec.spec_type = 'c';
+                break;
+        };
+
+        printf("qq %c %c  %d\n", c, spec.spec_type, j);
+
+        // spec.width = 1;   // потом удалить
         //
         // Парсер и все остальное
         //
+        switch(spec.spec_type)
+        {
+            case 'd':
+                dig = va_arg(args, int);
+                // while (dig != 0)
+                // {
+                //     int tmp_div = dig%10;
+                //     dig = dig - tmp_div;
+                //     numb = 
 
+                // }
+                
+//разложить int на цифры
+
+                printf("dg %d\n", dig);
+                // str[j] = dig + '0';
+                char *tt;
+                char *qq = dig + '0';
+                strncpy(tt, qq);
+                printf("sj %s\n", tt);
+                j++;
+                break;
+            case 'c':
+                c = va_arg(args, int);
+                str[j] = c;
+                j++;
+                break;
+            // case 's':
+            //     char *strng = va_arg(args, char*);
+            //     str[j] = strng;
+            //     j++;
+            //     break;
+        }
+        printf("%d  str %s\n", j, str);
         format++;
     };
-    //j++;
+    va_end(args);
     str[j] = '\0';
-    printf("\nj%d k%d  str %s  spec.width %d ", j+1, k, str, spec.width);   // j возвращаемое значение, k контрольное
+    j++;
+    return j;
 }
+
+    void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем на область памяти
+        if(str == NULL) return NULL;
+        int bgn = 0;
+        int end = strlen(str) - 1;
+        char temp;
+        printf("ee %s\n", str);
+        printf("d %d  %d\n", bgn, end);
+        while(bgn != end || bgn < end) {
+            temp = str[bgn];
+            *(str + bgn) = *(str + end);
+            *(str + end) = temp;
+            bgn++;
+            end--;
+        }
+        printf("ff %s\n", str);
+        return str;
+    }
+
+
+
+
+
 
 
 

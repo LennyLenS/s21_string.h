@@ -54,6 +54,58 @@ typedef struct {
 
 пишем строку в *str, return int - кол-во записанных символов из str[j]
 
+#include <stdio.h>
+#include <stdarg.h>
+ 
+void display(char* format, ...) {
+    int d; 
+    double f;
+    char ch;
+    char *s;
+    
+    va_list factor;         // указатель на необязательный параметр
+    va_start(factor, format);   // устанавливаем указатель
+     
+    for(char *c = format; *c; c++)
+    {
+        if(*c != '%')
+        {
+            printf("%c", *c);
+            continue;
+        }
+        switch(*++c)    // если символ - %, то переходим к следующему символу
+        {
+            case 'd': 
+                d = va_arg(factor, long double);
+                printf("%d", d);
+                break;
+            case 'f': 
+                f = va_arg(factor, long);
+                printf("%.2lf", f);
+                break;
+            case 'c': 
+                ch = va_arg(factor, int);
+                printf("%c", ch);
+                break;
+            case 's': 
+                s = va_arg(factor, char*);
+                printf("%s", s);
+                break;
+            default:
+                printf("%c", *c);
+        }
+    }
+    va_end(factor);
+}
+ 
+int main(void)
+{   
+    display("int%%: %d \tfl %f  ch %c  st %s\n", 24, 68.4, 'f', "hnb");
+    printf("%s\n", "dfrth");
+    return 0;
+}
+
+
 char c;
 int j = 0;
 while (*format != "\0"){
