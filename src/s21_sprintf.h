@@ -1,5 +1,5 @@
 #ifndef SRC_S21_SPRINTF_H_
-#define SRC_S21_SPRINTF_H_1
+#define SRC_S21_SPRINTF_H_
 
 #include <stdarg.h>
 
@@ -23,7 +23,6 @@ typedef struct {
   int sharp_flag;    // флаг #
   int width_number;  // Ширина (число), *
   int width_star;
-  int prec;
   int prec_number;  // Точность если .число
   int prec_star;    // Точность если .*
   int length;       // Длина
@@ -36,5 +35,6 @@ void s21_sprintf(char *str, const char *format, ...);
 void s21_parser(char *str, const char *format, va_list args);
 int s21_read_format(Prototype *prot, const char *format, int i);
 bool s21_check_number(const char *format, int i);
+int s21_write_number(const char *format, int *i);
 
 #endif
