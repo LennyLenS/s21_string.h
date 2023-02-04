@@ -1,11 +1,10 @@
 #include "s21_sprintf.h"
-
 #include "s21_string.h"
 
 int main() {
   char str[256] = {0};
   long int x = 0;
-  s21_sprintf(str, "%-109.10ld%c", x, 's');
+  s21_sprintf(str, "%*.*ld%c", 10, 5, x, 's');
 }
 
 void s21_sprintf(char *str, const char *format, ...) {
@@ -20,7 +19,6 @@ void s21_sprintf(char *str, const char *format, ...) {
 
 void s21_parser(char *str, const char *format, va_list args) {
   (void)str;
-  (void)args;
   int i = -1;
   while (format[i++]) {
     // if (format[i] != '%') {
@@ -28,62 +26,54 @@ void s21_parser(char *str, const char *format, va_list args) {
     // }
     if (format[i] == '%') {
       Prototype prot = {0};
-      s21_read_format(&prot, format, i);
+      s21_read_format(&prot, format, i, args);
     }
   }
 }
 // %[флаги][ширина][.точность][длина]спецификатор
-int s21_read_format(Prototype *prot, const char *format, int i) {
+int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
   int this_is_width = 0;
   int this_is_prec = 0;
-  int this_is_length = 0;
   while (format[i]) {
     // Check flags
-    if (format[i] == '+' && this_is_length == 0 && this_is_prec == 0 &&
-        this_is_width == 0) {
+    if (format[i] == '+') {
       prot->plus_flag = 1;
-    } else if (format[i] == '-' && this_is_length == 0 && this_is_prec == 0 &&
-               this_is_width == 0) {
+    } else if (format[i] == '-') {
       prot->minus_flag = 1;
-    } else if (format[i] == ' ' && this_is_length == 0 && this_is_prec == 0 &&
-               this_is_width == 0) {
+    } else if (format[i] == ' ') {
       prot->space_flag = 1;
-    } else if (format[i] == '#' && this_is_length == 0 && this_is_prec == 0 &&
-               this_is_width == 0) {
+    } else if (format[i] == '#') {
       prot->sharp_flag = 1;
-    } else if (format[i] == '0' && this_is_length == 0 && this_is_prec == 0 &&
-               this_is_width == 0) {
+    } else if (format[i] == '0' && this_is_prec == 0 && this_is_width == 0) {
       prot->zero_flag = 1;
     }
     // Check width
-    if (this_is_prec == 0 && prot->width_star == 0 &&
-        s21_check_number(format, i) == true) {
+    if (s21_check_number(format, i) == true && this_is_width == 0) {
       prot->width_number = s21_write_number(format, &i);
       this_is_width = 1;
-    } else if (this_is_prec == 0 && prot->width_number == 0 &&
-               format[i] == '*') {
-      prot->width_star = 1;
+    } else if (prot->width_number == 0 && format[i] == '*' &&
+               this_is_width == 0) {
+      prot->width_star = va_arg(args, int);
       this_is_width = 1;
     }
     // Check prec
     if (format[i] == '.') {
-      this_is_prec = 1;
       i++;
-      if (s21_check_number(format, i) == true)
+      if (s21_check_number(format, i) == true && this_is_prec == 0) {
         prot->prec_number = s21_write_number(format, &i);
-      else if (format[i] == '*')
-        prot->prec_star = 1;
+        this_is_prec = 1;
+      } else if (format[i] == '*' && this_is_prec == 0) {
+        prot->prec_star = va_arg(args, int);
+        this_is_prec = 1;
+      }
     }
     // Check length
     if (format[i] == 'h') {
       prot->length_h = 1;
-      this_is_length = 1;
     } else if (format[i] == 'l') {
       prot->length_l = 1;
-      this_is_length = 1;
     } else if (format[i] == 'L') {
       prot->length_L = 1;
-      this_is_length = 1;
     }
     // Check spec
     if (format[i] == 'c' || format[i] == 'd' || format[i] == 'i' ||
@@ -103,7 +93,6 @@ int s21_read_format(Prototype *prot, const char *format, int i) {
 bool s21_check_number(const char *format, int i) {
   bool result = false;
   if (format[i] >= '0' && format[i] <= '9') result = true;
-
   return result;
 }
 

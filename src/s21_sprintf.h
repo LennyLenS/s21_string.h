@@ -33,7 +33,7 @@ typedef struct {
 
 void s21_sprintf(char *str, const char *format, ...);
 void s21_parser(char *str, const char *format, va_list args);
-int s21_read_format(Prototype *prot, const char *format, int i);
+int s21_read_format(Prototype *prot, const char *format, int i, va_list args);
 bool s21_check_number(const char *format, int i);
 int s21_write_number(const char *format, int *i);
 
