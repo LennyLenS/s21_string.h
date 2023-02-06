@@ -15,13 +15,14 @@ typedef struct {
 } option;
 
 int s21_sprintf(char *str, const char *format, ...);
+int print_spaces(char *str, int n, int j);
 
 int main(){
     char str[50];
     // char *format = "abc%%%%dwefg";
     
-    int k =            printf("pr_ abc%c%d%cdwefg\n", 'R', 20, 'G');
-    int jn = s21_sprintf(str, "s21 abc%c%d%cdwefg\n", 'R', 2, 'G');
+    int k =            printf("pr_ abc%-5c:%-5cdwefg\n", 'G', 'X');
+    int jn = s21_sprintf(str, "s21 abc%c:%cdwefg\n", 'G', 'X');
     printf("%s", str);
     printf("\nj%d k%d  str %s \n", jn, k, str);   // j возвращаемое значение, k контрольное
 }
@@ -47,7 +48,7 @@ int s21_sprintf(char *str, const char *format, ...) {
         format++;
 
         // тут инициализируем структуру
-        option spec = {0};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
+        option spec = {'\0', 0, 0, 0, 0, 0, -1, 0, '\0'};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
                             // потом перенести в первый while()
 
         // обработка %%
@@ -65,10 +66,15 @@ int s21_sprintf(char *str, const char *format, ...) {
                 break;
             case 'c':
                 spec.spec_type = 'c';
+                spec.width = 5;
+                spec.minus_flag = '-';
+                break;
+            case 's':
+                spec.spec_type = 's';
                 break;
         };
 
-        printf("qq %c %c  %d\n", c, spec.spec_type, j);
+        // printf("qq %c %c  %d\n", c, spec.spec_type, j);
 
         // spec.width = 1;   // потом удалить
         //
@@ -90,24 +96,37 @@ int s21_sprintf(char *str, const char *format, ...) {
 
                 printf("dg %d\n", dig);
                 // str[j] = dig + '0';
-                char *tt;
-                char *qq = dig + '0';
-                strncpy(tt, qq);
-                printf("sj %s\n", tt);
+                // char *tt;
+                // char *qq = dig + '0';
+                // strncpy(tt, qq);
+                // printf("sj %s\n", tt);
                 j++;
                 break;
             case 'c':
                 c = va_arg(args, int);
-                str[j] = c;
-                j++;
+                int s_qnt = 0;
+                if(spec.width > 0){
+                    s_qnt = spec.width -1;
+                };
+                if(spec.minus_flag == '-'){
+                    str[j] = c;
+                    j++;
+                    j += print_spaces(str, s_qnt, j);
+                } else {
+                    j += print_spaces(str, s_qnt, j);
+                    str[j] = c;
+                    j++;
+                };
                 break;
-            // case 's':
-            //     char *strng = va_arg(args, char*);
-            //     str[j] = strng;
-            //     j++;
-            //     break;
+            case 's': 
+                ;
+                char *strng = va_arg(args, char*);
+                printf("sss %s\n", strng);
+                // str[j] = strng;
+                // j++;
+                break;
         }
-        printf("%d  str %s\n", j, str);
+        // printf("%d  str %s\n", j, str);
         format++;
     };
     va_end(args);
@@ -116,23 +135,29 @@ int s21_sprintf(char *str, const char *format, ...) {
     return j;
 }
 
-    void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем на область памяти
-        if(str == NULL) return NULL;
-        int bgn = 0;
-        int end = strlen(str) - 1;
-        char temp;
-        printf("ee %s\n", str);
-        printf("d %d  %d\n", bgn, end);
-        while(bgn != end || bgn < end) {
-            temp = str[bgn];
-            *(str + bgn) = *(str + end);
-            *(str + end) = temp;
-            bgn++;
-            end--;
-        }
-        printf("ff %s\n", str);
-        return str;
+int print_spaces(char *str, int n, int j) {
+    for(int i = 0; i < n; i++)
+        str[j + i] = ' ';
+    return n;
+}
+
+void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем на область памяти
+    if(str == NULL) return NULL;
+    int bgn = 0;
+    int end = strlen(str) - 1;
+    char temp;
+    // printf("ee %s\n", str);
+    // printf("d %d  %d\n", bgn, end);
+    while(bgn < end) {
+        temp = str[bgn];
+        *(str + bgn) = *(str + end);
+        *(str + end) = temp;
+        bgn++;
+        end--;
     }
+    printf("ff %s\n", str);
+    return str;
+}
 
 
 
