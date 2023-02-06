@@ -1,72 +1,39 @@
 #include "s21_sprintf.h"
-#include "s21_string.h"
 
-int main() {
-  char str[256] = {0};
-  long int x = 0;
-  s21_sprintf(str, "%*.*ld%c", 10, 5, x, 's');
-}
-
-void s21_sprintf(char *str, const char *format, ...) {
-  // int result = 0;
-  va_list args;            // указатель на аргументы
-  va_start(args, format);  // выделение памяти для arg
-  s21_parser(str, format, args);
-  // result = s21_parser(str, format, args);
-  va_end(args);  // очищение памяти
-  // return result;
-}
-
-void s21_parser(char *str, const char *format, va_list args) {
+int s21_parser(char *str, const char *format, va_list args) {
   (void)str;
   int i = -1;
-  while (format[i++]) {
-    // if (format[i] != '%') {
-    //   s21_move_char_to_str();
-    // }
+  int j = 0;  // считает количество символов в массиве str
+  while (format[i++] != '\0') {
+    if (format[i] != '%') {
+      str[j] = format[i];
+      j++;
+    }
     if (format[i] == '%') {
-      Prototype prot = {0};
-      s21_read_format(&prot, format, i, args);
+      Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
+      i = s21_read_format(&prot, format, i, args);
+      if (prot.spec == '%') {
+        str[j] = format[i];
+        j++;
+        continue;
+      }
+      // 3-я функция c добавлением значения с args
     }
   }
+  return j;
 }
 // %[флаги][ширина][.точность][длина]спецификатор
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
   int this_is_width = 0;
   int this_is_prec = 0;
+  i++;
   while (format[i]) {
     // Check flags
-    if (format[i] == '+') {
-      prot->plus_flag = 1;
-    } else if (format[i] == '-') {
-      prot->minus_flag = 1;
-    } else if (format[i] == ' ') {
-      prot->space_flag = 1;
-    } else if (format[i] == '#') {
-      prot->sharp_flag = 1;
-    } else if (format[i] == '0' && this_is_prec == 0 && this_is_width == 0) {
-      prot->zero_flag = 1;
-    }
+    s21_check_flags(format, i, prot, &this_is_prec, &this_is_width);
     // Check width
-    if (s21_check_number(format, i) == true && this_is_width == 0) {
-      prot->width_number = s21_write_number(format, &i);
-      this_is_width = 1;
-    } else if (prot->width_number == 0 && format[i] == '*' &&
-               this_is_width == 0) {
-      prot->width_star = va_arg(args, int);
-      this_is_width = 1;
-    }
+    s21_check_width(format, i, &this_is_width, prot, args);
     // Check prec
-    if (format[i] == '.') {
-      i++;
-      if (s21_check_number(format, i) == true && this_is_prec == 0) {
-        prot->prec_number = s21_write_number(format, &i);
-        this_is_prec = 1;
-      } else if (format[i] == '*' && this_is_prec == 0) {
-        prot->prec_star = va_arg(args, int);
-        this_is_prec = 1;
-      }
-    }
+    i = s21_check_prec(format, i, &this_is_prec, prot, args);
     // Check length
     if (format[i] == 'h') {
       prot->length_h = 1;
@@ -80,14 +47,57 @@ int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
         format[i] == 'e' || format[i] == 'E' || format[i] == 'f' ||
         format[i] == 'g' || format[i] == 'G' || format[i] == 'o' ||
         format[i] == 's' || format[i] == 'u' || format[i] == 'x' ||
-        format[i] == 'X' || format[i] == 'p' || format[i] == 'n')
-      prot->spec = 1;
-    if (prot->spec == 1)
-      break;
+        format[i] == 'X' || format[i] == 'p' || format[i] == 'n' ||
+        format[i] == '%')
+      prot->spec = format[i];
+    if (prot->spec == format[i])
+      break;  // выходим нашелся спецификатор
     else
-      i++;  // в самый конец
+      i++;  // продолжаем дальше обрабатывать прототип спецификатора
   }
   return i;
+}
+
+int s21_check_prec(const char *format, int i, int *this_is_prec,
+                   Prototype *prot, va_list args) {
+  if (format[i] == '.') {
+    i++;
+    if (s21_check_number(format, i) == true && *this_is_prec == 0) {
+      prot->prec_number = s21_write_number(format, &i);
+      *this_is_prec = 1;
+    } else if (format[i] == '*' && *this_is_prec == 0) {
+      prot->prec_star = va_arg(args, int);
+      *this_is_prec = 1;
+    }
+  }
+  return i;
+}
+
+void s21_check_width(const char *format, int i, int *this_is_width,
+                     Prototype *prot, va_list args) {
+  if (s21_check_number(format, i) == true && *this_is_width == 0) {
+    prot->width_number = s21_write_number(format, &i);
+    *this_is_width = 1;
+  } else if (prot->width_number == 0 && format[i] == '*' &&
+             *this_is_width == 0) {
+    prot->width_star = va_arg(args, int);
+    *this_is_width = 1;
+  }
+}
+
+void s21_check_flags(const char *format, int i, Prototype *prot,
+                     int *this_is_prec, int *this_is_width) {
+  if (format[i] == '+') {
+    prot->plus_flag = 1;
+  } else if (format[i] == '-') {
+    prot->minus_flag = 1;
+  } else if (format[i] == ' ') {
+    prot->space_flag = 1;
+  } else if (format[i] == '#') {
+    prot->sharp_flag = 1;
+  } else if (format[i] == '0' && *this_is_prec == 0 && *this_is_width == 0) {
+    prot->zero_flag = 1;
+  }
 }
 
 bool s21_check_number(const char *format, int i) {
