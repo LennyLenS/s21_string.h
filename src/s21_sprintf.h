@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 
-#include "s21_string.h"
+#include "functions/s21_string.h"
 
 typedef struct {
   bool c;  // Символ
@@ -15,7 +15,7 @@ typedef struct {
 
 // %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
-  int spec;          // спецификаторы
+  char spec;         // спецификаторы
   int minus_flag;    // флаг -
   int plus_flag;     // флаг +
   int space_flag;    // флаг ' '
@@ -31,10 +31,15 @@ typedef struct {
   int length_L;
 } Prototype;
 
-void s21_sprintf(char *str, const char *format, ...);
-void s21_parser(char *str, const char *format, va_list args);
+int s21_sprintf(char *str, const char *format, ...);
+int s21_parser(char *str, const char *format, va_list args);
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args);
 bool s21_check_number(const char *format, int i);
 int s21_write_number(const char *format, int *i);
-
+void s21_check_flags(const char *format, int i, Prototype *prot,
+                     int *this_is_prec, int *this_is_width);
+void s21_check_width(const char *format, int i, int *this_is_width,
+                     Prototype *prot, va_list args);
+int s21_check_prec(const char *format, int i, int *this_is_prec,
+                   Prototype *prot, va_list args);
 #endif
