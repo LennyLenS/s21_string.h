@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+// #include <stdlib.h>
 
 typedef struct {
     char spec_type;
@@ -16,13 +17,13 @@ typedef struct {
 
 int s21_sprintf(char *str, const char *format, ...);
 int print_spaces(char *str, int n, int j);
+int prep_string(char *str, char *strng_arg, int n, int j);
 
 int main(){
     char str[50];
     // char *format = "abc%%%%dwefg";
-    
-    int k =            printf("pr_ abc%-5c:%-5cdwefg\n", 'G', 'X');
-    int jn = s21_sprintf(str, "s21 abc%c:%cdwefg\n", 'G', 'X');
+    int k =            printf("pr_ abc%-5c:%10sdwefg\n", 'F', "Y3RLD12");
+    int jn = s21_sprintf(str, "s21 abc%c:%sdwefg\n", 'F', "Y3RLD12");
     printf("%s", str);
     printf("\nj%d k%d  str %s \n", jn, k, str);   // j возвращаемое значение, k контрольное
 }
@@ -32,6 +33,7 @@ int s21_sprintf(char *str, const char *format, ...) {
     char c;
     int dig;
     int j = 0;
+    int s_qnt = 0;
 
 
     va_list args;
@@ -48,7 +50,7 @@ int s21_sprintf(char *str, const char *format, ...) {
         format++;
 
         // тут инициализируем структуру
-        option spec = {'\0', 0, 0, 0, 0, 0, -1, 0, '\0'};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
+        option spec = {'\0', 0, 0, 0, 0, 0, 0, -1, '\0'};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
                             // потом перенести в первый while()
 
         // обработка %%
@@ -71,6 +73,9 @@ int s21_sprintf(char *str, const char *format, ...) {
                 break;
             case 's':
                 spec.spec_type = 's';
+                spec.precision = -1;
+                spec.width = 10;
+                spec.minus_flag = '\0';
                 break;
         };
 
@@ -104,7 +109,7 @@ int s21_sprintf(char *str, const char *format, ...) {
                 break;
             case 'c':
                 c = va_arg(args, int);
-                int s_qnt = 0;
+                s_qnt = 0;
                 if(spec.width > 0){
                     s_qnt = spec.width -1;
                 };
@@ -119,10 +124,33 @@ int s21_sprintf(char *str, const char *format, ...) {
                 };
                 break;
             case 's': 
-                ;
-                char *strng = va_arg(args, char*);
-                printf("sss %s\n", strng);
-                // str[j] = strng;
+                s_qnt = 0;
+                int len = 0;
+                char *strng_arg = va_arg(args, char*);
+
+                if(spec.precision == -1) {
+                    len = (int)strlen(strng_arg);
+                } else {
+                    len = spec.precision;
+                };
+                
+                if(spec.width < len) spec.width = len;
+
+                s_qnt = spec.width - len;
+
+                // if(spec.precision > -1) {
+                // } else {
+                //     s_qnt = spec.width;
+                // };
+
+                if(spec.minus_flag == '-'){
+                    j += prep_string(str, strng_arg, len, j);
+                    j += print_spaces(str, s_qnt, j);
+                } else {
+                    j += print_spaces(str, s_qnt, j);
+                    j += prep_string(str, strng_arg, len, j);
+                };
+                // str[j] = strng_arg;
                 // j++;
                 break;
         }
@@ -131,13 +159,20 @@ int s21_sprintf(char *str, const char *format, ...) {
     };
     va_end(args);
     str[j] = '\0';
-    j++;
+    // j++;
     return j;
 }
 
 int print_spaces(char *str, int n, int j) {
     for(int i = 0; i < n; i++)
         str[j + i] = ' ';
+    return n;
+}
+
+int prep_string(char *str, char *strng_arg, int n, int j) {
+    for(int i = 0; i < n; i++){
+        str[j + i] = strng_arg[i];
+    };
     return n;
 }
 
