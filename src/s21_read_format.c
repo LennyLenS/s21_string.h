@@ -1,27 +1,5 @@
 #include "s21_sprintf.h"
 
-int s21_parser(char *str, const char *format, va_list args) {
-  (void)str;
-  int i = -1;
-  int j = 0;  // считает количество символов в массиве str
-  while (format[i++] != '\0') {
-    if (format[i] != '%') {
-      str[j] = format[i];
-      j++;
-    }
-    if (format[i] == '%') {
-      Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
-      i = s21_read_format(&prot, format, i, args);
-      if (prot.spec == '%') {
-        str[j] = format[i];
-        j++;
-        continue;
-      }
-      // 3-я функция c добавлением значения с args
-    }
-  }
-  return j;
-}
 // %[флаги][ширина][.точность][длина]спецификатор
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
   int this_is_width = 0;
