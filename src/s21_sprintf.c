@@ -27,7 +27,7 @@ int s21_parser(char *str, const char *format, va_list args) {
       j++;
     }
     if (format[i] == '%') {
-      Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
+      Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, 0, '\0'};
       // обработка спецификатора и его параметров
       i = s21_read_format(&prot, format, i, args);
       if (prot.spec == '%') {

@@ -5,14 +5,6 @@
 
 #include "functions/s21_string.h"
 
-typedef struct {
-  bool c;  // Символ
-  bool d;  // Знаковое десятичное целое число
-  bool i;  // Знаковое десятичное целое число
-  bool e;  // Научная нотация (мантисса/экспонента) с использованием символа e
-           // (вывод чисел должен совпадать с точностью до e-6)
-} Specifications;
-
 // %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
   char spec;         // спецификаторы
@@ -25,10 +17,7 @@ typedef struct {
   int width_star;
   int prec_number;  // Точность если .число
   int prec_star;    // Точность если .*
-  int length;       // Длина
-  int length_h;
-  int length_l;
-  int length_L;
+  char length;      // Длина
 } Prototype;
 
 int s21_sprintf(char *str, const char *format, ...);
@@ -42,4 +31,8 @@ void s21_check_width(const char *format, int i, int *this_is_width,
                      Prototype *prot, va_list args);
 int s21_check_prec(const char *format, int i, int *this_is_prec,
                    Prototype *prot, va_list args);
+int s21_args_to_str(int j, char *str, Prototype *prot, va_list args);
+int s21_spec_c(int j, char *str, va_list args);
+int s21_spec_e(int j, char *str, va_list args);
+
 #endif

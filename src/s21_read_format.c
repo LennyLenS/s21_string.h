@@ -14,11 +14,11 @@ int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
     i = s21_check_prec(format, i, &this_is_prec, prot, args);
     // Check length
     if (format[i] == 'h') {
-      prot->length_h = 1;
+      prot->length = format[i];
     } else if (format[i] == 'l') {
-      prot->length_l = 1;
+      prot->length = format[i];
     } else if (format[i] == 'L') {
-      prot->length_L = 1;
+      prot->length = format[i];
     }
     // Check spec
     if (format[i] == 'c' || format[i] == 'd' || format[i] == 'i' ||
