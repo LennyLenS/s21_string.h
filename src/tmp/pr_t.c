@@ -18,20 +18,20 @@ typedef struct {
 int s21_sprintf(char *str, const char *format, ...);
 int print_spaces(char *str, int n, int j);
 int prep_string(char *str, char *strng_arg, int n, int j);
+void *s21_reverse (char *str);
 
 int main(){
     char str[50];
     // char *format = "abc%%%%dwefg";
-    int k =            printf("pr_ abc%-5c:%10sdwefg\n", 'F', "Y3RLD12");
-    int jn = s21_sprintf(str, "s21 abc%c:%sdwefg\n", 'F', "Y3RLD12");
+    int k =            printf("pr_ abc%d:sdwefg\n", 0xD6E);
+    int jn = s21_sprintf(str, "s21 abc%d:sdwefg\n", 0xD6E);
     printf("%s", str);
-    printf("\nj%d k%d  str %s \n", jn, k, str);   // j возвращаемое значение, k контрольное
+    printf("\nj%d k%d  str %s/", jn, k, str);   // j возвращаемое значение, k контрольное
 }
 
 
 int s21_sprintf(char *str, const char *format, ...) {
     char c;
-    int dig;
     int j = 0;
     int s_qnt = 0;
 
@@ -85,27 +85,52 @@ int s21_sprintf(char *str, const char *format, ...) {
         //
         // Парсер и все остальное
         //
+        
+        char charbuf[512] = {'\0'};
+        int len = 0;
+
         switch(spec.spec_type)
         {
             case 'd':
-                dig = va_arg(args, int);
-                // while (dig != 0)
-                // {
-                //     int tmp_div = dig%10;
-                //     dig = dig - tmp_div;
-                //     numb = 
-
-                // }
+                ;
+                long int num = 0;
+                if(spec.length == 'h'){
+                    num = (short)va_arg(args, int);
+                } else if(spec.length == 'l'){
+                    num = va_arg(args, long int);
+                } else {
+                    num = va_arg(args, int);
+                };
                 
-//разложить int на цифры
+                int num_i = 0;
+                while (num > 0)
+                {
+                    int tmp_dig;
+                    tmp_dig = num%10;
+                    num = num / 10;
+                    charbuf[num_i] = tmp_dig + '0';
+                    num_i++;
+                    printf("f %d: %ld  %d  %c\n", num_i, num, tmp_dig, charbuf[num_i - 1]);
+                }
+                s21_reverse(charbuf);
+                len = num_i;
+                j += prep_string(str, charbuf, len, j);
 
-                printf("dg %d\n", dig);
-                // str[j] = dig + '0';
+
+                for(int i = 0; charbuf[i] != '\0'; i++){
+                    printf("cb %d %c \n", i, charbuf[i]);
+                };
+                printf("\ncharbuf %s \n", charbuf);
+
+                printf("len %d\n", len);
+                char sign_fld = '0';
+
+                // str[j] = num + '0';
                 // char *tt;
-                // char *qq = dig + '0';
+                // char *qq = num + '0';
                 // strncpy(tt, qq);
-                // printf("sj %s\n", tt);
-                j++;
+                printf("sj :%c: %d\n", sign_fld, num_i);
+                // j++;
                 break;
             case 'c':
                 c = va_arg(args, int);
@@ -125,7 +150,6 @@ int s21_sprintf(char *str, const char *format, ...) {
                 break;
             case 's': 
                 s_qnt = 0;
-                int len = 0;
                 char *strng_arg = va_arg(args, char*);
 
                 if(spec.precision == -1) {
@@ -202,7 +226,7 @@ void *s21_reverse (char *str) {   // str должен быть массивом 
 
 
 
-
+// #include <stdio.h>
 // int main()
 // {
 //     int int1 = 123;
@@ -212,22 +236,22 @@ void *s21_reverse (char *str) {   // str должен быть массивом 
 //     char *string1 = "Привет всем!";
 //     double double1 = 3.14159;
 //     long double longdouble1 = double1 * double1;
-//     char *s = "Здравствуй, если не шутишь!";
+//     char *s = "Hello World**!";
     
-//     printf ("1:%i %s %d:\n", s, int1, int1);
-//     printf ("2:%27s:\n",s);
-//     printf ("3:%-27s:\n",s);
-//     printf ("4:%32s:\n",s);
-//     printf ("5:%-32s:\n",s);
-//     // printf ("6:%032s:\n",s);
-//     printf ("7:%32.16s:\n",s);
-//     printf ("8:%-32.16s:\n",s);
-//     printf ("9:%.16s:\n",s);
+//     printf ("1 :%d %d:\n", int1, int1);
+//     printf ("2 :%27s:\n",s);
+//     printf ("3 :%-27s:\n",s);
+//     printf ("4 :%32s:\n",s);
+//     printf ("5 :%-32s:\n",s);
+//     // printf ("6 :%032s:\n",s);
+//     printf ("7 :%32.16s:\n",s);
+//     printf ("8 :%-32.16s:\n",s);
+//     printf ("9 :%.16s:\n",s);
     
 //     printf("Примеры использования функции printf()\n");
 //     printf("ПЕРЕМЕННАЯ         РЕЗУЛЬТАТ\n");
-//     printf("int (10-e)     == %+10.3d\n", int1);
-//     printf("int i          == %d\n", int1);
+//     printf("int (10-e)     == :%+10.3d:\n", int1);
+//     printf("int i          == :%d:\n", int1);
 //     printf("int f          == %.3f\n", fl);
 //     printf("int (16-e)     == %#x\n", int1);
 //     printf("int (8-e)      == %#o\n", int1);
