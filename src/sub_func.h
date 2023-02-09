@@ -9,4 +9,5 @@ char *DecInHex(int n);
 char *DecInOct(int n);
 char *DecInBin(int n);
 
+char *specifier_o(unsigned int n);
 #endif

@@ -1,5 +1,10 @@
 #include "sub_func.h"
 
+void shift_str(char *str, int size){
+	for(int i = size_ans - 1; i > 0; -i){
+		str[i] = str[i - 1];
+	}
+}
 char *DecInHex(int n){
 	int size = (int)ceil(log2(n + 1) / 4) + 1;
 	char *ans = (char *)malloc(size);
@@ -41,4 +46,21 @@ char *DecInBin(int n){
 	}
 	ans[size - 1] = '\0';
 	return ans;
+
+}
+
+void UDecInStr(char *buff, unsigned int n){
+	int size_ans = 0;
+	while(n != 0){
+		size_ans += 1;
+		shift_str(buff, size_ans);
+		ans[0] = n % 10 + '0';
+		n /= 10;
+	}
+	buff[size_ans + 1] = '\0';
+
+}
+void specifier_o(char *buff, int n){
+	unsigned num = (unsigned int)n;
+	UDecInStr(buff, num);
 }
