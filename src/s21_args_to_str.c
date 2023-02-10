@@ -39,7 +39,10 @@ int s21_spec_e_L(int j, char *str, va_list args, Prototype *prot) {
   (void)prot;
   int e = 0;
   int num_int = 0;
-  // Формула экспоненты N = M*n^p
+  int symbol = 0;
+  char str_int = 0;
+  // char concat[256] = "";
+  //   Формула экспоненты N = M*n^p
   long double num = va_arg(args, long double);
   num_int = (int)num;  // целая часть дробного числа
   // Мантисса + подсчет степени
@@ -66,6 +69,9 @@ int s21_spec_e_L(int j, char *str, va_list args, Prototype *prot) {
       num *= 10;  // получение дробного числа в виде инта
     num = (int)num;
   }
+  symbol = num_int % 10;
+  str_int = (char)(symbol + 48);
+
   printf("s21_spri: %Lf\n", num);
   return num;
 }
