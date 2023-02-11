@@ -13,18 +13,22 @@ typedef struct {
     int width;
     int precision;
     char length;
-} option;
+} Prototype;
 
 int s21_sprintf(char *str, const char *format, ...);
 int print_spaces(char *str, int n, int j);
 int prep_string(char *str, char *strng_arg, int n, int j);
 void *s21_reverse (char *str);
+int s21_spec_c(char *str, va_list args, Prototype *prot, int j);
+int s21_spec_s(char *str, va_list args, Prototype *prot, int j);
+int s21_spec_id(char *str, va_list args, Prototype *prot, char *charbuf, int j);
 
 int main(){
     char str[50];
     // char *format = "abc%%%%dwefg";
-    int k =            printf("pr_ abc%d:sdwefg\n", 0xD6E);
-    int jn = s21_sprintf(str, "s21 abc%d:sdwefg\n", 0xD6E);
+    int dd = 6;
+    int k =            printf("pr_ abc%p:sdwefg\n", &dd);
+    int jn = s21_sprintf(str, "s21 abc%p:sdwefg\n", &dd);
     printf("%s", str);
     printf("\nj%d k%d  str %s/", jn, k, str);   // j возвращаемое значение, k контрольное
 }
@@ -33,14 +37,12 @@ int main(){
 int s21_sprintf(char *str, const char *format, ...) {
     char c;
     int j = 0;
-    int s_qnt = 0;
-
+    char charbuf[512] = {'\0'};
 
     va_list args;
     va_start(args, format);
     
-        while ((c = *format) != '\0'){
-        // printf("%d", j);
+    while ((c = *format) != '\0'){
         if (c != '%'){
             str[j] = c;
             format++;
@@ -49,9 +51,7 @@ int s21_sprintf(char *str, const char *format, ...) {
         };
         format++;
 
-        // тут инициализируем структуру
-        option spec = {'\0', 0, 0, 0, 0, 0, 0, -1, '\0'};    // инициализируем структуру и заполняем ее нулями. Второй вариант, если будут проблемы {'\0', 0, 0, 0, 0, 0, 0, 0, '\0'}
-                            // потом перенести в первый while()
+        Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, -1, '\0'};    // инициализируем структуру и заполняем ее нулями.
 
         // обработка %%
         if((c = *format) == '%') {
@@ -63,121 +63,55 @@ int s21_sprintf(char *str, const char *format, ...) {
 
         switch(c)  // simple parser
         {
+            case 'i':
+                prot.spec_type = 'i';
+                break;
             case 'd':
-                spec.spec_type = 'd';
+                prot.spec_type = 'd';
                 break;
             case 'c':
-                spec.spec_type = 'c';
-                spec.width = 5;
-                spec.minus_flag = '-';
+                prot.spec_type = 'c';
+                prot.width = 5;
+                prot.minus_flag = '-';
                 break;
             case 's':
-                spec.spec_type = 's';
-                spec.precision = -1;
-                spec.width = 10;
-                spec.minus_flag = '\0';
+                prot.spec_type = 's';
+                prot.precision = 5;
+                prot.width = 10;
+                prot.minus_flag = '-';
+                break;
+            case 'p':
+                prot.spec_type = 'p';
+                break;
+            case 'n':
+                prot.spec_type = 'n';
                 break;
         };
 
-        // printf("qq %c %c  %d\n", c, spec.spec_type, j);
-
-        // spec.width = 1;   // потом удалить
-        //
-        // Парсер и все остальное
-        //
+        // printf("qq %c %c  %d\n", c, prot.spec_type, j);
         
-        char charbuf[512] = {'\0'};
-        int len = 0;
 
-        switch(spec.spec_type)
+        switch(prot.spec_type)
         {
+            case 'i':
             case 'd':
-                ;
-                long int num = 0;
-                if(spec.length == 'h'){
-                    num = (short)va_arg(args, int);
-                } else if(spec.length == 'l'){
-                    num = va_arg(args, long int);
-                } else {
-                    num = va_arg(args, int);
-                };
-                
-                int num_i = 0;
-                while (num > 0)
-                {
-                    int tmp_dig;
-                    tmp_dig = num%10;
-                    num = num / 10;
-                    charbuf[num_i] = tmp_dig + '0';
-                    num_i++;
-                    printf("f %d: %ld  %d  %c\n", num_i, num, tmp_dig, charbuf[num_i - 1]);
-                }
-                s21_reverse(charbuf);
-                len = num_i;
-                j += prep_string(str, charbuf, len, j);
-
-
-                for(int i = 0; charbuf[i] != '\0'; i++){
-                    printf("cb %d %c \n", i, charbuf[i]);
-                };
-                printf("\ncharbuf %s \n", charbuf);
-
-                printf("len %d\n", len);
-                char sign_fld = '0';
-
-                // str[j] = num + '0';
-                // char *tt;
-                // char *qq = num + '0';
-                // strncpy(tt, qq);
-                printf("sj :%c: %d\n", sign_fld, num_i);
-                // j++;
+                j += s21_spec_id(str, args, &prot, charbuf, j);
                 break;
             case 'c':
-                c = va_arg(args, int);
-                s_qnt = 0;
-                if(spec.width > 0){
-                    s_qnt = spec.width -1;
-                };
-                if(spec.minus_flag == '-'){
-                    str[j] = c;
-                    j++;
-                    j += print_spaces(str, s_qnt, j);
-                } else {
-                    j += print_spaces(str, s_qnt, j);
-                    str[j] = c;
-                    j++;
-                };
+                j += s21_spec_c(str, args, &prot, j);
                 break;
             case 's': 
-                s_qnt = 0;
-                char *strng_arg = va_arg(args, char*);
-
-                if(spec.precision == -1) {
-                    len = (int)strlen(strng_arg);
-                } else {
-                    len = spec.precision;
-                };
-                
-                if(spec.width < len) spec.width = len;
-
-                s_qnt = spec.width - len;
-
-                // if(spec.precision > -1) {
-                // } else {
-                //     s_qnt = spec.width;
-                // };
-
-                if(spec.minus_flag == '-'){
-                    j += prep_string(str, strng_arg, len, j);
-                    j += print_spaces(str, s_qnt, j);
-                } else {
-                    j += print_spaces(str, s_qnt, j);
-                    j += prep_string(str, strng_arg, len, j);
-                };
-                // str[j] = strng_arg;
-                // j++;
+                j += s21_spec_s(str, args, &prot, j);
                 break;
-        }
+            case 'p':    //     указатель привести к longlongint потом конвертировать в 16тиричное число и в строку.
+                ;
+                char *num = va_arg(args, void*);
+                printf("pt %d \n", &num);
+                break;
+            case 'n': 
+                j += s21_spec_s(str, args, &prot, j);
+                break;
+        };
         // printf("%d  str %s\n", j, str);
         format++;
     };
@@ -186,6 +120,101 @@ int s21_sprintf(char *str, const char *format, ...) {
     // j++;
     return j;
 }
+
+// удалить все после /* */
+// уточнить нужно ли возвращать длину строки
+int s21_spec_id(char *str, va_list args, Prototype *prot, char *charbuf, int j) {
+    int len = 0;
+    int i = 0;
+    long int num = 0;
+    if(prot->length == 'h'){
+        num = (short)va_arg(args, int);
+    } else if(prot->length == 'l'){
+        num = va_arg(args, long int);
+    } else {
+        num = va_arg(args, int);
+    };
+    
+    int num_i = 0;
+    while (num > 0)
+    {
+        int tmp_dig;
+        tmp_dig = num%10;
+        num = num / 10;
+        charbuf[num_i] = tmp_dig + '0';
+        num_i++;
+        printf("f %d: %ld  %d  %c\n", num_i, num, tmp_dig, charbuf[num_i - 1]);
+    }
+    s21_reverse(charbuf);
+    
+    /* удалить все ниже до return */
+    len = num_i;
+    i += prep_string(str, charbuf, len, j);
+
+
+    for(int i = 0; charbuf[i] != '\0'; i++){
+        printf("cb %d %c \n", i, charbuf[i]);
+    };
+    printf("\ncharbuf %s \n", charbuf);
+
+    printf("len %d\n", len);
+    char sign_fld = '0';
+
+    // str[j] = num + '0';
+    // char *tt;
+    // char *qq = num + '0';
+    // strncpy(tt, qq);
+    printf("sj :%c: num_i%d i%d\n", sign_fld, num_i, i);
+    // j++;
+    
+    return num_i;
+}
+
+int s21_spec_s(char *str, va_list args, Prototype *prot, int j) {
+    int i = 0;
+    int len = 0;
+    int sp_qnt = 0;
+    char *strng_arg = va_arg(args, char*);
+
+    if(prot->precision == -1) {
+        len = (int)strlen(strng_arg);
+    } else {
+        len = prot->precision;
+    };
+    
+    if(prot->width < len) prot->width = len;
+
+    sp_qnt = prot->width - len;
+
+    if(prot->minus_flag == '-'){
+        i += prep_string(str, strng_arg, len, j);
+        i += print_spaces(str, sp_qnt, j + i);
+    } else {
+        i += print_spaces(str, sp_qnt, j);
+        i += prep_string(str, strng_arg, len, j + i);
+    };
+    return i;
+}
+
+int s21_spec_c(char *str, va_list args, Prototype *prot, int j) {
+    char c = va_arg(args, int);
+    int sp_qnt = 0;
+    int i = 0;
+    if(prot->width > 0){
+        sp_qnt = prot->width -1;
+    };
+    if(prot->minus_flag == '-'){
+        str[j] = c;
+        i++;
+        i += print_spaces(str, sp_qnt, j + i);
+    } else {
+        i += print_spaces(str, sp_qnt, j);
+        str[j + i] = c;
+        i++;
+    };
+    return i;
+}
+
 
 int print_spaces(char *str, int n, int j) {
     for(int i = 0; i < n; i++)
@@ -200,7 +229,7 @@ int prep_string(char *str, char *strng_arg, int n, int j) {
     return n;
 }
 
-void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем на область памяти
+void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем char * на область памяти в стеке
     if(str == NULL) return NULL;
     int bgn = 0;
     int end = strlen(str) - 1;
@@ -261,6 +290,55 @@ void *s21_reverse (char *str) {   // str должен быть массивом 
 //     printf("double         == % .7lf\n", double1);
 //     printf("longdouble(1)  == %+Le\n", longdouble1);
 //     printf("longdouble(2)  == %Lf\n", longdouble1);
+//     printf("char*          == %p\n", &char1);
+//     printf("kjn09898789hkjh         == %nkj\n", &int1);
+//     printf("kjn09898789hkjh         == %nkj\n");
+    
+//     int count =1;
+//     printf ("this%n is a test\n", &count);
+//     printf ("%d", count);
 
 //     return 0;
 // }
+
+/*
++ c   Символ
+
++ s   Строка символов
+
++ d   Знаковое десятичное целое число
+
++ i   Знаковое целое число (может быть десятичным, восьмеричным или шестнадцатеричным)
+
+
+e   Научная нотация (мантисса/экспонента) с использованием символа e (вывод чисел должен совпадать с точностью до e-6)
+    Десятичное число с плавающей точкой или научная нотация (мантисса/экспонента)
+
+E   Научная нотация (мантисса/экспонента) с использованием символа Е
+    Десятичное число с плавающей точкой или научная нотация (мантисса/экспонента)
+
+f   Десятичное число с плавающей точкой
+    Десятичное число с плавающей точкой или научная нотация (мантисса/экспонента)
+
+g   Использует кратчайший из представлений десятичного числа
+    Десятичное число с плавающей точкой или научная нотация (мантисса/экспонента)
+
+G   Использует кратчайший из представлений десятичного числа
+    Десятичное число с плавающей точкой или научная нотация (мантисса/экспонента)
+
+
+o   Беззнаковое восьмеричное число
+
+u   Беззнаковое десятичное целое число
+
+x   Беззнаковое шестнадцатеричное целое число
+
+X   Беззнаковое шестнадцатеричное целое число (заглавные буквы)
+
+
+p   Адрес указателя
+
+n   Количество символов, напечатанных до появления %n
+
++ %
+*/
