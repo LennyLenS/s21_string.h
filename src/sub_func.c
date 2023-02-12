@@ -12,9 +12,9 @@ void UDecInNumSys(char *buff, unsigned int n, int mes){
 		size_ans += 1;
 		shift_str(buff, size_ans);
 		if(n % mes > 9){
-			ans[0] = n % mes - 10 + 'A';
+			buff[0] = n % mes - 10 + 'A';
 		}else{
-			ans[0] = n % mes + '0';
+			buff[0] = n % mes + '0';
 		}
 		n /= mes;
 	}
