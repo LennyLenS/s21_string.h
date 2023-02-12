@@ -2,8 +2,7 @@
 #define SRC_S21_SPRINTF_H_
 
 #include <stdarg.h>
-
-#include "functions/s21_string.h"
+#include "s21_string.h"
 
 // %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
