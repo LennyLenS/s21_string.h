@@ -1,7 +1,7 @@
 #include "sub_func.h"
 
 void shift_str(char *str, int size){
-	for(int i = size_ans - 1; i > 0; -i){
+	for(int i = size - 1; i > 0; i--){
 		str[i] = str[i - 1];
 	}
 }
