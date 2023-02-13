@@ -35,4 +35,6 @@ int s21_args_to_str(int j, char *str, Prototype *prot, va_list args);
 int s21_spec_c(int j, char *str, va_list args);
 int s21_spec_e_L(int j, char *str, va_list args, Prototype *prot);
 // int s21_spec_e(int j, char *str, va_list args, Prototype *prot);
+void *s21_reverse(char *str);
+int s21_double_to_str(long double num, char *str_double, int num_i, int j);
 #endif

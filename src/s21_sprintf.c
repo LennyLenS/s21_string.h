@@ -5,10 +5,10 @@
 int main() {
   char str[256] = {0};
   char str1[256] = {0};
-  long double x = 4.23578;
-  s21_sprintf(str, "string%e", x);
+  long double x = 4235781231.2312;
+  s21_sprintf(str, "string%Le", x);
   // если после знака запятой будет 4 цифры, то нужно округлять
-  long double y = 4.23578;
+  long double y = 4235781231.2312;
   sprintf(str1, "%LE", y);
   printf("Original: %s", str1);
 }
@@ -24,24 +24,25 @@ int s21_sprintf(char *str, const char *format, ...) {
 
 int s21_parser(char *str, const char *format, va_list args) {
   int i = -1;
-  int j = 0;  // считает количество символов в массиве str
+  int counter_symbols_str = 0;
   while (format[++i] != '\0') {
     if (format[i] != '%') {
-      str[j] = format[i];
-      j++;
+      str[counter_symbols_str] = format[i];
+      counter_symbols_str++;
     }
     if (format[i] == '%') {
       Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, -1, '\0'};
       // обработка спецификатора и его параметров
       i = s21_read_format(&prot, format, i, args);
       if (prot.spec == '%') {
-        str[j] = format[i];
-        j++;
+        str[counter_symbols_str] = format[i];
+        counter_symbols_str++;
         continue;
       }
       // перевод args в массив str и возвращение количество символов в массиве
-      j = s21_args_to_str(j, str, &prot, args);
+      counter_symbols_str =
+          s21_args_to_str(counter_symbols_str, str, &prot, args);
     }
   }
-  return j;
+  return counter_symbols_str;
 }
