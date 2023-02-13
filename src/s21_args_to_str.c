@@ -113,13 +113,13 @@ int s21_spec_e_L(int counter_symbols_str, char *str, va_list args,
   } else {
     str_double[num_i + 2] = '0';
     counter_symbols_str++;
-    if (e == 0)
-      str_double[num_i + 3] = '0';
-    else
-      s21_double_to_str(e, str_double, num_i + 3, counter_symbols_str);
   }
-  // printf("s21_spri: %Lf\n", num);
-  printf("Целая часть %s\n", str_int);
+  if (e == 0)
+    str_double[num_i + 3] = '0';
+  else
+    // здесь использовать strcat объединить массив str_double с str_degree
+    // printf("s21_spri: %Lf\n", num);
+    printf("Целая часть %s\n", str_int);
   printf("s21_spri: %s\n", str_double);
   return num;
 }
