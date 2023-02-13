@@ -2,7 +2,7 @@
 #include "s21_sprintf.h"
 #include <malloc.h>
 
-char *func(char *buf_str);
+char *add_sign(char *buf_str);
 
 // %[флаги][ширина][.точность][длина]спецификатор
 
