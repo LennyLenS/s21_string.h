@@ -3,6 +3,10 @@
 
 int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
                     va_list args) {
+  // В промежуточном массиве будет храниться строка без учета параметров
+  // заданных в спецификаторе т.е флаги,ширина, точность и тд
+  char intermediate_str[512] = {'\0'};
+  s21_strcpy(intermediate_str, str);
   if (prot->spec == 'c')
     counter_symbols_str += s21_spec_c(counter_symbols_str, str, args);
   //   else if (prot->spec == 'd')
@@ -11,7 +15,8 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   //  counter_symbols_str += s21_spec_i(counter_symbols_str, str, args);
   else if (prot->spec == 'e' || prot->spec == 'E') {
     // if (prot->length == 'L')
-    counter_symbols_str += s21_spec_e_L(counter_symbols_str, str, args, prot);
+    counter_symbols_str +=
+        s21_spec_e_L(counter_symbols_str, str, intermediate_str, args, prot);
     //   else
     //     counter_symbols_str += s21_spec_e(counter_symbols_str, str, args,
     //     prot);
@@ -36,15 +41,14 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   return counter_symbols_str;
 }
 
-int s21_spec_e_L(int counter_symbols_str, char *str, va_list args,
-                 Prototype *prot) {
+int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
+                 va_list args, Prototype *prot) {
   (void)str;
-  (void)prot;
   int e = 0;
   int num_int = 0;
   int symbol = 0;
   int num_i = 0;
-  char str_int[4] = {'\0'};
+  char str_int[512] = {'\0'};
   char str_double[270] = {'\0'};
   char symbol_e = '\0';
   char str_degree[256] = {'\0'};
@@ -59,7 +63,7 @@ int s21_spec_e_L(int counter_symbols_str, char *str, va_list args,
       do {
         num /= 10;
         e += 1;
-      } while (num > 10);
+      } while (num > 10 || num < -10);
     }
   } else {
     do {
@@ -77,9 +81,14 @@ int s21_spec_e_L(int counter_symbols_str, char *str, va_list args,
     num *= -1;
     num += num_int;
   }
+  int multiply = 1;
+  int flag = -1;
   if (prot->prec_number == -1 || prot->prec_star == -1) {
-    for (int i = 0; i < 6; i++)  // без заданной точности стандартная равна 6
+    for (int i = 0; i < 6; i++) {  // без заданной точности стандартная равна 6
       num *= 10;
+      flag = (int)num;
+      if (flag == 0) multiply *= 10;
+    }
     num = (int)num;  // получение дробного числа в виде инта
   }
   // Записываем целое число в массив char в виде "-4." если целое число
@@ -99,7 +108,7 @@ int s21_spec_e_L(int counter_symbols_str, char *str, va_list args,
   // Записываем дробную часть числа в массив char
   num_i = s21_double_to_str(num, str_double, num_i, counter_symbols_str);
   s21_reverse(str_double);
-  if (prot->length == 'L')
+  if (prot->spec == 'E')
     symbol_e = 'E';
   else
     symbol_e = 'e';
@@ -116,11 +125,24 @@ int s21_spec_e_L(int counter_symbols_str, char *str, va_list args,
   }
   if (e == 0)
     str_double[num_i + 3] = '0';
-  else
-    // здесь использовать strcat объединить массив str_double с str_degree
-    // printf("s21_spri: %Lf\n", num);
-    printf("Целая часть %s\n", str_int);
-  printf("s21_spri: %s\n", str_double);
+  else {
+    s21_double_to_str(e, str_degree, 0, counter_symbols_str);
+    s21_reverse(str_degree);
+    s21_strcat(str_double, str_degree);  // соединяем число с степенью
+  }
+  // printf("Check %s\n", str_int);
+  int check = 0;
+  if (multiply >= 10)
+    check = s21_strlen(
+        str_double);  // дофиксить баг если число подано с нулем пример в мэйне
+  printf("Check %d\n", check);
+  s21_strcat(str_int, str_double);  // соединяем 2 строки получаем число
+  s21_strcat(intermediate_str,
+             str_int);  // закидываем готовый результат в промежуточную строку
+
+  printf("Дробная часть %s\n", str_double);
+  printf("Finally1: %s\n", str_int);
+  printf("intermediate_str: %s\n", intermediate_str);
   return num;
 }
 

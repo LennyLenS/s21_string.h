@@ -5,10 +5,10 @@
 int main() {
   char str[256] = {0};
   char str1[256] = {0};
-  long double x = 4235781231.2312;
-  s21_sprintf(str, "string%Le", x);
+  long double x = 103.57812312312;
+  s21_sprintf(str, "string%LE", x);
   // если после знака запятой будет 4 цифры, то нужно округлять
-  long double y = 4235781231.2312;
+  long double y = 103.57812312312;
   sprintf(str1, "%LE", y);
   printf("Original: %s", str1);
 }
