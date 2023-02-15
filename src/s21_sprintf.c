@@ -5,11 +5,11 @@
 int main() {
   char str[256] = {0};
   char str1[256] = {0};
-  long double x = 103.57812312312;
-  s21_sprintf(str, "string%LE", x);
-  // если после знака запятой будет 4 цифры, то нужно округлять
-  long double y = 103.57812312312;
-  sprintf(str1, "%LE", y);
+  double x = -0.00;
+  s21_sprintf(str, "string%E", x);
+  // если после знака запятой будет < 6 цифр, то нужно округлять
+  double y = -0.00;
+  sprintf(str1, "%E", y);
   printf("Original: %s", str1);
 }
 

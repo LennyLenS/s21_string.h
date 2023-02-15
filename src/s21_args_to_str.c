@@ -51,15 +51,18 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   char str_int[512] = {'\0'};
   char str_double[270] = {'\0'};
   char symbol_e = '\0';
-  char str_degree[256] = {'\0'};
+  char str_degree[560] = {'\0'};
+  bool flag_zero = false;
   // Формула экспоненты N = M*n^p
-  //
-  long double num = va_arg(args, long double);
+  // добавить условие на проверку какое число long double или double тоесть в
+  // самом начале
+  double num = va_arg(args, double);  // в va_arg только менять тип данных
+  if (num == 0) flag_zero = true;
 
   num_int = (int)num;  // целая часть дробного числа
   // Мантисса + подсчет степени
   if (num >= 1 || num <= -1) {
-    if (num_int >= 10 || num_int <= -10) {
+    if ((num_int >= 10 || num_int <= -10)) {
       do {
         num /= 10;
         e += 1;
@@ -70,9 +73,8 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
       num *= 10;
       e -= 1;
       num_int = (int)num;
-    } while (num_int == 0);
+    } while (num_int == 0 && flag_zero == false);
   }
-  // нужно тут округлять если меньше 4 цифр после запятой хз как
   // Разбиваем дробное число на два интовых типа целое число и дробная часть
   num_int = (int)num;
   if (num_int > 0)
@@ -83,8 +85,14 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   }
   int multiply = 1;
   int flag = -1;
+  // Тут идет округление числа если точность задана в else будет вызываться
+  // функция точности
+  // если после знака запятой будет < 6 цифр, то нужно округлять
   if (prot->prec_number == -1 || prot->prec_star == -1) {
-    for (int i = 0; i < 6; i++) {  // без заданной точности стандартная равна 6
+    int precision = 6;  // без заданной точности стандартная равна 6
+    num = roundl(num * pow(10, precision)) / pow(10, precision);
+    // printf("Check %Lf\n", num);
+    for (int i = 0; i < 6; i++) {
       num *= 10;
       flag = (int)num;
       if (flag == 0) multiply *= 10;
@@ -126,16 +134,22 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   if (e == 0)
     str_double[num_i + 3] = '0';
   else {
+    if (e < 0) e *= -1;
     s21_double_to_str(e, str_degree, 0, counter_symbols_str);
     s21_reverse(str_degree);
     s21_strcat(str_double, str_degree);  // соединяем число с степенью
   }
   // printf("Check %s\n", str_int);
-  int check = 0;
-  if (multiply >= 10)
-    check = s21_strlen(
-        str_double);  // дофиксить баг если число подано с нулем пример в мэйне
-  printf("Check %d\n", check);
+
+  while (multiply >= 10) {
+    int check = s21_strlen(str_double) - 1;
+    for (; check >= 0; check--) {
+      str_double[check + 1] = str_double[check];
+    }
+    str_double[0] = '0';
+    multiply /= 10;
+  }
+
   s21_strcat(str_int, str_double);  // соединяем 2 строки получаем число
   s21_strcat(intermediate_str,
              str_int);  // закидываем готовый результат в промежуточную строку
