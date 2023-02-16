@@ -5,6 +5,8 @@
 
 #include "functions/s21_string.h"
 
+#define S21_NAN 0.0 / 0.0
+
 // %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
   char spec;         // спецификаторы
@@ -33,9 +35,10 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
                    Prototype *prot, va_list args);
 int s21_args_to_str(int j, char *str, Prototype *prot, va_list args);
 int s21_spec_c(int j, char *str, va_list args);
-int s21_spec_e_L(int j, char *str, char *intermediate_str, va_list args,
-                 Prototype *prot);
+int s21_spec_e(int j, char *str, char *intermediate_str, va_list args,
+               Prototype *prot);
 // int s21_spec_e(int j, char *str, va_list args, Prototype *prot);
 void *s21_reverse(char *str);
 int s21_double_to_str(long double num, char *str_double, int num_i, int j);
+int s21_isnan(double number);
 #endif

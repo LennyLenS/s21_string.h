@@ -14,35 +14,35 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   // else if (prot->spec == 'i')
   //  counter_symbols_str += s21_spec_i(counter_symbols_str, str, args);
   else if (prot->spec == 'e' || prot->spec == 'E') {
-    // if (prot->length == 'L')
     counter_symbols_str +=
-        s21_spec_e_L(counter_symbols_str, str, intermediate_str, args, prot);
-    //   else
-    //     counter_symbols_str += s21_spec_e(counter_symbols_str, str, args,
-    //     prot);
-    // }
-    //   else if (prot->spec == 'f')
-    //     counter_symbols_str += s21_spec_f(counter_symbols_str, str, args);
-    //   else if (prot->spec == 'g' || prot->spec == 'G')
-    //     counter_symbols_str += s21_spec_g(counter_symbols_str, str, args);
-    //   else if (prot->spec == 'o')
-    //     counter_symbols_str += s21_spec_o(counter_symbols_str, str, args);
-    //   else if (prot->spec == 's')
-    //     counter_symbols_str += s21_spec_s(counter_symbols_str, str, a  rgs);
-    //   else if (prot->spec == 'u')
-    //     counter_symbols_str += s21_spec_u(counter_symbols_str, str, args);
-    //   else if (prot->spec == 'x' || prot->spec == 'X')
-    //     counter_symbols_str += s21_spec_x(counter_symbols_str, str, args);
-    //   else if (prot->spec == 'p')
-    //     counter_symbols_str += s21_spec_p(counter_symbols_str, str, args);
-    //   else if (prot->spec == 'n')
-    //     counter_symbols_str += s21_spec_n(counter_symbols_str, str, args);
+        s21_spec_e(counter_symbols_str, str, intermediate_str, args, prot);
   }
+  //   else
+  //     counter_symbols_str += s21_spec_e(counter_symbols_str, str, args,
+  //     prot);
+  // }
+  //   else if (prot->spec == 'f')
+  //     counter_symbols_str += s21_spec_f(counter_symbols_str, str, args);
+  //   else if (prot->spec == 'g' || prot->spec == 'G')
+  //     counter_symbols_str += s21_spec_g(counter_symbols_str, str, args);
+  //   else if (prot->spec == 'o')
+  //     counter_symbols_str += s21_spec_o(counter_symbols_str, str, args);
+  //   else if (prot->spec == 's')
+  //     counter_symbols_str += s21_spec_s(counter_symbols_str, str, a  rgs);
+  //   else if (prot->spec == 'u')
+  //     counter_symbols_str += s21_spec_u(counter_symbols_str, str, args);
+  //   else if (prot->spec == 'x' || prot->spec == 'X')
+  //     counter_symbols_str += s21_spec_x(counter_symbols_str, str, args);
+  //   else if (prot->spec == 'p')
+  //     counter_symbols_str += s21_spec_p(counter_symbols_str, str, args);
+  //   else if (prot->spec == 'n')
+  //     counter_symbols_str += s21_spec_n(counter_symbols_str, str, args);
+
   return counter_symbols_str;
 }
 
-int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
-                 va_list args, Prototype *prot) {
+int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
+               va_list args, Prototype *prot) {
   (void)str;
   int e = 0;
   int num_int = 0;
@@ -53,21 +53,53 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   char symbol_e = '\0';
   char str_degree[560] = {'\0'};
   bool flag_zero = false;
+  bool flag_zero_negative = false;
   // Формула экспоненты N = M*n^p
-  // добавить условие на проверку какое число long double или double тоесть в
-  // самом начале
-  double num = va_arg(args, double);  // в va_arg только менять тип данных
+  // добавить условие на проверку какое число long double или double тоесть
+  // в самом начале
+  // в va_arg только менять тип данных
+  double num = 0.;
+  if (prot->length == 'L')
+    num = va_arg(args, long double);
+  else
+    num = va_arg(args, double);
+  if (num == INFINITY || num == -INFINITY || num == NAN || num == -NAN) {
+    int counter = 0;
+    if (num == -INFINITY) {
+      str[counter_symbols_str] = '-';
+      counter++;
+    }
+    if (num == INFINITY || num == -INFINITY) {
+      str[counter_symbols_str + counter] = 'I';
+      str[counter_symbols_str + counter + 1] = 'N';
+      str[counter_symbols_str + counter + 2] = 'F';
+      if (counter > 0)
+        counter_symbols_str += 4;
+      else
+        counter_symbols_str += 3;
+      printf("s21check: %s\n", str);
+      return counter_symbols_str;
+    }
+  }
+  if (s21_isnan(num) == 1) {
+    str[counter_symbols_str] = 'N';
+    str[counter_symbols_str + 1] = 'A';
+    str[counter_symbols_str + 2] = 'N';
+    printf("s21check: %s\n", str);
+    return counter_symbols_str;
+  }
   if (num == 0) flag_zero = true;
-
+  if (1.0 / num == -INFINITY) flag_zero_negative = true;
   num_int = (int)num;  // целая часть дробного числа
   // Мантисса + подсчет степени
-  if (num >= 1 || num <= -1) {
+  if (num >= 1 || num <= -1 || flag_zero == true) {
     if ((num_int >= 10 || num_int <= -10)) {
       do {
         num /= 10;
         e += 1;
       } while (num > 10 || num < -10);
     }
+
   } else {
     do {
       num *= 10;
@@ -77,7 +109,7 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   }
   // Разбиваем дробное число на два интовых типа целое число и дробная часть
   num_int = (int)num;
-  if (num_int > 0)
+  if (num_int >= 0)
     num -= num_int;
   else {
     num *= -1;
@@ -102,7 +134,7 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   // Записываем целое число в массив char в виде "-4." если целое число
   // отрицательное. "4." если число положительное
   symbol = num_int % 10;
-  if (symbol < 0) {
+  if (symbol < 0 || flag_zero_negative == true) {
     symbol *= -1;
     str_int[0] = '-';
     str_int[1] = symbol + '0';
@@ -157,7 +189,7 @@ int s21_spec_e_L(int counter_symbols_str, char *str, char *intermediate_str,
   printf("Дробная часть %s\n", str_double);
   printf("Finally1: %s\n", str_int);
   printf("intermediate_str: %s\n", intermediate_str);
-  return num;
+  return counter_symbols_str;
 }
 
 int s21_double_to_str(long double num, char *str_double, int num_i,
@@ -172,6 +204,14 @@ int s21_double_to_str(long double num, char *str_double, int num_i,
     counter_symbols_str++;
   }
   return num_i;
+}
+
+int s21_isnan(double number) {
+  int result = 0;
+  if (number != number) {
+    result = 1;
+  }
+  return result;
 }
 
 void *s21_reverse(char *str) {
