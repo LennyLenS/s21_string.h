@@ -16,7 +16,7 @@ int main() {
     char *a = "1234";
 
     char str[256];
-    sprintf(str, "%1.10d", 1234);
+    sprintf(str, "% 20d", 1234);
     printf("%s.\n", str);
     Prototype pr = {0};
 
