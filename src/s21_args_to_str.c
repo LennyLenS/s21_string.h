@@ -23,8 +23,8 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   // }
   //   else if (prot->spec == 'f')
   //     counter_symbols_str += s21_spec_f(counter_symbols_str, str, args);
-  //   else if (prot->spec == 'g' || prot->spec == 'G')
-  //     counter_symbols_str += s21_spec_g(counter_symbols_str, str, args);
+  else if (prot->spec == 'g' || prot->spec == 'G')
+    counter_symbols_str += s21_spec_g(counter_symbols_str, str, args);
   //   else if (prot->spec == 'o')
   //     counter_symbols_str += s21_spec_o(counter_symbols_str, str, args);
   //   else if (prot->spec == 's')
@@ -43,6 +43,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
 
 int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
                va_list args, Prototype *prot) {
+  // ----------------------------------------------------
   int e = 0;
   int num_int = 0;
   int symbol = 0;
@@ -89,6 +90,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   }
   if (num == 0) flag_zero = true;
   if (1.0 / num == -INFINITY) flag_zero_negative = true;
+  // ----------------------------------------------------
   num_int = (int)num;  // целая часть дробного числа
   // Мантисса + подсчет степени
   if (num >= 1 || num <= -1 || flag_zero == true) {
@@ -114,6 +116,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     num *= -1;
     num += num_int;
   }
+  // ------------------------------------------------------
   int multiply = 1;
   int flag = -1;
   // Тут идет округление числа если точность задана в else будет вызываться
@@ -130,6 +133,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     }
     num = (int)num;  // получение дробного числа в виде инта
   }
+  // ------------------------------------------------------
   // Записываем целое число в массив char в виде "-4." если целое число
   // отрицательное. "4." если число положительное
   symbol = num_int % 10;
@@ -144,6 +148,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     str_int[1] = '.';
     counter_symbols_str += 2;
   }
+  // ------------------------------------------------------
   // Записываем дробную часть числа в массив char
   num_i = s21_double_to_str(num, str_double, num_i, counter_symbols_str);
   s21_reverse(str_double);
@@ -170,7 +175,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_reverse(str_degree);
     s21_strcat(str_double, str_degree);  // соединяем число с степенью
   }
-  // printf("Check %s\n", str_int);
+  // ------------------------------------------------------
 
   while (multiply >= 10) {
     int check = s21_strlen(str_double) - 1;
