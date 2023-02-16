@@ -43,7 +43,6 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
 
 int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
                va_list args, Prototype *prot) {
-  (void)str;
   int e = 0;
   int num_int = 0;
   int symbol = 0;
@@ -63,7 +62,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     num = va_arg(args, long double);
   else
     num = va_arg(args, double);
-  if (num == INFINITY || num == -INFINITY || num == NAN || num == -NAN) {
+  if (num == INFINITY || num == -INFINITY) {
     int counter = 0;
     if (num == -INFINITY) {
       str[counter_symbols_str] = '-';
