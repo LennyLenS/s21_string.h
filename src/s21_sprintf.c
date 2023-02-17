@@ -5,12 +5,16 @@
 int main() {
   char str[256] = {0};
   char str1[256] = {0};
-  long double x = 0.0000003044058697058435;
-  s21_sprintf(str, "string%LE", x);
+  // char str2[256] = {0};
+  double x = 0.00003044058697058435;
+  s21_sprintf(str, "string%e", x);
   // если после знака запятой будет < 6 цифр, то нужно округлять
-  long double y = 0.0000003044058697058435;
-  sprintf(str1, "%LE", y);
-  printf("Original: %s", str1);
+  double y = 0.00003044058697058435;
+  sprintf(str1, "%e", y);
+  printf("Original: %s\n", str1);
+  // double z = 0.00002;
+  // sprintf(str2, "%G", z);
+  //  printf("Original: %s\n", str2);
 }
 
 int s21_sprintf(char *str, const char *format, ...) {
