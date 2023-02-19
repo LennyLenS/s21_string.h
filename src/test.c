@@ -1,35 +1,38 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-void shift_str(char *str, int size){
-	for(int i = size - 1; i > 0; i--){
-		str[i] = str[i - 1];
+void s21_double_to_str(double num, char *str, int pres) {
+	int n = 0;
+	double num1 = 0, num2 = num;
+	while(num >= 1){
+		num /= 10;
+		n++;
 	}
-}
-void UDecInNumSys(char *buff, unsigned int n, int mes){
-	int size_ans = 0;
-	while(n != 0){
-		size_ans += 1;
-		shift_str(buff, size_ans);
-		if(n % mes > 9){
-			buff[0] = n % mes - 10 + 'A';
-		}else{
-			buff[0] = n % mes + '0';
-		}
-		n /= mes;
+	for(int i = 0; i < n; ++i){
+		num *= 10;
+		int y = (int)num;
+		num1 = num1 * 10 + y;
+		num -= y;
+		str[0] = y + '0';
+		str++;
 	}
-	buff[size_ans + 1] = '\0';
-
-}
-
-void specifier_o(char *buff, int n){
-	unsigned num = (unsigned int)n;
-	UDecInNumSys(buff, num, 10);
+	str[0] = '.';
+	str++;
+	num2 -= num1;
+	for(int i = 0; i < pres; ++i){
+		num2 *= 10;
+		int y = (int)num2;
+		num2 -= y;
+		str[0] = y + '0';
+		str++;
+	}
+	str[0] = '\0';
 }
 
 int main(){
-    unsigned a = 1956;
-    char buff[512];
-    UDecInNumSys(buff, a, 2);
-    printf("%g", 456.5600001);
+	char buff[512];
+	double a = 3123.12;
+	s21_double_to_str(a, buff, 30);
+    printf("%s\n", buff);
+	printf("%.30f", a);
 }
