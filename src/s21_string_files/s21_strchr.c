@@ -12,5 +12,8 @@ char *s21_strchr(const char *str, int c) {
     }
     p++;
   }
+  if(c == '\0'){
+    result = (char *)p;
+  }
   return result;
 }

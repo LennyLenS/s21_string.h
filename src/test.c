@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <string.h>
-#include "s21_string.h"
+#include "s21_string_files/s21_string.h"
 
 int main(){
-    char s[] = "true\0fail";
-    char *s2 = (char *)malloc(100);
-    printf("%s", (char*)s21_memchr(s, 'i', 8));
+   char buff[512];
+   buff[0] = '\0';
+   s21_strncat(buff, "123", 2);
+
+   printf("%s", buff);
+    
+   return(0);
 }
