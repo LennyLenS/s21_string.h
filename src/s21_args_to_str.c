@@ -15,8 +15,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   //  counter_symbols_str += s21_spec_i(counter_symbols_str, str, args);
   else if (prot->spec == 'e' || prot->spec == 'E' || prot->spec == 'g' ||
            prot->spec == 'G') {
-    counter_symbols_str +=
-        s21_spec_e(counter_symbols_str, str, intermediate_str, args, prot);
+    s21_spec_e(counter_symbols_str, str, intermediate_str, args, prot);
   }
   //   else
   //     counter_symbols_str += s21_spec_e(counter_symbols_str, str, args,

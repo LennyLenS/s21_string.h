@@ -19,6 +19,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   if (num == 0 && (prot->spec == 'g' || prot->spec == 'G')) {
     str_int[0] = '0';
     s21_strcat(intermediate_str, str_int);
+    printf("Finally1: %s\n", intermediate_str);
     return intermediate_str;
   }
 
