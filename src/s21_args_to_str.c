@@ -13,7 +13,8 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   //     counter_symbols_str += s21_spec_d(counter_symbols_str, str, args);
   // else if (prot->spec == 'i')
   //  counter_symbols_str += s21_spec_i(counter_symbols_str, str, args);
-  else if (prot->spec == 'e' || prot->spec == 'E') {
+  else if (prot->spec == 'e' || prot->spec == 'E' || prot->spec == 'g' ||
+           prot->spec == 'G') {
     counter_symbols_str +=
         s21_spec_e(counter_symbols_str, str, intermediate_str, args, prot);
   }
@@ -24,9 +25,9 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   //   else if (prot->spec == 'f')
   //     counter_symbols_str += s21_spec_f(counter_symbols_str, str, args);
   // после 7-ой точности e убирается тоесть .72
-  else if (prot->spec == 'g' || prot->spec == 'G')
-    counter_symbols_str +=
-        s21_spec_g(counter_symbols_str, str, intermediate_str, args, prot);
+  // else if (prot->spec == 'g' || prot->spec == 'G')
+  //   counter_symbols_str +=
+  //       s21_spec_g(counter_symbols_str, str, intermediate_str, args, prot);
   //   else if (prot->spec == 'o')
   //     counter_symbols_str += s21_spec_o(counter_symbols_str, str, args);
   //   else if (prot->spec == 's')
