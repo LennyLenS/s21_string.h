@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdbool.h>
+#include <string.h>
 
 // %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
@@ -17,10 +18,11 @@ typedef struct {
   char length;      // Длина
 } Prototype;
 
+  #define SPACES " \t\n\v"
 
 int atoi(char *str);
 int s21_sscanf(const char *str, const char *format, ...);
-int s21_switch_scan_spec(Prototype *prot, const char *format, char *str, int i, va_list args);
+int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int i, va_list args);
 
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args);
 int s21_check_prec(const char *format, int i, int *this_is_prec, Prototype *prot, va_list args);
@@ -49,8 +51,8 @@ int main(void){
     int a = atoi("12345");
     printf("\nint+1 %d\n", (a+1));
 
-    char str[50] = "123 abc d";
-    char format[50] = "%d %10s %c";
+    char str[50] = "       123 abc d";
+    char format[50] = " %d    %10s %c";
     int dd;
     char ss[50] = {'\0'};
     char cc;
@@ -63,31 +65,60 @@ int s21_sscanf(const char *str, const char *format, ...){
   char c;
   va_list args;
   va_start(args, format);
-  int i = 0;
+  int i = 0;  // для format
+  int j = 0;  // для str
 
-
+  // strchr(const char *str, int c)
 
   while((c = format[i]) != '\0'){
     if(c != '%'){
+      // pass_spaces(int *i, int *j);
+      if(strchr(SPACES, c) != NULL) {   // SPACES определен в define
+          while (strchr(SPACES, str[j]) != NULL) {
+            j++;
+          }
+      } else if(str[j] == format[i]){
+        j++;
+      } else {
+          printf("ERROR\n");     //  СДЕЛАТЬ АВАРИЙНЫЙ ЭКЗИТ  exit;
+          break;
+      };
       i++;
+      // printf("i %d\n", i);
       continue;
     };
+
+
+    if(format[i+1] == '%') {
+      i++;
+      if(str[j] == '%') {
+        i++;
+        j++;
+        continue;
+      } else{
+          printf("ERROR_2\n");     //  СДЕЛАТЬ АВАРИЙНЫЙ ЭКЗИТ  exit;
+          break;
+      }
+    };
+    
+    
     Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, -1, '\0'};
-    // pass_spaces();
     i = s21_read_format(&prot, format, i, args);
     // void *p_args = va_arg(args, void*);
 
     s21_switch_scan_spec(&prot, format, str, i, args);
 
-
-
     i++;
     // printf("pointer - %p\n", p_args);
     // printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot.spec, prot.width_number, str, format);
   };
-
+  printf("j - %d, str[j] - %c\n", j, str[j]);
   va_end(args);
-  return i;
+  return i;    /* возвращает число, равное количеству полей, значения которых были действи­тельно присвоены переменным. 
+                  В это количество не входят поля, которые были считаны, но их значения не были ничему присвоены 
+                  вследствие использования модификатора * для подавления присваивания. Если до присвоения значения 
+                  первого поля произошла ошибка, возвращается EOF.
+                */
 }
 
 
@@ -100,7 +131,7 @@ int atoi(char *str){
   return res;
 }
 
-int s21_switch_scan_spec(Prototype *prot, const char *format, char *str, int i, va_list args){
+int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int i, va_list args){
   void *p_args;
   
   switch (prot -> spec)
