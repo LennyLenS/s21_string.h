@@ -2,11 +2,9 @@
 
 int main() {
   char str[256];
-  long int x = -244;
-  sprintf(str, "%10.10ld", x);
-  printf("%s", str);
-  // int r = '9';
-  // printf("%d", r);
+  // long int x = -244;
+  sprintf(str, "%-15.10d", 123);
+  printf("%s.\n", str);
 }
 
 // %[флаги][ширина][.точность][длина]спецификатор

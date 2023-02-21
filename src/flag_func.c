@@ -7,33 +7,29 @@ char *add_sign(char *buf_str, Prototype pr, int sign);
 char *main_func(char *str, Prototype pr);
 
 char *add_char(char *str, int n, int str_size, char c);
-// void add_char(char *str, int str_size);
-
-// char *add_sign(char *buf_str);
-
-// %[флаги][ширина][.точность][длина]спецификатор
+char *add_char_right(char *str, int n, int str_size, char c);
 
 int main() {
-  char *a = "123456";
+  char *a = "123.4567";
 
   char str[256];
-  sprintf(str, "%+10.20d", 123456);
+  sprintf(str, "%20f", 123.4567);
   printf("in lib:\n%s.\n", str);
   Prototype pr = {0};
 
-  pr.spec = 'd';
+  pr.spec = 'f';
   pr.minus_flag = 0;    // выпавниваем по левому краю
-  pr.plus_flag = 1;     // выводит знак
-  pr.width_number = 10; // ширина
-  pr.prec_number = 20;  // точность
+  pr.plus_flag = 0;     // выводит знак
+  pr.width_number = 20; // ширина
+  pr.prec_number = 0;   // точность
   // int n = strlen(a); // длина
 
-  printf("My:\n%s", main_func(a, pr));
+  printf("My:\n%s.\n", main_func(a, pr));
 
   return 0;
 }
 
-char *main_func(char *str, Prototype pr) { 
+char *main_func(char *str, Prototype pr) {
   char *res;
   int n = 4, sign_of_num;
   if (*str == '-') {
@@ -43,22 +39,39 @@ char *main_func(char *str, Prototype pr) {
     sign_of_num = 0;
   }
   printf("sign:%d\n", sign_of_num);
+   int len_drob_part;
+   char *dot_place;
+    if (pr.spec == 'f') {
+         dot_place = strstr(str, ".");
+         printf("Dot place:%s\n", dot_place);
+         len_drob_part = (int)(dot_place - strstr(str, "\0"));
+         printf("Drob part: %d\n", len_drob_part);
+         
+    }
 
-  if (n >= pr.width_number) { //ok
-    if (n >= pr.prec_number) {
-       if (pr.plus_flag == 1 || sign_of_num == 1) {
-          res = add_sign(str, pr, sign_of_num);
-        } else {
-           res = str;
-        }
-    } else if (n < pr.prec_number) {  // ok
+  if (n >= pr.width_number) { // ok
     
-     int buf = pr.prec_number - n;
-    // if (pr.plus_flag == 1 || sign_of_num == 1) {
-    //       buf--;
-    //     }
-     
-      str = add_char(str, buf-2, n+1, '0');
+    if (n >= pr.prec_number) {
+      if (pr.plus_flag == 1 || sign_of_num == 1) {
+        res = add_sign(str, pr, sign_of_num);
+      } else {
+        //  if (pr.spec == 'f') {
+        //         if (len_drob_part < 6) {
+        //             str = add_char_right(str, 6 - len_drob_part , n+ len_drob_part, '0');
+        //         }
+        //     }
+        res = str;
+      }
+    
+    
+    } else if (n < pr.prec_number) { // ok
+
+      int buf = pr.prec_number - n;
+      // if (pr.plus_flag == 1 || sign_of_num == 1) {
+      //       buf--;
+      //     }
+
+      str = add_char(str, buf - 2, n + 1, '0');
 
       if (pr.spec == 'd') {
         if (pr.plus_flag == 1 || sign_of_num == 1) {
@@ -72,33 +85,52 @@ char *main_func(char *str, Prototype pr) {
 
   else if (n < pr.width_number) {
     if (n >= pr.prec_number) { // ok
-      int buf =  pr.width_number - n;
-      
-      if (pr.spec == 'd') {
-        if (pr.plus_flag == 1 || sign_of_num == 1) {
+      int buf = pr.width_number - n;
+
+      if (pr.spec == 'd' || pr.spec =='f' ) {
+        if (pr.plus_flag || sign_of_num == 1) {
           str = add_sign(str, pr, sign_of_num);
           buf--;
         }
-        str = add_char(str, buf-2, n+2, ' ');
+
+        if (len_drob_part < 6) {
+                     str = add_char_right(str, 6 - len_drob_part , n+ len_drob_part, '0');
+                 }
+        
+        if (pr.minus_flag) {
+          if (pr.plus_flag || sign_of_num == 1) {
+            n++;
+          }
+          str = add_char_right(str, buf, strlen(str), ' ');
+        } else {
+          str = add_char(str, buf, n + 2, ' ');
+        }
         res = str;
       }
 
-    } else if (n < pr.prec_number) { 
+    } else if (n < pr.prec_number) {
       // точность и ширина больше длины - херачим пробелы и нули перед числом
-      if (pr.prec_number <= pr.width_number) { 
+      if (pr.prec_number <= pr.width_number) {
+
         printf("xuitest 2\n");
         int space_num = pr.width_number - pr.prec_number;
-        str = add_char(str, pr.prec_number - n - 2, n + 1, '0');
+        str = add_char(str, pr.prec_number - n, n, '0');
         if (pr.plus_flag == 1 || sign_of_num == 1) {
           str = add_sign(str, pr, sign_of_num);
           space_num--;
         }
-        str = add_char(str, space_num, pr.prec_number, ' ');
+        if (pr.minus_flag) {
+             str = add_char_right(str, space_num, pr.prec_number, ' ');
+        } else {
+             str = add_char(str, space_num, pr.prec_number, ' ');
+        }
+       
         res = str;
-      }
-      else if (pr.prec_number > pr.width_number) {
+
+      } else if (pr.prec_number > pr.width_number) {
+        printf("xui 0\n");
         int space_num = pr.prec_number - n;
-        str = add_char(str, space_num - 2, n + 1, '0');
+        str = add_char(str, space_num, n + 1, '0');
 
         if (pr.plus_flag == 1 || sign_of_num == 1) {
           str = add_sign(str, pr, sign_of_num);
@@ -147,10 +179,18 @@ char *add_char(char *str, int n, int str_size, char c) {
   return res;
 }
 
-/*
+char *add_char_right(char *str, int n, int str_size, char c) {
 
-   -123456
-    -123456
+  char *res = (char *)malloc((str_size + n + 1) * sizeof(char));
 
+  for (int i = 0; i < str_size + n; i++) {
+    if (i < str_size) {
+      res[i] = str[i];
+    } else {
+      res[i] = c;
+    }
+    printf("%c ", res[i]);
+  }
 
-*/
+  return res;
+}
