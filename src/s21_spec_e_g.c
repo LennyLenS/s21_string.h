@@ -9,6 +9,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   int num_i = 0;
   char str_int[512] = {'\0'};
   char str_double[270] = {'\0'};
+  char str_double_g[270] = {'\0'};
   char symbol_e = '\0';
   char str_degree[560] = {'\0'};
   bool flag_zero = false;
@@ -16,22 +17,17 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   int multiply = 1;
   int dont_write_number_with_point = 0;
   int check_g = 0;
-  // Формула экспоненты N = M*n^p
+  int precision = 6;
+  int save_multiply = 0;
   double num = 0.;
-
   if (prot->length == 'L')
     num = va_arg(args, long double);
   else
     num = va_arg(args, double);
   double save_number_for_g = num;
-  printf("%f\n", save_number_for_g);
   if (s21_check_arg(prot, counter_symbols_str, str, num) != 0)
     return intermediate_str;
   flag_zero_negative = s21_mantisssa_and_degree(&num, flag_zero, &num_int, &e);
-  // if ((prot->spec == 'g' || prot->spec == 'G') && e >= -4)
-  // {
-
-  // }
   if (num_int == 0 && (prot->spec == 'g' || prot->spec == 'G')) {
     str_int[0] = '0';
     s21_strcat(intermediate_str, str_int);
@@ -41,7 +37,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   s21_fractional_and_integer_part_of_a_number(&num_int, &num);
 
   dont_write_number_with_point = s21_rounding_and_precision_number(
-      &num, &multiply, prot, &save_number_for_g, &e, &check_g);
+      &num, &multiply, prot, &save_number_for_g, &e, &check_g, &precision);
   if (check_g != 1) {
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
@@ -58,9 +54,20 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
         &dont_write_number_with_point, &save_number_for_g, &e, prot);
-    // Пока что записано в массив "0." в num пишется 0.000112341
-    // Нужно теперь засунуть во второй массив дробную часть "000112341" и в
-    // конце объединить
+    save_multiply = multiply;
+    precision++;
+    s21_check_fractional_number_for_zeros(&multiply, str_double);
+    while (precision > 0 && multiply != 1) {
+      precision--;
+      save_multiply *= 10;
+    }
+    //  Разобраться с дробной частью частью когда степень e положительная
+    save_number_for_g *= save_multiply;
+    save_number_for_g = (int)save_number_for_g;
+    s21_double_to_str(save_number_for_g, str_double_g, num_i);
+    s21_reverse(str_double_g);
+    s21_strcat(str_double, str_double_g);
+    s21_strcat(str_int, str_double);
   }
 
   printf("Дробная часть %s\n", str_double);
@@ -148,13 +155,12 @@ void s21_fractional_and_integer_part_of_a_number(int *num_int, double *num) {
 int s21_rounding_and_precision_number(double *num, int *multiply,
                                       Prototype *prot,
                                       double *save_number_for_g, int *e,
-                                      int *check_g) {
+                                      int *check_g, int *precision) {
   // Тут идет округление числа если точность задана в else будет вызываться
   // функция точности
   // если после знака запятой будет < 6 цифр, то нужно округлять
   int flag = -1;
   int dont_write_number_with_point = 0;
-  int precision = 6;
   int counter_g = 0;
   bool flag_g_e_more_minus_four = false;
   if ((prot->spec == 'g' || prot->spec == 'G') && (*e >= -4 && *e <= 5)) {
@@ -174,30 +180,28 @@ int s21_rounding_and_precision_number(double *num, int *multiply,
     *check_g = 1;
   }
   if (prot->prec_star != -1)
-    precision = prot->prec_star;
+    *precision = prot->prec_star;
   else if (prot->prec_number != -1)
-    precision = prot->prec_number;
+    *precision = prot->prec_number;
   if (prot->prec_number == 0 || prot->prec_star == 0) {
     dont_write_number_with_point = 1;
   } else {
     if (prot->prec_number == -1 || prot->prec_star == -1) {
       if (prot->spec == 'g' || prot->spec == 'G') {
-        precision--;
+        *precision -= 1;
       }
       if (prot->length == 'L')
-        *num = roundl(*num * pow(10, precision + counter_g)) /
-               pow(10, precision + counter_g);
+        *num = roundl(*num * pow(10, *precision + counter_g)) /
+               pow(10, *precision + counter_g);
       else
-        *num = round(*num * pow(10, precision + counter_g)) /
-               pow(10, precision + counter_g);
-      if (flag_g_e_more_minus_four == false) {
-        for (int i = 0; i < precision; i++) {
-          *num *= 10;
-          flag = (int)*num;
-          if (flag == 0) *multiply *= 10;
-        }
-        *num = (int)*num;  // получение дробного числа в виде инта
+        *num = round(*num * pow(10, *precision + counter_g)) /
+               pow(10, *precision + counter_g);
+      for (int i = 0; i < *precision; i++) {
+        *num *= 10;
+        flag = (int)*num;
+        if (flag == 0) *multiply *= 10;
       }
+      *num = (int)*num;  // получение дробного числа в виде инта
     }
   }
   return dont_write_number_with_point;
@@ -210,10 +214,19 @@ void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
                                        Prototype *prot) {
   // Записываем целое число в массив char в виде "-4." если целое число
   // отрицательное. "4." если число положительное
-  if ((prot->spec == 'g' || prot->spec == 'G') && (*e >= -4 && *e <= 5))
+  bool check_g = false;
+  double send_to_function_num = 0;
+  int num_i_g = 0;
+  if ((prot->spec == 'g' || prot->spec == 'G') && (*e >= -4 && *e <= 5)) {
     *num_int = (int)*save_number_for_g;
+    check_g = true;
+  }
   // Здесь остановился стереть
-  *symbol = *num_int % 10;
+  if (check_g == true) {
+    *symbol = *num_int;
+    send_to_function_num = *symbol;
+  } else
+    *symbol = *num_int % 10;
   if (*dont_write_number_with_point == 1) {
     str_int[0] = *symbol + '0';
   } else {
@@ -224,9 +237,15 @@ void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
       str_int[2] = '.';
       *counter_symbols_str += 3;
     } else {
-      str_int[0] = *symbol + '0';
-      str_int[1] = '.';
-      *counter_symbols_str += 2;
+      if (check_g == true) {
+        num_i_g = s21_double_to_str(send_to_function_num, str_int, 0);
+        s21_reverse(str_int);
+        str_int[num_i_g] = '.';
+      } else {
+        str_int[0] = *symbol + '0';
+        str_int[1] = '.';
+        *counter_symbols_str += 2;
+      }
     }
   }
 }
@@ -238,7 +257,7 @@ int s21_concat_fractional_number_with_degree(
   // Записываем дробную часть числа в массив char и соединяем дробную число
   // с степенью
   if (*dont_write_number_with_point != 1) {
-    num_i = s21_double_to_str(num, str_double, num_i, counter_symbols_str);
+    num_i = s21_double_to_str(num, str_double, num_i);
     s21_reverse(str_double);
   }
   if (prot->spec == 'E' || prot->spec == 'G')
@@ -256,7 +275,7 @@ int s21_concat_fractional_number_with_degree(
     counter_symbols_str++;
   }
   if (e >= 10) {
-    s21_double_to_str(e, str_degree, 0, counter_symbols_str);
+    s21_double_to_str(e, str_degree, 0);
     s21_reverse(str_degree);
   } else {
     str_double[num_i + 2] = '0';
@@ -267,7 +286,7 @@ int s21_concat_fractional_number_with_degree(
     counter_symbols_str++;
   } else {
     if (e < 0) e *= -1;
-    s21_double_to_str(e, str_degree, 0, counter_symbols_str);
+    s21_double_to_str(e, str_degree, 0);
     s21_reverse(str_degree);
     s21_strcat(str_double, str_degree);  // соединяем число с степенью
   }

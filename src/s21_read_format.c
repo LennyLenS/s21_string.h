@@ -53,15 +53,27 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
 
 void s21_check_width(const char *format, int i, int *this_is_width,
                      Prototype *prot, va_list args) {
-  if (s21_check_number(format, i) == true && *this_is_width == 0) {
-    prot->width_number = s21_write_number(format, &i);
-    *this_is_width = 1;
-  } else if (prot->width_number == 0 && format[i] == '*' &&
-             *this_is_width == 0) {
+  if (prot->width_number == 0 && format[i] == '*' && *this_is_width == 0) {
     prot->width_star = va_arg(args, int);
     *this_is_width = 1;
   }
+  if (s21_check_number(format, i) == true && *this_is_width == 0) {
+    prot->width_number = s21_write_number(format, &i);
+    *this_is_width = 1;
+  }
 }
+// Функция для принтфа оставить
+// void s21_check_width(const char *format, int i, int *this_is_width,
+//                      Prototype *prot, va_list args) {
+//   if (s21_check_number(format, i) == true && *this_is_width == 0) {
+//     prot->width_number = s21_write_number(format, &i);
+//     *this_is_width = 1;
+//   } else if (prot->width_number == 0 && format[i] == '*' &&
+//              *this_is_width == 0) {
+//     prot->width_star = va_arg(args, int);
+//     *this_is_width = 1;
+//   }
+// }
 
 void s21_check_flags(const char *format, int i, Prototype *prot,
                      int *this_is_prec, int *this_is_width) {

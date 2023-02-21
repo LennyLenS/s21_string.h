@@ -1,8 +1,7 @@
 #include "functions/s21_string.h"
 #include "s21_sprintf.h"
 
-int s21_double_to_str(long double num, char *str_double, int num_i,
-                      int counter_symbols_str) {
+int s21_double_to_str(long double num, char *str_double, int num_i) {
   while (num > 0) {
     int num_double = 0;
     num_double = (int)num % 10;
@@ -10,7 +9,6 @@ int s21_double_to_str(long double num, char *str_double, int num_i,
     num_i++;
     num /= 10;
     num = (int)num;
-    counter_symbols_str++;
   }
   return num_i;
 }

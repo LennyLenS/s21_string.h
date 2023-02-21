@@ -5,6 +5,8 @@
 
 #include "functions/s21_string.h"
 
+#define PRECISION 6;
+
 // %[флаги][ширина][.точность][длина]спецификатор
 typedef struct {
   char spec;         // спецификаторы
@@ -37,8 +39,7 @@ char *s21_spec_e(int j, char *str, char *intermediate_str, va_list args,
                  Prototype *prot);
 // int s21_spec_e(int j, char *str, va_list args, Prototype *prot);
 void *s21_reverse(char *str);
-int s21_double_to_str(long double num, char *str_double, int num_i,
-                      int counter_symbols_str);
+int s21_double_to_str(long double num, char *str_double, int num_i);
 int s21_isnan(double number);
 int s21_spec_g(int counter_symbols_str, char *str, char *intermediate_str,
                va_list args, Prototype *prot);
@@ -50,7 +51,7 @@ void s21_fractional_and_integer_part_of_a_number(int *num_int, double *num);
 int s21_rounding_and_precision_number(double *num, int *multiply,
                                       Prototype *prot,
                                       double *save_number_for_g, int *e,
-                                      int *check_g);
+                                      int *check_g, int *precison);
 void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
                                        bool flag_zero_negative,
                                        int *counter_symbols_str,
