@@ -13,25 +13,25 @@ int main() {
   char *a = "123.4567";
 
   char str[256];
-  sprintf(str, "%20f", 123.4567);
-  printf("in lib:\n%s.\n", str);
+  sprintf(str, "%+2.2f", 123.4567);
+  printf("in lib:\n%s!\n", str);
   Prototype pr = {0};
 
   pr.spec = 'f';
   pr.minus_flag = 0;    // выпавниваем по левому краю
-  pr.plus_flag = 0;     // выводит знак
-  pr.width_number = 20; // ширина
-  pr.prec_number = 0;   // точность
+  pr.plus_flag = 1;     // выводит знак
+  pr.width_number = 2; // ширина
+  pr.prec_number = 2;   // точность
   // int n = strlen(a); // длина
 
-  printf("My:\n%s.\n", main_func(a, pr));
+  printf("My:\n%s!\n", main_func(a, pr));
 
   return 0;
 }
 
 char *main_func(char *str, Prototype pr) {
   char *res;
-  int n = 4, sign_of_num;
+  int n = strlen(str), sign_of_num;
   if (*str == '-') {
     sign_of_num = 1;
     str = str + 1;
@@ -44,33 +44,34 @@ char *main_func(char *str, Prototype pr) {
     if (pr.spec == 'f') {
          dot_place = strstr(str, ".");
          printf("Dot place:%s\n", dot_place);
-         len_drob_part = (int)(dot_place - strstr(str, "\0"));
+         len_drob_part = (int)(strlen(dot_place) - 1);
          printf("Drob part: %d\n", len_drob_part);
+         n = len_drob_part;
          
     }
 
   if (n >= pr.width_number) { // ok
-    
     if (n >= pr.prec_number) {
-      if (pr.plus_flag == 1 || sign_of_num == 1) {
-        res = add_sign(str, pr, sign_of_num);
-      } else {
-        //  if (pr.spec == 'f') {
-        //         if (len_drob_part < 6) {
-        //             str = add_char_right(str, 6 - len_drob_part , n+ len_drob_part, '0');
-        //         }
-        //     }
-        res = str;
-      }
+      
+      if (pr.spec == 'd') {
+        if (pr.plus_flag == 1 || sign_of_num == 1) {
+          res = add_sign(str, pr, sign_of_num);
+        } else {
+            res = str;
+        } 
+      } else if (pr.spec == 'f') {
+        printf("1 case\n");
+          if (pr.plus_flag == 1 || sign_of_num == 1) {
+            str = add_sign(str, pr, sign_of_num);
+          }
+        memcpy(res, str, strlen(str)- len_drob_part + pr.prec_number);
+        
+      } 
     
     
     } else if (n < pr.prec_number) { // ok
 
       int buf = pr.prec_number - n;
-      // if (pr.plus_flag == 1 || sign_of_num == 1) {
-      //       buf--;
-      //     }
-
       str = add_char(str, buf - 2, n + 1, '0');
 
       if (pr.spec == 'd') {
@@ -94,16 +95,19 @@ char *main_func(char *str, Prototype pr) {
         }
 
         if (len_drob_part < 6) {
-                     str = add_char_right(str, 6 - len_drob_part , n+ len_drob_part, '0');
-                 }
+            printf("xui 0\n");
+            str = add_char_right(str, 6 - len_drob_part, n, '0');
+        }
         
         if (pr.minus_flag) {
           if (pr.plus_flag || sign_of_num == 1) {
             n++;
           }
+          //printf("xui 1\n");
           str = add_char_right(str, buf, strlen(str), ' ');
         } else {
-          str = add_char(str, buf, n + 2, ' ');
+          printf("xui 1\n");
+          str = add_char(str, buf-1, n + 1, ' ');
         }
         res = str;
       }
@@ -112,7 +116,7 @@ char *main_func(char *str, Prototype pr) {
       // точность и ширина больше длины - херачим пробелы и нули перед числом
       if (pr.prec_number <= pr.width_number) {
 
-        printf("xuitest 2\n");
+        // printf("xuitest 2\n");
         int space_num = pr.width_number - pr.prec_number;
         str = add_char(str, pr.prec_number - n, n, '0');
         if (pr.plus_flag == 1 || sign_of_num == 1) {
@@ -128,7 +132,7 @@ char *main_func(char *str, Prototype pr) {
         res = str;
 
       } else if (pr.prec_number > pr.width_number) {
-        printf("xui 0\n");
+        // printf("xui 0\n");
         int space_num = pr.prec_number - n;
         str = add_char(str, space_num, n + 1, '0');
 
@@ -189,7 +193,7 @@ char *add_char_right(char *str, int n, int str_size, char c) {
     } else {
       res[i] = c;
     }
-    printf("%c ", res[i]);
+    // printf("%c ", res[i]);
   }
 
   return res;
