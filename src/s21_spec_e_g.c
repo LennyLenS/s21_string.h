@@ -14,6 +14,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   char str_degree[560] = {'\0'};
   bool flag_zero = false;
   bool flag_zero_negative = false;
+  bool flag_minus_num = false;
   bool check_num_i_g = false;
   int multiply = 1;
   int dont_write_number_with_point = 0;
@@ -45,11 +46,13 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   if (check_g != 1) {
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
-        &dont_write_number_with_point, &save_number_for_g, &e, prot, &num_i_g);
+        &dont_write_number_with_point, &save_number_for_g, &e, prot, &num_i_g,
+        flag_minus_num);
     counter_symbols_str = s21_concat_fractional_number_with_degree(
         num_i, counter_symbols_str, str_double, num, prot, symbol_e, e,
         str_degree, &dont_write_number_with_point);
-    s21_check_fractional_number_for_zeros(&multiply, str_double);
+    s21_check_fractional_number_for_zeros(&multiply, str_double,
+                                          flag_minus_num);
 
     s21_strcat(str_int, str_double);  // соединяем 2 строки получаем число
     s21_strcat(intermediate_str,
@@ -57,10 +60,12 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   } else {
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
-        &dont_write_number_with_point, &save_number_for_g, &e, prot, &num_i_g);
+        &dont_write_number_with_point, &save_number_for_g, &e, prot, &num_i_g,
+        flag_minus_num);
     save_multiply = multiply;
     precision++;
-    s21_check_fractional_number_for_zeros(&multiply, str_double);
+    s21_check_fractional_number_for_zeros(&multiply, str_double,
+                                          flag_minus_num);
     while (precision > 0 && multiply != 1) {
       precision--;
       save_multiply *= 10;
@@ -148,6 +153,8 @@ bool s21_mantisssa_and_degree(double *num, bool flag_zero, int *num_int,
   bool flag_zero_negative = false;
   if (*num == 0) flag_zero = true;
   if (1.0 / *num == -INFINITY) flag_zero_negative = true;
+  // else if (*num < 0.0)
+  //   flag_zero_negative = true;
   *num_int = (int)*num;  // целая часть дробного числа
   // Мантисса + подсчет степени
   if (*num >= 1 || *num <= -1 || flag_zero == true) {
@@ -236,7 +243,8 @@ void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
                                        int *counter_symbols_str,
                                        int *dont_write_number_with_point,
                                        double *save_number_for_g, int *e,
-                                       Prototype *prot, int *num_i_g) {
+                                       Prototype *prot, int *num_i_g,
+                                       bool flag_minus_num) {
   // Записываем целое число в массив char в виде "-4." если целое число
   // отрицательное. "4." если число положительное
   bool check_g = false;
@@ -254,7 +262,8 @@ void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
   if (*dont_write_number_with_point == 1) {
     str_int[0] = *symbol + '0';
   } else {
-    if (*symbol < 0 || flag_zero_negative == true) {
+    if ((*symbol < 0 || flag_zero_negative == true) &&
+        check_g == false) {  // если e будет мб ошибка
       *symbol *= -1;
       str_int[0] = '-';
       str_int[1] = *symbol + '0';
@@ -263,12 +272,31 @@ void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
     } else {
       if (check_g == true) {
         *num_i_g = s21_double_to_str(send_to_function_num, str_int, 0);
-        if (*num_i_g == 0) {
+        if (*num_i_g == 0 && send_to_function_num >= 0 &&
+            flag_zero_negative == false) {
           str_int[0] = '0';
           str_int[1] = '.';
         } else {
           s21_reverse(str_int);
-          str_int[*num_i_g] = '.';
+          if (flag_zero_negative == false && send_to_function_num >= 0)
+            str_int[*num_i_g] = '.';
+        }
+        if (flag_zero_negative == true) {
+          send_to_function_num *= -1;
+          str_int[0] = '-';
+          str_int[1] = '0';
+          str_int[2] = '.';
+        }
+        if ((*num_i_g == 0 && send_to_function_num < 0) &&
+            flag_zero_negative == false) {
+          int counter = 10;
+          flag_minus_num = true;
+          send_to_function_num *= -1;
+          *num_i_g = s21_double_to_str(send_to_function_num, str_int, 0);
+          s21_reverse(str_int);
+          s21_check_fractional_number_for_zeros(&counter, str_int,
+                                                flag_minus_num);
+          str_int[*num_i_g + 1] = '.';
         }
         if (*num_i_g == 6) str_int[*num_i_g] = '\0';
       } else {
@@ -323,14 +351,19 @@ int s21_concat_fractional_number_with_degree(
   return counter_symbols_str;
 }
 
-void s21_check_fractional_number_for_zeros(int *multiply, char *str_double) {
+void s21_check_fractional_number_for_zeros(int *multiply, char *str_double,
+                                           bool flag_minus_num) {
   // Проверка на то,что есть ли в дробной части нули
+  // Обнулить bool minus_num потому что эту функцию еще раз вызываю
   while (*multiply >= 10) {
     int check = s21_strlen(str_double) - 1;
     for (; check >= 0; check--) {
       str_double[check + 1] = str_double[check];
     }
-    str_double[0] = '0';
+    if (flag_minus_num == true) {
+      str_double[0] = '-';
+    } else
+      str_double[0] = '0';
     *multiply /= 10;
   }
 }
