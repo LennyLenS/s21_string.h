@@ -6,10 +6,10 @@ int main() {
   char str[256] = {0};
   char str1[256] = {0};
   // char str2[256] = {0};
-  double x = -0.000789;
+  double x = 123.100789;
   s21_sprintf(str, "%g", x);
   // если после знака запятой будет < 6 цифр, то нужно округлять
-  double y = -0.000789;
+  double y = 123.100789;
   sprintf(str1, "%g", y);
   printf("Original: %s\n", str1);
   // double z = 13044.058697058435;
