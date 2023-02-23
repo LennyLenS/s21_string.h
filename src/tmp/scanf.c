@@ -27,6 +27,7 @@ int isNumber(char c);
 int s21_sscanf(const char *str, const char *format, ...);
 int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int *j, va_list args);
 int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args, int width_counter, int *j);
+int scanf_spec_c(Prototype *prot, const char *str,  char *buff_str, va_list args, int *j);
 
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args);
 int s21_check_prec(const char *format, int i, int *this_is_prec, Prototype *prot, va_list args);
@@ -55,14 +56,18 @@ int main(void){
     int a = atoi("12345");
     printf("\nint+1 %d\n", (a+1));
 
-    char str[50] = "       -1234 567 abc d";
-    char format[50] = " %2d   %d %10s %c";
+    char str[50] = "       -1234 567 ab/ c d";
+    char format[50] = " %d   %d  %c";
     int dd;
     int tt;
-    char ss[50] = {'\0'};
+    // char ss[50] = {'\0'};
     char cc;
-    int t = s21_sscanf(str, format, &dd, &tt, &ss, &cc);
-    printf("t = %d  dd=%d  tt=%d\n", t, dd, tt);
+    // char cc[50] = {'\0'};
+    int t = s21_sscanf(str, format, &dd, &tt, &cc);  // ИДИОТ
+    printf("t = %d  dd=%d  tt=%d  cc=%c\n", t, dd, tt, cc);
+    // for(int i = 0; i < 6; i++){
+    //   printf("cc %d %c\n", i, cc[i]);
+    // };
   return 0;
 }
 
@@ -143,15 +148,20 @@ int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, i
     write_count += scanf_spec_d(prot, str, buff_str, args, width_counter, j);
     *j += strlen(buff_str);
 
+
+    // Проверить *
+
     printf("pointer - %p\n", tmp_args);
     printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, prot -> width_number, str, format);
     break;
 
   case 'c':
-  tmp_args = va_arg(args, void*);
+    write_count += scanf_spec_c(prot, str, buff_str, args, j);
+    *j += strlen(buff_str);
 
-printf("pointer - %p\n", tmp_args);
-printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, prot -> width_number, str, format);
+
+    printf("pointer - %p\n", tmp_args);
+    printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, prot -> width_number, str, format);
     break;
 
   case 's':
@@ -166,12 +176,35 @@ printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, pr
   return write_count;
 }
 
+int scanf_spec_c(Prototype *prot, const char *str,  char *buff_str, va_list args, int *j){
+  char *p_args = NULL;
+  int k = 0;
+  p_args = va_arg(args, char*);
+  if(prot -> width_number <= 1){
+    *p_args = str[*j];
+  } else {
+    while(k < prot -> width_number){
+      // buff_str[k] = str[*j + k];
+      *(p_args + k) = str[*j + k];
+      printf("p %c\n", *(p_args + k));
+      k++;
+    };
+    printf("buf %s\n", buff_str);
+    // strcpy(p_args, buff_str);
+    printf("buf2 %s\n", p_args);
+
+    // не работает ширина, strcpy не копирует буфер
+
+
+  };
+  return 1;
+}
 
 int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args, int width_counter, int *j){
   void *p_args = NULL;
   int k = 0;
   int write_count = 0;
-  int numb;   // подумать, что сделать если первая сразу не цифра
+  long long int numb = 0;   // подумать, что сделать если первая сразу не цифра
   p_args = va_arg(args, int*);
   if(str[*j + k] == '-'){
     buff_str[k] = str[*j + k];
@@ -181,7 +214,7 @@ int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args
     if(isNumber(str[*j + k])){
       buff_str[k] = str[*j + k];
     } else {
-      if(k == 0)  buff_str[k] = 0;   //  СДЕЛАТЬ АВАРИЙНЫЙ ЭКЗИТ  exit если первая не цифра;
+      if(k == 0)  buff_str[k] = 0;   //  ??СДЕЛАТЬ АВАРИЙНЫЙ ЭКЗИТ  exit если первая не цифра;
       break;
     };
     // printf("%c", str[*j + k]);
@@ -190,6 +223,7 @@ int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args
   }
 
   numb = atoi(buff_str);
+  if(prot -> length == 'l' && numb > LONG_MAX) numb = LONG_MAX;
   // Если *, то пропуск
   if(prot -> width_star != '*'){
     *(int *)p_args = numb;
