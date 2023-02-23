@@ -109,6 +109,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
                                                 flag_minus_num_g);
     if (num_i_g == 0 && check_num_i_g == false)
       save_number_for_g *= multiply_for_fractional_num;
+    // ТУТ ТОЖЕ НАДО ОКРУГЛЯТЬ
     else {
       save_number_for_g *= multiply_num_i_g;
       save_number_for_g =
