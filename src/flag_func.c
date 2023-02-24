@@ -1,6 +1,7 @@
 #include "s21_sprintf.h"
 #include "s21_string.h"
-// #include <malloc.h>
+#include <malloc.h>
+#include <string.h>
 
 char *add_sign(char *buf_str, Prototype pr, int sign);
 
@@ -20,8 +21,8 @@ int main() {
   pr.spec = 'f';
   pr.minus_flag = 0;    // выпавниваем по левому краю
   pr.plus_flag = 1;     // выводит знак
-  pr.width_number = 2; // ширина
-  pr.prec_number = 2;   // точность
+  pr.width_number = 0; // ширина
+  pr.prec_number = 0;   // точность
   // int n = strlen(a); // длина
 
   printf("My:\n%s!\n", main_func(a, pr));
@@ -30,7 +31,7 @@ int main() {
 }
 
 char *main_func(char *str, Prototype pr) {
-  char *res;
+  char *res, *buf_res; 
   int n = strlen(str), sign_of_num;
   if (*str == '-') {
     sign_of_num = 1;
@@ -62,10 +63,10 @@ char *main_func(char *str, Prototype pr) {
       } else if (pr.spec == 'f') {
         printf("1 case\n");
           if (pr.plus_flag == 1 || sign_of_num == 1) {
-            str = add_sign(str, pr, sign_of_num);
+            buf_res = add_sign(str, pr, sign_of_num);
           }
-        memcpy(res, str, strlen(str)- len_drob_part + pr.prec_number);
-        
+        memcpy(res, buf_res, strlen(str)- len_drob_part + pr.prec_number);
+        //res = buf_res;
       } 
     
     
@@ -80,6 +81,8 @@ char *main_func(char *str, Prototype pr) {
         } else {
           res = str;
         }
+      } else if (pr.spec == 'f') {
+          printf("2 case\n");
       }
     }
   }
