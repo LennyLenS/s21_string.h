@@ -1,5 +1,5 @@
 #include "s21_sprintf.h"
-
+// Парсер %
 // %[флаги][ширина][.точность][длина]спецификатор
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
   int this_is_width = 0;
@@ -62,18 +62,6 @@ void s21_check_width(const char *format, int i, int *this_is_width,
     *this_is_width = 1;
   }
 }
-// Функция для принтфа оставить
-// void s21_check_width(const char *format, int i, int *this_is_width,
-//                      Prototype *prot, va_list args) {
-//   if (s21_check_number(format, i) == true && *this_is_width == 0) {
-//     prot->width_number = s21_write_number(format, &i);
-//     *this_is_width = 1;
-//   } else if (prot->width_number == 0 && format[i] == '*' &&
-//              *this_is_width == 0) {
-//     prot->width_star = va_arg(args, int);
-//     *this_is_width = 1;
-//   }
-// }
 
 void s21_check_flags(const char *format, int i, Prototype *prot,
                      int *this_is_prec, int *this_is_width) {

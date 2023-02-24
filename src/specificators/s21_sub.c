@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "functions/s21_string.h"
 #include "s21_sprintf.h"
 

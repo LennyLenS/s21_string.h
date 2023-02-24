@@ -1,21 +1,6 @@
 #include "s21_sprintf.h"
 
-#include "functions/s21_string.h"
-
-int main() {
-  char str[256] = {0};
-  char str1[256] = {0};
-  // char str2[256] = {0};
-  double x = 123.100789;
-  s21_sprintf(str, "%g", x);
-  // если после знака запятой будет < 6 цифр, то нужно округлять
-  double y = 123.100789;
-  sprintf(str1, "%g", y);
-  printf("Original: %s\n", str1);
-  // double z = 13044.058697058435;
-  // sprintf(str2, "%.7e", z);
-  // printf("Original: %s\n", str2);
-}
+#include "s21_string_files/s21_string.h"
 
 int s21_sprintf(char *str, const char *format, ...) {
   int result = 0;
