@@ -1,38 +1,69 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+void shift_str(char *str, int size){
+	for(int i = size - 1; i > 0; -i){
+		str[i] = str[i - 1];
+	}
+}
+
 void s21_double_to_str(double num, char *str, int pres) {
-	int n = 0;
+	int count_before_dot = 0, index = 0;
 	double num1 = 0, num2 = num;
 	while(num >= 1){
 		num /= 10;
-		n++;
+		count_before_dot++;
 	}
-	for(int i = 0; i < n; ++i){
+	for(int i = 0; i < count_before_dot; ++i){
 		num *= 10;
 		int y = (int)num;
 		num1 = num1 * 10 + y;
 		num -= y;
-		str[0] = y + '0';
-		str++;
+		str[index++] = y + '0';
 	}
-	str[0] = '.';
-	str++;
+	if(count_before_dot == 0){
+		str[index++] = '0';
+	}
+	str[index++] = '.';
 	num2 -= num1;
 	for(int i = 0; i < pres; ++i){
 		num2 *= 10;
 		int y = (int)num2;
 		num2 -= y;
-		str[0] = y + '0';
-		str++;
+		str[index++] = y + '0';
 	}
-	str[0] = '\0';
+
+
+	num2 *= 10;
+	int y = (int)num2;
+	if(y >= 5){
+		int trans = 1;
+		for(int i = count_before_dot + pres; i > 0; --i){
+			if(str[i] != '.'){
+				int a = str[i] - '0';
+				str[i] = (a + trans) % 10 + '0';
+				trans = (a + 1) / 10;
+			}
+		}
+
+		if(trans == 1 && str[0] == '9'){
+			shift_str(str, count_before_dot + pres + 1);
+			str[1] = '0';
+			str[0] = '1';
+		}
+		else if(trans == 1){
+			str[0] = str[0] + 1;
+		}
+
+	}
+	str[index] = '\0';
 }
 
 int main(){
 	char buff[512];
-	double a = 3123.12;
-	s21_double_to_str(a, buff, 30);
+	double a = 2.999;
+	s21_double_to_str(a, buff, 2);
     printf("%s\n", buff);
-	printf("%.30f", a);
+	printf("%.2f", a);
 }
