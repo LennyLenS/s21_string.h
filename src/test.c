@@ -5,9 +5,8 @@
 int main(){
    char buff[512];
    buff[0] = '\0';
-   s21_strncat(buff, "123", 2);
 
-   printf("%s", buff);
-    
+   printf("%s\n", s21_strerror(97));
+   printf("%s", strerror(98));
    return(0);
 }

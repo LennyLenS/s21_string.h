@@ -114,10 +114,17 @@ static const char *maserror[] = {
     "Attribute not found",
     "Bad message",
     "EMULTIHOP (Reserved)",
-    "No message available on STREAM ENOLINK(Reserved)",
-    "No STREAM resources Not a STREAM Protocol error STREAM ioctl timeout",
-    "Operation not supported on socket Policy not found State not recoverable",
-    "Previous owner died Interface output queue is full"};
+    "No message available on STREAM",
+    "ENOLINK (Reserved)",
+    "No STREAM resources",
+    "Not a STREAM",
+    "Protocol error",
+    "STREAM ioctl timeout",
+    "Operation not supported on socket",
+    "Policy not found",
+    "State not recoverable",
+    "Previous owner died",
+    "Interface output queue is full"};
 
 // Ошибки strerror на linux всего 131 ошибка, когда код ошибки > 131 или < 0 то
 // выводиться No error information

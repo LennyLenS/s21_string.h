@@ -335,6 +335,56 @@ START_TEST(strspn9) {
 }
 END_TEST
 
+START_TEST(strcspn1) {
+  char str1[50] = "24634673658346";
+  char str2[50] = "0000";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+START_TEST(strcspn2) {
+  char str1[50] = "24634673658346";
+  char str2[50] = "426";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+START_TEST(strcspn3) {
+  char str1[50] = "";
+  char str2[50] = "426";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+START_TEST(strcspn4) {
+  char str1[50] = "24634673658346";
+  char str2[50] = "";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+START_TEST(strcspn5) {
+  char str1[50] = "";
+  char str2[50] = "";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+START_TEST(strcspn6) {
+  char str1[50] = "24634673658346";
+  char str2[50] = "dfrg";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+START_TEST(strcspn7) {
+  char str1[50] = "24634673658346";
+  char str2[50] = "24634673658346";
+  ck_assert_int_eq(s21_strcspn(str1, str2), strcspn(str1, str2));
+}
+END_TEST
+
+
 START_TEST(to_upper1) {
   char *str =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 01234567890 *-+/=";
@@ -571,6 +621,15 @@ Suite *example_suite_create(void) {
   tcase_add_test(tcase_core, strspn7);
   tcase_add_test(tcase_core, strspn8);
   tcase_add_test(tcase_core, strspn9);
+
+  tcase_add_test(tcase_core, strcspn1);
+  tcase_add_test(tcase_core, strcspn2);
+  tcase_add_test(tcase_core, strcspn3);
+  tcase_add_test(tcase_core, strcspn4);
+  tcase_add_test(tcase_core, strcspn5);
+  tcase_add_test(tcase_core, strcspn6);
+  tcase_add_test(tcase_core, strcspn7);
+
 
   tcase_add_test(tcase_core, to_upper1);
 

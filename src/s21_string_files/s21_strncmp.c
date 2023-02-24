@@ -9,6 +9,10 @@ int s21_strncmp(const char *str1, const char *str2, size_t n) {
     str2++;
     if (*str1 == '\0' && *str2 == '\0') flag = 0;
   }
-  res = *str1 - *str2;
+  if(n == 0){
+    res = 0;
+  }else{
+    res = *str1 - *str2;
+  }
   return res;
 }

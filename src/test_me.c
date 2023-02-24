@@ -1,4 +1,4 @@
-#include "test_me.h"
+#include "test_1/test_me.h"
 
 int main(void) {
   int failed = 0;
@@ -21,8 +21,7 @@ int main(void) {
                               test_strrchr(),
                               test_strspn(),
                               test_strstr(),
-                              test_strtok(),
-                              NULL};
+                              test_strtok(),};
 
   for (int i = 0; s21_string_test[i] != NULL; i++) {  // (&& failed == 0)
     SRunner *sr = srunner_create(s21_string_test[i]);

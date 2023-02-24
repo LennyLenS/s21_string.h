@@ -4,7 +4,7 @@ TEST_FLAGS=-lcheck -lm -lpthread
 GCOV_FLAGS=--coverage -Wall -Wextra -Werror
 SOURCES=s21_string_files/*.c
 OBJECTS=*.o
-TESTS_SOURCES=test_main.c $(wildcard tests/*.c)
+TESTS_SOURCES=test_me.c $(wildcard test_1/*.c)
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 EXECUTABLE=s21_string
 LIBRARY = s21_string.a
