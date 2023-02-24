@@ -21,8 +21,9 @@ int prep_string(char *str, char *strng_arg, int n, int j);
 void *s21_reverse (char *str);
 int s21_spec_c(char *str, va_list args, Prototype *prot, int j);
 int s21_spec_s(char *str, va_list args, Prototype *prot, int j);
-int s21_spec_id(char *str, va_list args, Prototype *prot, char *charbuf, int j);
+int s21_spec_id(va_list args, Prototype *prot, char *charbuf, int j);
 void s21_spec_n(va_list args, int j);
+int s21_spec_p(va_list args, Prototype *prot, char *charbuf);
 
 void UDecInNumSys(char *buff, unsigned long long int n, int mes);
 void shift_str(char *str, int size);
@@ -101,7 +102,7 @@ int s21_sprintf(char *str, const char *format, ...) {
         {
             case 'i':
             case 'd':
-                j += s21_spec_id(str, args, &prot, charbuf, j);
+                j += s21_spec_id(args, &prot, charbuf, j);
                 break;
             case 'c':
                 j += s21_spec_c(str, args, &prot, j);
@@ -110,7 +111,7 @@ int s21_sprintf(char *str, const char *format, ...) {
                 j += s21_spec_s(str, args, &prot, j);
                 break;
             case 'p':    //     указатель привести к longlongint потом конвертировать в 16тиричное число и в строку.
-                j += s21_spec_p(str, args, &prot, charbuf);
+                j += s21_spec_p(args, &prot, charbuf);
                 break;
             case 'n':
                 s21_spec_n(args, j);
@@ -155,14 +156,14 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes){     //  изм
 	buff[size_ans + 1] = '\0';
 }
 
-int s21_spec_p(char *str, va_list args, Prototype *prot, char *charbuf){
+int s21_spec_p(va_list args, Prototype *prot, char *charbuf){
     void *num = va_arg(args, void*);
     char buff[512] = {'\0'};
     // printf("pt1 %p \n", num);
     long long int num2 = (long long int)num;
     UDecInNumSys(buff, num2, 16);   // Добавить флаг
-    s21_strncpy(charbuf, "0x");
-    s21_strncpy(charbuf, buff);
+    strcpy(charbuf, "0x");
+    strcpy(charbuf, buff);
     // printf("pt2 0x%s \n", buff);
     return strlen(charbuf);
 }
@@ -176,7 +177,7 @@ void s21_spec_n(va_list args, int j){
 
 // удалить все после /* */
 // уточнить нужно ли возвращать длину строки
-int s21_spec_id(char *str, va_list args, Prototype *prot, char *charbuf, int j) {
+int s21_spec_id(va_list args, Prototype *prot, char *charbuf, int j) {
     int len = 0;
     int i = 0;
     long int num = 0;
@@ -269,13 +270,13 @@ int s21_spec_c(char *str, va_list args, Prototype *prot, int j) {
 }
 
 
-int print_spaces(char *str, int n, int j) {
+int print_spaces(char *str, int n, int j) {  // толко для спецификаторов %c %s
     for(int i = 0; i < n; i++)
         str[j + i] = ' ';
     return n;
 }
 
-int prep_string(char *str, char *strng_arg, int n, int j) {
+int prep_string(char *str, char *strng_arg, int n, int j) {  // толко для спецификаторов %c %s
     for(int i = 0; i < n; i++){
         str[j + i] = strng_arg[i];
     };
