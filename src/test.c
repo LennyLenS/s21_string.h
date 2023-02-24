@@ -2,11 +2,12 @@
 #include <string.h>
 #include "s21_string_files/s21_string.h"
 
-int main(){
-   char buff[512];
-   buff[0] = '\0';
-
-   printf("%s\n", s21_strerror(97));
-   printf("%s", strerror(98));
-   return(0);
+int main()
+{
+   char s1[] = "\0Hello, world!";
+  char s2[] = "\0Hello, world!";
+  char s3[] = "";
+  printf("%s", s21_strtok(s2, s3));
+ 
+    return 0;
 }

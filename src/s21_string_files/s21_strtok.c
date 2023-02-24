@@ -1,14 +1,16 @@
 #include "s21_string.h"
-
+#include <stdio.h>
 char *s21_strtok(char *str, const char *delim) {
   int str_ind = 0;
   static int ret_ind;
-  static char *str_cash;
-
+  static char *str_cash = NULL;
   static int first_time;
   if (str == S21_NULL && first_time == 0) {
     return S21_NULL;
   };
+  if(str_cash == NULL && str == S21_NULL){
+    return S21_NULL;
+  }
   first_time = 1;
 
   if (str != S21_NULL) {
@@ -19,6 +21,7 @@ char *s21_strtok(char *str, const char *delim) {
   if (str == S21_NULL) {
     str = str_cash;
   };
+  
   while (str[str_ind] != '\0') {
     int delim_ind = 0;
     int match_count = 0;
@@ -32,9 +35,12 @@ char *s21_strtok(char *str, const char *delim) {
     if (match_count == 0) break;
     str_ind++;
   };
-  if ((int)s21_strlen(str) == str_ind)
+
+  if ((int)s21_strlen(str) == str_ind){
+    str_cash = NULL;
     return S21_NULL;  //  если строка пустая или полностью состоит из
                       //  разделителей.
+  }
   ret_ind = str_ind;
 
   while (str[str_ind] != '\0') {
@@ -53,5 +59,6 @@ char *s21_strtok(char *str, const char *delim) {
   }
   if (str[ret_ind] == '\0') return S21_NULL;
   str_cash = &str[str_ind];
+  // printf("%s\n", str_cash);
   return &str[ret_ind];
 }
