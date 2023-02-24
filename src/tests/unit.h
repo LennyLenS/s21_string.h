@@ -16,6 +16,8 @@ Suite *suite_s21_strlen();
 Suite *suite_s21_strncat();
 Suite *suite_s21_strchr();
 Suite *suite_s21_strpbrk();
+Suite *suite_s21_strrchr();
 Suite *example_suite_create();
+Suite *suite_s21_strspn();
 Suite *arn_test();
 #endif  //  SRC_TESTS_UNIT_H
