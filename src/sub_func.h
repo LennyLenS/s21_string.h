@@ -19,9 +19,16 @@ typedef struct {
   char length;      // Длина
 } Prototype;
 
-char *DecInHex(int n);
-char *DecInOct(int n);
-char *DecInBin(int n);
+void shift_str(char *str, int size);
 
-char *specifier_o(unsigned int n);
+void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag);
+
+int specifier_o(char *buff, va_list args, Prototype prot);
+
+int specifier_u(char *buff, va_list args, Prototype prot);
+
+int specifier_X(char *buff, va_list args, Prototype prot);
+
+void s21_double_to_str(double num, char *str, int pres);
+int specifier_f(char *buff, va_list args, Prototype prot);
 #endif

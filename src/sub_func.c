@@ -24,7 +24,7 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 	buff[size_ans] = '\0';
 }
 
-void specifier_o(char *buff, va_list args, Prototype prot){
+int specifier_o(char *buff, va_list args, Prototype prot){
 	if(prot.length == 'L'){
 		unsigned long int num = va_arg(args, unsigned long int);
 		UDecInNumSys(buff, num, 10, 0);
@@ -33,9 +33,11 @@ void specifier_o(char *buff, va_list args, Prototype prot){
 		unsigned int num = va_arg(args, unsigned int);
 		UDecInNumSys(buff, num, 10, 0);
 	}
+
+	return s21_strlen(buff);
 }
 
-void specifier_u(char *buff, va_list args, Prototype prot){
+int specifier_u(char *buff, va_list args, Prototype prot){
 	if(prot.length == 'L'){
 		unsigned long int num = va_arg(args, unsigned long int);
 		UDecInNumSys(buff, num, 8, 0);
@@ -44,9 +46,10 @@ void specifier_u(char *buff, va_list args, Prototype prot){
 		unsigned int num = va_arg(args, unsigned int);
 		UDecInNumSys(buff, num, 8, 0);
 	}
+	return s21_strlen(buff);
 }
 
-void specifier_x(char *buff, va_list args, Prototype prot){
+int specifier_x(char *buff, va_list args, Prototype prot){
 	if(prot.length == 'L'){
 		unsigned long int num = va_arg(args, unsigned long int);
 		UDecInNumSys(buff, num, 16, 0);
@@ -55,9 +58,11 @@ void specifier_x(char *buff, va_list args, Prototype prot){
 		unsigned int num = va_arg(args, unsigned int);
 		UDecInNumSys(buff, num, 16, 0);
 	}
+
+	return s21_strlen(buff);
 }
 
-void specifier_X(char *buff, va_list args, Prototype prot){
+int specifier_X(char *buff, va_list args, Prototype prot){
 	if(prot.length == 'L'){
 		unsigned long int num = va_arg(args, unsigned long int);
 		UDecInNumSys(buff, num, 16, 1);
@@ -66,6 +71,8 @@ void specifier_X(char *buff, va_list args, Prototype prot){
 		unsigned int num = va_arg(args, unsigned int);
 		UDecInNumSys(buff, num, 16, 1);
 	}
+
+	return s21_strlen(buff);
 }
 
 void s21_double_to_str(double num, char *str, int pres) {
@@ -120,7 +127,7 @@ void s21_double_to_str(double num, char *str, int pres) {
 	str[index] = '\0';
 }
 
-void specifier_f(char *buff, va_list args, Prototype prot){
+int specifier_f(char *buff, va_list args, Prototype prot){
 	if(prot.prec_number == -1){
 		prot.prec_number = 6;
 	}
@@ -132,5 +139,6 @@ void specifier_f(char *buff, va_list args, Prototype prot){
 		double a = va_arg(args, double);
 		LongDoubleInStr(buff, a, prot.prec_number);
 	}
+	return s21_strlen(buff);
 }
 
