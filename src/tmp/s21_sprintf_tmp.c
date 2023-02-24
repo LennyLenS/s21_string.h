@@ -110,14 +110,7 @@ int s21_sprintf(char *str, const char *format, ...) {
                 j += s21_spec_s(str, args, &prot, j);
                 break;
             case 'p':    //     указатель привести к longlongint потом конвертировать в 16тиричное число и в строку.
-                ;
-                // long long int num = (long long int)va_arg(args, void*);
-                void *num = va_arg(args, void*);
-                printf("pt1 %p \n", num);
-                long long int num2 = (long long int)num;
-                char buff[512] = {'\0'};
-                UDecInNumSys(buff, num2, 16);
-                printf("pt2 0x%s \n", buff);
+                j += s21_spec_p(str, args, &prot, charbuf);
                 break;
             case 'n':
                 s21_spec_n(args, j);
@@ -136,6 +129,7 @@ int s21_sprintf(char *str, const char *format, ...) {
     // j++;
     return j;
 }
+
 
 void shift_str(char *str, int size){
     int size_ans = size;                        // добавил эту строчку
@@ -161,6 +155,17 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes){     //  изм
 	buff[size_ans + 1] = '\0';
 }
 
+int s21_spec_p(char *str, va_list args, Prototype *prot, char *charbuf){
+    void *num = va_arg(args, void*);
+    char buff[512] = {'\0'};
+    // printf("pt1 %p \n", num);
+    long long int num2 = (long long int)num;
+    UDecInNumSys(buff, num2, 16);   // Добавить флаг
+    s21_strncpy(charbuf, "0x");
+    s21_strncpy(charbuf, buff);
+    // printf("pt2 0x%s \n", buff);
+    return strlen(charbuf);
+}
 
 
 void s21_spec_n(va_list args, int j){
