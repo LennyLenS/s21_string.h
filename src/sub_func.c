@@ -121,6 +121,9 @@ void s21_double_to_str(double num, char *str, int pres) {
 }
 
 void specifier_f(char *buff, va_list args, Prototype prot){
+	if(prot.prec_number == -1){
+		prot.prec_number = 6;
+	}
 	if(prot.length == 'L'){
 		long double a = va_arg(args, long double);
 		DoubleInStr(buff, a, prot.prec_number);
