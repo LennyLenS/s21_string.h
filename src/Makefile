@@ -74,9 +74,14 @@ make_style:
 	clang-format -style=google -i s21_*.c ./tests/*.c ./s21_string_files/*.c
 	clang-format -style=google -i s21_*.h ./tests/*.h ./s21_string_files/*.h
 
+<<<<<<< HEAD
 
 clean : 
 	rm -rf *.o *.a test *.gcda *.gcno *.info coverage *.dSYM *.out report tests/*.o *.gcov
+=======
+clean:
+	rm -rf $(OBJECTS) $(EXECUTABLE) $(TESTS_OBJECTS) s21_string.a *.gcov *.gcno *.gcda *.info report test *.o
+>>>>>>> urtotsma_branch
 
 test: $(TESTS_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
