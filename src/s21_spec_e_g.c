@@ -131,6 +131,10 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
 
   printf("Дробная часть %s\n", str_double);
   printf("Finally1: %s\n", str_int);
+  // Вызываем функцию Юли
+  // Считаем кол-во символов
+  // Возвращаем кол-во символов в строке
+  // Объединить intermediate_str
   printf("intermediate_str: %s\n", intermediate_str);
   return intermediate_str;
 }
