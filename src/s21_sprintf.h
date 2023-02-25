@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include "s21_string_files/s21_string.h"
-
+#include "specificators/s21_specifiers.h"
 #define PRECISION 6;
 
 // %[флаги][ширина][.точность][длина]спецификатор

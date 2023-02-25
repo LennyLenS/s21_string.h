@@ -26,10 +26,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     counter_symbols_str += specifier_f(intermediate_str, args, *prot);
   }else if (prot->spec == 'p'){
     counter_symbols_str += s21_spec_p(args, prot, intermediate_str);
-  }else{
-    s21_spec_e(counter_symbols_str, str, intermediate_str,
-                args, prot);
   }
-
+  s21_strcat(str, intermediate_str);
   return counter_symbols_str;
 }

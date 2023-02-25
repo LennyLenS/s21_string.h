@@ -1,18 +1,20 @@
 CC=gcc -std=c11 -D_GNU_SOURCE
-CFLAGS=-c -Wall -Wextra -Werror
+CFLAGS=-c -Wall -Wextra -Werror -g
 TEST_FLAGS=-lcheck -lm -lpthread
 GCOV_FLAGS=--coverage -Wall -Wextra -Werror
 SOURCES=s21_strlen.c s21_memmove.c s21_memcmp.c s21_memchr.c s21_memset.c
 OBJECTS=$(SOURCES:.c=.o)
 TESTS_SOURCES=test_main.c $(wildcard tests/*.c)
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
+SPRINTF_SOURCES=s21_sprintf.c s21_str_to_argc.c s21_read_format $(wildcard specificators/*.c)
+SPRINTF_OBJECTS=$(SPRINTF_SOURCES:.c=.o)
 EXECUTABLE=s21_string
 
 ifeq ($(shell uname -s),Linux)
 	TEST_FLAGS += -lrt -lsubunit
 endif
 
-all: test
+all: sprintf
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $^ -o $@
@@ -41,6 +43,9 @@ clean:
 test: $(TESTS_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
 	./test
+
+sprintf : $(SPRINTF_OBJECTS)
+	$(CC) $^ -o sprintf.exe $(CFLAGS)
 
 gcov_report: $(TESTS_OBJECTS)
 	$(CC) $(GCOV_FLAGS) $(TESTS_OBJECTS) $(SOURCES) $(TEST_FLAGS) -o test

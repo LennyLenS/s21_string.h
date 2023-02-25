@@ -1,6 +1,0 @@
-#include "s21_specificators.h"
-
-void s21_spec_n(va_list args, int j){
-    int *var = va_arg(args, int*);
-    *var = j;
-}

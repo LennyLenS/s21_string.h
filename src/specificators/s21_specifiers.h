@@ -18,6 +18,4 @@ void s21_spec_n(va_list args, int j);
 int s21_spec_s(char *str, va_list args, Prototype *prot, int j);
 int s21_spec_p(va_list args, Prototype *prot, char *charbuf);
 
-char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
-                 va_list args, Prototype *prot);
 #endif
