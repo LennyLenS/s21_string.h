@@ -3,8 +3,13 @@
 int main() {
   char str[256];
   // long int x = -244;
-  sprintf(str, "%-15.10d", 123);
-  printf("%s.\n", str);
+  sprintf(str, "%#e", 123.);
+  int x = 9;
+  
+  printf("%10.5d!\n", x);
+ // printf("%d!\n", x);
+
+
 }
 
 // %[флаги][ширина][.точность][длина]спецификатор

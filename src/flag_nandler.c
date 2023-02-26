@@ -9,13 +9,13 @@ char *main_func(char *str, Prototype pr);
 char *add_char_left(char *str, int n, int str_size, char c, Prototype pr);
 char *add_char_right(char *str, int n, int str_size, char c);
 char *n_shift(char *str, int negativ_num, Prototype pr);
-
+char *add_sharp_sign(char *str, Prototype pr);
 
 int main() {
-  char *a = "-123";
+  char *a = "9";
 
   char str[256];
-  sprintf(str, "%15d", -123);
+  sprintf(str, "%.10d", 9);
   printf("in lib:\n%s!\n", str);
   Prototype pr = {0};
 
@@ -24,8 +24,8 @@ int main() {
   pr.plus_flag = 0;  // выводит знак
   pr.space_flag = 0;
   pr.zero_flag = 0;
-  pr.width_number = 15; // ширина
-  pr.prec_number = -1;  // точность
+  pr.width_number = -1; // ширина
+  pr.prec_number = 10;  // точность
   // int n = strlen(a); // длина
 
   printf("My:\n%s!\n", main_func(a, pr));
@@ -49,16 +49,20 @@ char *main_func(char *str, Prototype pr) {
     pr.prec_number = -1;
   }
   if (pr.prec_number != -1) {
-    //  это только для целыx чисел
-    if (pr.spec == 'd' || pr.spec == 'i' || pr.spec == '0' || pr.spec == 'u' ||
-        pr.spec == 'x' || pr.spec == 'X') {
+    if (pr.spec == 'd' || pr.spec == 'i' || pr.spec == 'o' || pr.spec == 'u' ||
+        pr.spec == 'x' || pr.spec == 'X') { //  это только для целыx чисел
       str = pr.prec_number >= str_len
-                ? add_char_left(str, pr.prec_number - str_len, str_len, '0', pr)
+                ? add_char_left(str, pr.prec_number - str_len - 1, str_len + 1,
+                                '0', pr)
                 : str;
+      //printf("Buf str:%s\n", str);
+    }
+    if (pr.sharp_flag) {
+      str = add_sharp_sign(str, pr);
     }
 
     if (pr.width_number != -1) {
-    str = n_shift(str, negativ_num, pr);
+      str = n_shift(str, negativ_num, pr);
     } else {
       // printf("3case\n");
       str = add_sign_or_space(str, pr, negativ_num);
@@ -66,10 +70,13 @@ char *main_func(char *str, Prototype pr) {
     res = str;
 
   } else {
-    //printf("точность нет\n");
+    if (pr.sharp_flag) {
+      str = add_sharp_sign(str, pr);
+    }
+    // printf("точность нет\n");
     if (pr.width_number != -1) {
-      //printf("есть ширина 2\n");
-     str = n_shift(str, negativ_num, pr);
+      printf("есть ширина 2\n");
+      str = n_shift(str, negativ_num, pr);
     } else {
       // printf("6case\n");
       str = add_sign_or_space(str, pr, negativ_num);
@@ -79,26 +86,51 @@ char *main_func(char *str, Prototype pr) {
   return res;
 }
 
+char *add_sharp_sign(char *str, Prototype pr) {
+  char *res;
+  if ((pr.spec == 'o' && pr.prec_number == -1) || pr.spec == 'x' ||
+      pr.spec == 'X') {
+    int n = pr.spec == 'o' ? 1 : 2;
+
+    res = (char *)malloc((strlen(str) + 1 + n) * sizeof(char));
+    printf("len: %ld\n", strlen(str));
+
+    for (int i = n; i < (int)strlen(str) + 2; i++) {
+      res[i] = str[i - n];
+    }
+    if (pr.spec == 'o') {
+      res[0] = '0';
+    } else if (pr.spec == 'x' || pr.spec == 'X') {
+      res[0] = '0';
+      res[1] = pr.spec;
+    }
+  } else {
+    res = str;
+  }
+  return res;
+}
 
 char *n_shift(char *str, int negativ_num, Prototype pr) {
-if (!pr.minus_flag) {
-        printf("1case\n");
-        str =
-            (int)strlen(str) >= pr.width_number
-                ? add_sign_or_space(str, pr, negativ_num)
-                : add_char_left(add_sign_or_space(str, pr, negativ_num),
-                                pr.width_number - strlen(str) - 1 - negativ_num,
-                                strlen(str) + 1, ' ', pr);
-      } else {
-        printf("2case\n");
-        str = (int)strlen(str) >= pr.width_number
-                  ? add_sign_or_space(str, pr, negativ_num)
-                  : add_char_right(add_sign_or_space(str, pr, negativ_num),
-                                   pr.width_number - strlen(str) - 1 -
-                                       negativ_num,
-                                   strlen(str) + 1 + negativ_num, ' ');
-      }
-      return str;
+  int sign_size = 0;
+  if (negativ_num == 1 || pr.plus_flag == 1) {
+    sign_size = 1;
+  }
+  if (!pr.minus_flag) {
+    printf("1case\n");
+    str = (int)strlen(str) >= pr.width_number
+              ? add_sign_or_space(str, pr, negativ_num)
+              : add_char_left(add_sign_or_space(str, pr, negativ_num),
+                              pr.width_number - strlen(str) - 1 - sign_size,
+                              strlen(str) + 1 + sign_size, ' ', pr);
+  } else {
+    printf("2case\n");
+    str = (int)strlen(str) >= pr.width_number
+              ? add_sign_or_space(str, pr, negativ_num)
+              : add_char_right(add_sign_or_space(str, pr, negativ_num),
+                               pr.width_number - strlen(str) - 1 - sign_size,
+                               strlen(str) + 1 + sign_size, ' ');
+  }
+  return str;
 }
 
 char *add_sign_or_space(char *buf_str, Prototype pr, int sign) {
