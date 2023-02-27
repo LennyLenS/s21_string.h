@@ -4,7 +4,7 @@
 int s21_double_to_str(long double num, char *str_double, int num_i) {
   while (num > 0) {
     int num_double = 0;
-    num_double = (int)num % 10;
+    num_double = (long int)num % 10;
     str_double[num_i] = num_double + '0';
     num_i++;
     num /= 10;

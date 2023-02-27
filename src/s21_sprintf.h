@@ -55,12 +55,14 @@ int s21_rounding_and_precision_number(
     double *num, int *multiply, Prototype *prot, double *save_number_for_g,
     int *e, int *check_g, int *precison, bool flag_zero_plus,
     bool flag_zero_negative, bool flag_g, int *save_precision_for_rounding_g,
-    bool this_is_used, int *have_precision_g, int *save_precision_g);
+    bool this_is_used, int *have_precision_g, int *save_precision_g,
+    int *save_degree);
 void s21_writing_int_number_with_point(
     int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
     int *counter_symbols_str, int *dont_write_number_with_point,
-    double *save_number_for_g, int *e, Prototype *prot, int *num_i_g,
-    bool flag_minus_num, int *have_precision_g, int *save_precision_g);
+    double *save_number_for_g, Prototype *prot, int *num_i_g,
+    bool flag_minus_num, int *have_precision_g, int *save_precision_g,
+    int *save_degree);
 int s21_concat_fractional_number_with_degree(int num_i, int counter_symbols_str,
                                              char *str_double, double num,
                                              Prototype *prot, char symbol_e,
