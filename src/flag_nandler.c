@@ -12,20 +12,22 @@ char *n_shift(char *str, int negativ_num, Prototype pr);
 char *add_sharp_sign(char *str, Prototype pr);
 
 int main() {
-  char *a = "9";
-
+  char *a = "9.";
+  float x = 9.;
   char str[256];
-  sprintf(str, "%.10d", 9);
+  sprintf(str, "%10.0f", x);
   printf("in lib:\n%s!\n", str);
   Prototype pr = {0};
 
-  pr.spec = 'd';
+  pr.spec = 'f';
   pr.minus_flag = 0; // выпавниваем по левому краю
   pr.plus_flag = 0;  // выводит знак
   pr.space_flag = 0;
   pr.zero_flag = 0;
-  pr.width_number = -1; // ширина
-  pr.prec_number = 10;  // точность
+  pr.sharp_flag = 0;
+
+  pr.width_number = 10; // ширина
+  pr.prec_number = 0;  // точность
   // int n = strlen(a); // длина
 
   printf("My:\n%s!\n", main_func(a, pr));
@@ -36,7 +38,11 @@ int main() {
 char *main_func(char *str, Prototype pr) {
   char *res;
   int str_len = strlen(str);
-  int negativ_num;
+  int negativ_num, zero_num = 0;
+
+  if (*str == '0') {
+      zero_num = 1;
+  }
 
   if (*str == '-') {
     negativ_num = 1;
@@ -44,10 +50,11 @@ char *main_func(char *str, Prototype pr) {
   } else {
     negativ_num = 0;
   }
-  if (pr.spec == 'f' || pr.spec == 'g' || pr.spec == 'G' || pr.spec == 'e' ||
+  if ((pr.spec == 'f' && !pr.sharp_flag) || pr.spec == 'g' || pr.spec == 'G' || pr.spec == 'e' ||
       pr.spec == 'E') {
     pr.prec_number = -1;
   }
+ 
   if (pr.prec_number != -1) {
     if (pr.spec == 'd' || pr.spec == 'i' || pr.spec == 'o' || pr.spec == 'u' ||
         pr.spec == 'x' || pr.spec == 'X') { //  это только для целыx чисел
@@ -57,7 +64,7 @@ char *main_func(char *str, Prototype pr) {
                 : str;
       //printf("Buf str:%s\n", str);
     }
-    if (pr.sharp_flag) {
+    if (pr.sharp_flag && !zero_num) {
       str = add_sharp_sign(str, pr);
     }
 
@@ -70,7 +77,7 @@ char *main_func(char *str, Prototype pr) {
     res = str;
 
   } else {
-    if (pr.sharp_flag) {
+    if (pr.sharp_flag && !zero_num) {
       str = add_sharp_sign(str, pr);
     }
     // printf("точность нет\n");
@@ -104,6 +111,10 @@ char *add_sharp_sign(char *str, Prototype pr) {
       res[0] = '0';
       res[1] = pr.spec;
     }
+  } else if (pr.spec == 'f' && pr.prec_number == 0 && str[strlen(str) -1] != '.') {
+    printf("There\n");
+    res = add_char_right(str, 0, strlen(str)+1, '.'); // у чисто добавляем 0 точек с кайфом
+
   } else {
     res = str;
   }

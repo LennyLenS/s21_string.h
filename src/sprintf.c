@@ -4,10 +4,10 @@ int main() {
   char str[256];
   // long int x = -244;
   sprintf(str, "%#e", 123.);
-  int x = 9;
+  float x = 9.12345678910;
   
-  printf("%10.5d!\n", x);
- // printf("%d!\n", x);
+  printf("%g!\n", x);
+  printf("%#g!\n", x);
 
 
 }
