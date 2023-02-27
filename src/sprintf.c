@@ -6,8 +6,8 @@ int main() {
   sprintf(str, "%#e", 123.);
   float x = 9.12345678910;
   
-  printf("%g!\n", x);
-  printf("%#g!\n", x);
+  printf("%.0g!\n", x);
+  printf("%#.0g!\n", x);
 
 
 }
