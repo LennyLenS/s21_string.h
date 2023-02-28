@@ -17,6 +17,7 @@ int main() {
   char str[256];
   sprintf(str, "%.10d", 9);
   printf("in lib:\n%s!\n", str);
+  //printf("len orig:%ld\n", strlen(str));
   Prototype prot = {0};
 
   prot.spec = 'd';
@@ -24,12 +25,13 @@ int main() {
   prot.plus_flag = 0;  // выводит знак
   prot.space_flag = 0;
   prot.zero_flag = 0;
-  prot.width_number = -1; // ширина
+  prot.width_number = 0; // ширина
   prot.prec_number = 10;  // точность
   // int n = s21_strlen(a); // длина
 
+  
   printf("My:\n%s!\n", main_func(a, &prot));
-
+  // printf("len my:%ld\n", strlen( main_func(a, &prot)));
   return 0;
 }
 
@@ -61,7 +63,7 @@ char *main_func(char *str, Prototype *prot) {
       str = add_sharp_sign(str, *prot);
     }
 
-    if (prot->width_number != -1) {
+    if (prot->width_number != 0) {
       str = n_shift(str, negativ_num, *prot);
     } else {
       // printf("3case\n");
@@ -74,7 +76,7 @@ char *main_func(char *str, Prototype *prot) {
       str = add_sharp_sign(str, *prot);
     }
     // printf("точность нет\n");
-    if (prot->width_number != -1) {
+    if (prot->width_number != 0) {
       // printf("есть ширина 2\n");
       str = n_shift(str, negativ_num, *prot);
     } else {
@@ -83,7 +85,13 @@ char *main_func(char *str, Prototype *prot) {
     }
     res = str; // add_sign_or_space(str, prot, negativ_num);
   }
-  return res;
+
+   // printf("last: %d\n", (int)res[strlen(res)-1] );
+   res = add_char_right(str, 1 , strlen(str)+1, '\0');
+   // printf("last 2: %d\n", (int)res[strlen(res)] );
+   return res;
+   
+  // return add_char_right(str, 1 , strlen(str), '\0');
 }
 
 char *add_sharp_sign(char *str, Prototype prot) {
@@ -107,6 +115,7 @@ char *add_sharp_sign(char *str, Prototype prot) {
   } else {
     res = str;
   }
+  
   return res;
 }
 

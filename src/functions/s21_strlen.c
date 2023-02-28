@@ -1,7 +1,7 @@
 #include "../s21_string.h"
 
-s21_size_t s21_strlen(const char *str){
-    s21_size_t size = 0;
+size_t s21_strlen(const char *str){
+    size_t size = 0;
     if(str != NULL) {
         const char *p = str;
         while(*p != '\0') {
@@ -10,5 +10,4 @@ s21_size_t s21_strlen(const char *str){
         }
     }
     return size;
-
 }
