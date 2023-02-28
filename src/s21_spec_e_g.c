@@ -60,6 +60,9 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     printf("Finally1: %s\n", intermediate_str);
     return counter_symbols_str;
   }
+  // ------------------------------------------ если .0 тут проверку сделать num
+  if (prot->prec_number == 0 || prot->prec_star == 0)
+    num = round(num * pow(10, 0)) / pow(10, 0);
   s21_fractional_and_integer_part_of_a_number(
       &num_int, &num, prot, flag_zero_negative, flag_minus_num_g);
   dont_write_number_with_point = s21_rounding_and_precision_number(

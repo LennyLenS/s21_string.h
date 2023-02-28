@@ -47,7 +47,8 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
       prot->prec_star = va_arg(args, int);
       prot->prec_number = prot->prec_star;
       *this_is_prec = 1;
-    }
+    } else if (*this_is_prec == 0)
+      prot->prec_number = 0;
   }
   return i;
 }
