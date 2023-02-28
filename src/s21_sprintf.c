@@ -12,6 +12,7 @@ int s21_sprintf(char *str, const char *format, ...) {
 }
 
 int s21_parser(char *str, const char *format, va_list args) {
+  str[0] = '\0';
   int i = -1;
   int counter_symbols_str = 0;
   while (format[++i] != '\0') {
@@ -29,6 +30,7 @@ int s21_parser(char *str, const char *format, va_list args) {
         continue;
       }
       // перевод args в массив str и возвращение количество символов в массиве
+      //printf("%d\n", counter_symbols_str);
       counter_symbols_str =
           s21_args_to_str(counter_symbols_str, str, &prot, args);
     }

@@ -45,11 +45,14 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
       *this_is_prec = 1;
     } else if (format[i] == '*' && *this_is_prec == 0) {
       prot->prec_star = va_arg(args, int);
+      prot->prec_number = prot->prec_star;
       *this_is_prec = 1;
-    }
+    } else if (*this_is_prec == 0)
+      prot->prec_number = 0;
   }
   return i;
 }
+
 
 void s21_check_width(const char *format, int i, int *this_is_width,
                      Prototype *prot, va_list args) {

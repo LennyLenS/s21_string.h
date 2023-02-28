@@ -1,7 +1,7 @@
 #include "sub_func.h"
-
+#include <string.h>
 void shift_str(char *str, int size){
-	for(int i = ans - 1; i > 0; -i){
+	for(int i = size - 1; i > 0; --i){
 		str[i] = str[i - 1];
 	}
 }
@@ -25,8 +25,14 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 }
 
 void s21_double_to_str(double num, char *str, int pres) {
-	int count_before_dot = 0, index = 0;
+	int count_before_dot = 0, index = 0, neg_flag = 0;
 	double num1 = 0, num2 = num;
+	if(num < 0){
+		str[index++] = '-';
+		num *= -1;
+		num2 *= -1;
+		neg_flag = 1;
+	}
 	while(num >= 1){
 		num /= 10;
 		count_before_dot++;
@@ -41,7 +47,12 @@ void s21_double_to_str(double num, char *str, int pres) {
 	if(count_before_dot == 0){
 		str[index++] = '0';
 	}
-	str[index++] = '.';
+
+	int add_point = 0;
+	if(pres != 0){
+		str[index++] = '.';
+		add_point = 1;
+	}
 	num2 -= num1;
 	for(int i = 0; i < pres; ++i){
 		num2 *= 10;
@@ -49,13 +60,13 @@ void s21_double_to_str(double num, char *str, int pres) {
 		num2 -= y;
 		str[index++] = y + '0';
 	}
-
+	//printf("%d\n", count_before_dot);
 
 	num2 *= 10;
 	int y = (int)num2;
 	if(y >= 5){
 		int trans = 1;
-		for(int i = count_before_dot + pres; i > 0; --i){
+		for(int i = count_before_dot + pres - 1 + add_point + neg_flag; i > 0; --i){
 			if(str[i] != '.'){
 				int a = str[i] - '0';
 				str[i] = (a + trans) % 10 + '0';

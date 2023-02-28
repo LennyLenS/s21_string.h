@@ -4,23 +4,11 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include "s21_string_files/s21_string.h"
-#include "specificators/s21_specifiers.h"
+#include "s21_flag_handler.h"
 #define PRECISION 6;
 
 // %[флаги][ширина][.точность][длина]спецификатор
-typedef struct {
-  char spec;         // спецификаторы
-  int minus_flag;    // флаг -
-  int plus_flag;     // флаг +
-  int space_flag;    // флаг ' '
-  int zero_flag;     // флаг 0
-  int sharp_flag;    // флаг #
-  int width_number;  // Ширина (число), *
-  int width_star;
-  int prec_number;  // Точность если .число
-  int prec_star;    // Точность если .*
-  char length;      // Длина
-} Prototype;
+
 
 int s21_sprintf(char *str, const char *format, ...);
 int s21_parser(char *str, const char *format, va_list args);
