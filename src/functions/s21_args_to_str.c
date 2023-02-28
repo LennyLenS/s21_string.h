@@ -1,5 +1,5 @@
-#include "functions/s21_string.h"
-#include "s21_sprintf.h"
+#include "../s21_string.h"
+#include "../s21_sprintf.h"
 
 int s21_args_to_str(int j, char *str, Prototype *prot, va_list args) {
   if (prot->spec == 'c') j += s21_spec_c(j, str, args);

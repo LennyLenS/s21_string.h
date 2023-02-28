@@ -1,6 +1,4 @@
-#include <stdio.h>
-
-#include "s21_string.h"
+#include "../s21_string.h"
 // Сравнивает строку, на которую указывает str1, со строкой, на которую
 // указывает str2.
 

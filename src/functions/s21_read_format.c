@@ -1,4 +1,4 @@
-#include "s21_sprintf.h"
+#include "../s21_sprintf.h"
 
 // %[флаги][ширина][.точность][длина]спецификатор
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {

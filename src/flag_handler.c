@@ -26,7 +26,7 @@ int main() {
   prot.zero_flag = 0;
   prot.width_number = -1; // ширина
   prot.prec_number = 10;  // точность
-  // int n = strlen(a); // длина
+  // int n = s21_strlen(a); // длина
 
   printf("My:\n%s!\n", main_func(a, &prot));
 
@@ -35,7 +35,7 @@ int main() {
 
 char *main_func(char *str, Prototype *prot) {
   char *res;
-  int str_len = strlen(str);
+  int str_len = s21_strlen(str);
   int negativ_num;
 
   if (*str == '-') {
@@ -75,7 +75,7 @@ char *main_func(char *str, Prototype *prot) {
     }
     // printf("точность нет\n");
     if (prot->width_number != -1) {
-      printf("есть ширина 2\n");
+      // printf("есть ширина 2\n");
       str = n_shift(str, negativ_num, *prot);
     } else {
       // printf("6case\n");
@@ -92,10 +92,10 @@ char *add_sharp_sign(char *str, Prototype prot) {
       prot.spec == 'X') {
     int n = prot.spec == 'o' ? 1 : 2;
 
-    res = (char *)malloc((strlen(str) + 1 + n) * sizeof(char));
-    printf("len: %ld\n", strlen(str));
+    res = (char *)malloc((s21_strlen(str) + 1 + n) * sizeof(char));
+    printf("len: %ld\n", s21_strlen(str));
 
-    for (int i = n; i < (int)strlen(str) + 2; i++) {
+    for (int i = n; i < (int)s21_strlen(str) + 2; i++) {
       res[i] = str[i - n];
     }
     if (prot.spec == 'o') {
@@ -116,19 +116,19 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
     sign_size = 1;
   }
   if (!prot.minus_flag) {
-    printf("1case\n");
-    str = (int)strlen(str) >= prot.width_number
+    // printf("1case\n");
+    str = (int)s21_strlen(str) >= prot.width_number
               ? add_sign_or_space(str, prot, negativ_num)
               : add_char_left(add_sign_or_space(str, prot, negativ_num),
-                              prot.width_number - strlen(str) - 1 - sign_size,
-                              strlen(str) + 1 + sign_size, ' ', prot);
+                              prot.width_number - s21_strlen(str) - 1 - sign_size,
+                              s21_strlen(str) + 1 + sign_size, ' ', prot);
   } else {
-    printf("2case\n");
-    str = (int)strlen(str) >= prot.width_number
+    // printf("2case\n");
+    str = (int)s21_strlen(str) >= prot.width_number
               ? add_sign_or_space(str, prot, negativ_num)
               : add_char_right(add_sign_or_space(str, prot, negativ_num),
-                               prot.width_number - strlen(str) - 1 - sign_size,
-                               strlen(str) + 1 + sign_size, ' ');
+                               prot.width_number - s21_strlen(str) - 1 - sign_size,
+                               s21_strlen(str) + 1 + sign_size, ' ');
   }
   return str;
 }
@@ -136,7 +136,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
 char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
   char *res;
   if (prot.plus_flag == 1 || sign == 1 || prot.space_flag) {
-    int str_size = strlen(buf_str);
+    int str_size = s21_strlen(buf_str);
     res = (char *)malloc((str_size + 2) * sizeof(char));
 
     for (int i = 1; i < str_size + 2; i++) {
@@ -152,7 +152,7 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
     }
     // res = add_sign(str, prot, sign_of_num);
   } else {
-    int str_size = strlen(buf_str);
+    int str_size = s21_strlen(buf_str);
     res = (char *)malloc((str_size + 1) * sizeof(char));
     res = buf_str;
   }
