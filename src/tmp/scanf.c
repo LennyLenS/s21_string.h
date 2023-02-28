@@ -25,16 +25,39 @@ typedef struct {
 long long int atoi(char *str);
 int isNumber(char c);
 int s21_sscanf(const char *str, const char *format, ...);
-int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int *j, va_list args);
+int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int *j, va_list args, int space_counter_for_n);
 int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args, int width_counter, int *j);
 int scanf_spec_c(Prototype *prot, const char *str,  char *buff_str, va_list args, int *j);
+int scanf_spec_s(Prototype *prot, const char *str,  va_list args,  char *buff_str, int width_counter, int *j);
+void scanf_spec_n(va_list args, int *j, int space_counter_for_n);
 
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args);
 int s21_check_prec(const char *format, int i, int *this_is_prec, Prototype *prot, va_list args);
-void s21_check_width(const char *format, int i, int *this_is_width, Prototype *prot, va_list args);
+void s21_check_width(const char *format, int i, int *this_is_width, Prototype *prot);
 void s21_check_flags(const char *format, int i, Prototype *prot, int *this_is_prec, int *this_is_width);
 bool s21_check_number(const char *format, int i);
 int s21_write_number(const char *format, int *i);
+
+// в s21_check_width() явно прописал присвоение *, надо сделать флаг и if для версий сканф и принтф
+
+// Сделать аварийные exit
+// Сделать и проверить *
+
+// + %n    return j
+
+// #include <stdio.h>
+// int main()
+// {
+//     char str[80];
+//     int i;
+//     int n;
+//     /* пропуск целого между двумя строками */
+//     sscanf ("qwe 45","%s%d%n", str, &i, &n);
+    
+//     printf("%s  %d  %d", str, i , n);
+
+//     return 0;
+// }
 
 
 int main(void){
@@ -56,15 +79,27 @@ int main(void){
     int a = atoi("12345");
     printf("\nint+1 %d\n", (a+1));
 
-    char str[50] = "       -1234 567 ab/ c d";
-    char format[50] = " %d   %d  %c";
-    int dd;
-    int tt;
-    // char ss[50] = {'\0'};
+    char str[50] = "       -1234 567h ag bfgh/ c d";
+    char format[50] = "%d%d%*c%*s";
+    int dd = 0; // переменные в тесте обязятельно инициилизировать 0
+    int tt = 0;
+    int nn = 0;
+    char ss[50] = {'\0'};
     char cc;
     // char cc[50] = {'\0'};
-    int t = s21_sscanf(str, format, &dd, &tt, &cc);  // ИДИОТ
-    printf("t = %d  dd=%d  tt=%d  cc=%c\n", t, dd, tt, cc);
+    int t = s21_sscanf(str, format, &dd, &tt, &cc, &ss);
+
+    int sdd;
+    int stt;
+    int snn = 0;
+    char sss[50] = {'\0'};
+    char scc;
+    // char cc[50] = {'\0'};
+    int b = sscanf(str, format, &sdd, &stt, &scc, &sss);
+
+    printf("%s  %s\n", str, format);
+    printf("21 t = %d  dd=%d  tt=%d  cc=%c  ss=%s nn=%d\n", t, dd, tt, cc, ss, nn);
+    printf("ss t = %d  dd=%d  tt=%d  cc=%c  ss=%s nn=%d\n", b, sdd, stt, scc, sss, snn);
     // for(int i = 0; i < 6; i++){
     //   printf("cc %d %c\n", i, cc[i]);
     // };
@@ -82,6 +117,7 @@ int s21_sscanf(const char *str, const char *format, ...){
   // strchr(const char *str, int c)
 
   while((c = format[i]) != '\0'){
+    printf("0 i = %d  %c\n", i, format[i]);
     if(c != '%'){
       // pass_spaces(int *i, int *j);
       if(strchr(SPACES, c) != NULL) {   // SPACES определен в define
@@ -99,6 +135,7 @@ int s21_sscanf(const char *str, const char *format, ...){
       continue;
     };
 
+
     if(format[i+1] == '%') {
       i++;
       if(str[j] == '%') {
@@ -113,8 +150,19 @@ int s21_sscanf(const char *str, const char *format, ...){
     
     Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, -1, '\0'};
     i = s21_read_format(&prot, format, i, args);
+printf("1 i = %d  %c  * - %d\n", i, format[i], prot.width_star);
 
-    records += s21_switch_scan_spec(&prot, format, str, &j, args);
+    // skip spaces in str
+    int space_counter_for_n = 0;
+    if(prot.spec != 'c'){
+      while(strchr(SPACES, str[j]) != NULL){
+        space_counter_for_n++;
+        j++;
+      }
+    };
+    printf("scn = %d\n", space_counter_for_n);
+
+    records += s21_switch_scan_spec(&prot, format, str, &j, args, space_counter_for_n);
 
     i++;
     // printf("pointer - %p\n", p_args);
@@ -130,9 +178,9 @@ int s21_sscanf(const char *str, const char *format, ...){
 }
 
 
-int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int *j, va_list args){
+int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, int *j, va_list args, int space_counter_for_n){
   
-  void *tmp_args = NULL;
+  // void *tmp_args = NULL;
   int width_counter = 0;
   int write_count = 0;
   char buff_str[4096] = {'\0'};
@@ -148,56 +196,85 @@ int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, i
     write_count += scanf_spec_d(prot, str, buff_str, args, width_counter, j);
     *j += strlen(buff_str);
 
-
     // Проверить *
 
-    printf("pointer - %p\n", tmp_args);
-    printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, prot -> width_number, str, format);
+    printf("DD spec - %c, width_number - %d, * - :%c:, format - %s\n", prot -> spec, prot -> width_number, prot -> width_star, format);
     break;
 
   case 'c':
     write_count += scanf_spec_c(prot, str, buff_str, args, j);
     *j += strlen(buff_str);
 
-
-    printf("pointer - %p\n", tmp_args);
-    printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, prot -> width_number, str, format);
+    printf("CC spec - %c, width_number - %d, str - :%s:, buf - :%c:%d:\n", prot -> spec, prot -> width_number, str, buff_str[0], buff_str[0]);
     break;
 
   case 's':
-  tmp_args = va_arg(args, void*);
-printf("pointer - %p\n", tmp_args);
-printf("spec - %c, width_number - %d, str - %s, format - %s\n", prot -> spec, prot -> width_number, str, format);
+    write_count += scanf_spec_s(prot, str, args, buff_str, width_counter, j);
+    *j += strlen(buff_str);
+
+    printf("SS spec - %c, width_number - %d, str - :%s:, buf - %s\n", prot -> spec, prot -> width_number, str, buff_str);
     break;
   
+  case 'n':
+    scanf_spec_n(args, j, space_counter_for_n);
+
+    printf("NN spec - %c, width_number - %d, str - :%s:, format - %s\n", prot -> spec, prot -> width_number, str, format);
+    break;
+
   default:
     break;
   };
   return write_count;
 }
 
+void scanf_spec_n(va_list args, int *j, int space_counter_for_n){
+  int *p_args = NULL;
+  p_args = va_arg(args, int*);
+  printf("nJ - %d\n", *j - space_counter_for_n);
+  *p_args = *j - space_counter_for_n;
+}
+
+int scanf_spec_s(Prototype *prot, const char *str, va_list args,  char *buff_str, int width_counter, int *j){
+  char *p_args = NULL;
+  int k = 0;
+  if(prot -> width_star != '*') p_args = va_arg(args, char*);
+  printf("S - %c\n", str[*j]);
+  while(k < width_counter && strchr(SPACES, str[*j + k]) == NULL){
+    buff_str[k] = str[*j + k];
+    if(prot -> width_star != '*') *(p_args + k) = str[*j + k];
+    k++;
+    // printf("k - %d\n", k);
+  };
+  return 1;
+}
+
+
 int scanf_spec_c(Prototype *prot, const char *str,  char *buff_str, va_list args, int *j){
   char *p_args = NULL;
   int k = 0;
-  p_args = va_arg(args, char*);
+
+  if(prot -> width_star != '*') p_args = va_arg(args, char*);
   if(prot -> width_number <= 1){
-    *p_args = str[*j];
+    buff_str[k] = str[*j + k];
+    // printf("p0 :%d:\n", *(p_args + k));
+    printf("* %d\n", prot -> width_star);
+    if(prot -> width_star != '*') {
+      *p_args = str[*j];
+      // printf("p :%d:\n", *(p_args + k));
+      k++;
+    }
   } else {
     while(k < prot -> width_number){
-      // buff_str[k] = str[*j + k];
-      *(p_args + k) = str[*j + k];
-      printf("p %c\n", *(p_args + k));
-      k++;
+      buff_str[k] = str[*j + k];
+      if(prot -> width_star != '*') {
+        *(p_args + k) = str[*j + k];
+        printf("p %c\n", *(p_args + k));
+        k++;
+      }
     };
-    printf("buf %s\n", buff_str);
-    // strcpy(p_args, buff_str);
-    printf("buf2 %s\n", p_args);
-
-    // не работает ширина, strcpy не копирует буфер
-
 
   };
-  return 1;
+  return k;
 }
 
 int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args, int width_counter, int *j){
@@ -205,7 +282,7 @@ int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args
   int k = 0;
   int write_count = 0;
   long long int numb = 0;   // подумать, что сделать если первая сразу не цифра
-  p_args = va_arg(args, int*);
+  if(prot -> width_star != '*') p_args = va_arg(args, int*);
   if(str[*j + k] == '-'){
     buff_str[k] = str[*j + k];
     k++;
@@ -268,7 +345,7 @@ int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
     // Check flags
     s21_check_flags(format, i, prot, &this_is_prec, &this_is_width);
     // Check width
-    s21_check_width(format, i, &this_is_width, prot, args);
+    s21_check_width(format, i, &this_is_width, prot);
     // Check prec
     i = s21_check_prec(format, i, &this_is_prec, prot, args);
     // Check length
@@ -311,13 +388,14 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
 }
 
 void s21_check_width(const char *format, int i, int *this_is_width,
-                     Prototype *prot, va_list args) {
+                     Prototype *prot) {
   if (s21_check_number(format, i) == true && *this_is_width == 0) {
     prot->width_number = s21_write_number(format, &i);
     *this_is_width = 1;
   } else if (prot->width_number == 0 && format[i] == '*' &&
              *this_is_width == 0) {
-    prot->width_star = va_arg(args, int);
+    // prot->width_star = va_arg(args, int);
+    prot->width_star = '*';
     *this_is_width = 1;
   }
 }
