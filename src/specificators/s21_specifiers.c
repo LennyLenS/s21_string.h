@@ -8,11 +8,11 @@ int specifier_f(char *buff, va_list args, Prototype prot){
 	}
 	if(prot.length == 'L'){
 		long double a = va_arg(args, long double);
-		s21_double_to_str(a, buff, prot.prec_number);
+		s21_double_to_str(a, buff, prot.prec_number, prot.sharp_flag);
 	}
 	else{
 		double a = va_arg(args, double);
-		s21_double_to_str(a, buff, prot.prec_number);
+		s21_double_to_str(a, buff, prot.prec_number, prot.sharp_flag);
 	}
 	return s21_strlen(buff);
 }

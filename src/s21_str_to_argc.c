@@ -37,12 +37,11 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     s21_spec_p(args, intermediate_str);
     res = main_func(intermediate_str, prot);
   }
-
-
   while(*res != '\0'){
     str[counter_symbols_str++] = *res;
     res++;
   }
   str[counter_symbols_str] = '\0';
+  //printf("%s\n", str);
   return counter_symbols_str;
 }

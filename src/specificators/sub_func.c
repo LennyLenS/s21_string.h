@@ -24,9 +24,9 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 	buff[size_ans] = '\0';
 }
 
-void s21_double_to_str(double num, char *str, int pres) {
+void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 	int count_before_dot = 0, index = 0, neg_flag = 0;
-	double num1 = 0, num2 = num;
+	long double num1 = 0, num2 = num;
 	if(num < 0){
 		str[index++] = '-';
 		num *= -1;
@@ -49,7 +49,7 @@ void s21_double_to_str(double num, char *str, int pres) {
 	}
 
 	int add_point = 0;
-	if(pres != 0){
+	if(pres != 0 || sharp_flag == 1){
 		str[index++] = '.';
 		add_point = 1;
 	}
