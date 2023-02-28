@@ -12,7 +12,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   char str_double_g[270] = {'\0'};
   char symbol_e = '\0';
   char str_degree[560] = {'\0'};
-  char *res;
+  // char *res;
   bool flag_zero = false;
   bool flag_zero_negative = false;
   bool flag_zero_plus = false;
@@ -39,8 +39,10 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   else
     num = va_arg(args, double);
   double save_number_for_g = num;
-  if (s21_check_arg(prot, counter_symbols_str, str, num) != 0)
+  if (s21_check_arg(prot, counter_symbols_str, str, num) != 0) {
+    s21_strcat(intermediate_str, str);
     return counter_symbols_str;
+  }
   if (prot->spec == 'g' || prot->spec == 'G') flag_g = true;
   if ((prot->spec == 'e' || prot->spec == 'E') && (num < 1 && num > 0.0) &&
       flag_zero_plus == false)
@@ -132,14 +134,13 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_reverse(str_double_g);
     s21_strcat(str_double, str_double_g);
     s21_strcat(str_int, str_double);
+    s21_strcat(intermediate_str, str_int);
   }
 
   printf("Дробная часть %s\n", str_double);
-  printf("Finally1: %s\n", str_int);
+  printf("Finally1: %s\n", intermediate_str);
   // Вызываем функцию Юли
-  res = main_func(str_int, prot);
-  s21_strcat(intermediate_str, res);
-  counter_symbols_str = s21_strlen(intermediate_str);
+  // s21_strcat(intermediate_str, res);
   // Считаем кол-во символов
   // Возвращаем кол-во символов в строке
   // Объединить intermediate_str
@@ -370,7 +371,12 @@ void s21_writing_int_number_with_point(
   } else
     *symbol = *num_int % 10;
   if (*dont_write_number_with_point == 1) {
-    str_int[0] = *symbol + '0';
+    if (*symbol < 0) {
+      *symbol *= -1;
+      str_int[0] = '-';
+      str_int[1] = *symbol + '0';
+    } else
+      str_int[0] = *symbol + '0';
   } else {
     if ((*symbol < 0 || flag_zero_negative == true) &&
         check_g == false) {  // если e будет мб ошибка
