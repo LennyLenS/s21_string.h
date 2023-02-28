@@ -9,7 +9,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../s21_sprintf.h"
+
 #define s21_size_t unsigned long
+#define S21_NULL NULL
 
 char *s21_strerror(int errnum);
 int s21_strncmp(const char *str1, const char *str2, size_t n);
