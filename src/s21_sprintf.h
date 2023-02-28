@@ -35,8 +35,8 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
                    Prototype *prot, va_list args);
 int s21_args_to_str(int j, char *str, Prototype *prot, va_list args);
 int s21_spec_c(int j, char *str, va_list args);
-char *s21_spec_e(int j, char *str, char *intermediate_str, va_list args,
-                 Prototype *prot);
+int s21_spec_e(int j, char *str, char *intermediate_str, va_list args,
+               Prototype *prot);
 // int s21_spec_e(int j, char *str, va_list args, Prototype *prot);
 void *s21_reverse(char *str);
 int s21_double_to_str(long double num, char *str_double, int num_i);
@@ -71,5 +71,14 @@ int s21_concat_fractional_number_with_degree(int num_i, int counter_symbols_str,
 void s21_check_fractional_number_for_zeros(int *multiply, char *str_double,
                                            bool flag_minus_num, bool flag_g,
                                            bool this_is_used);
+
+char *add_sign_or_space(char *buf_str, Prototype pr, int sign);
+
+char *main_func(char *str, Prototype *prot);
+
+char *add_char_left(char *str, int n, int str_size, char c, Prototype prot);
+char *add_char_right(char *str, int n, int str_size, char c);
+char *n_shift(char *str, int negativ_num, Prototype prot);
+char *add_sharp_sign(char *str, Prototype prot);
 
 #endif

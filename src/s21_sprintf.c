@@ -2,21 +2,21 @@
 
 #include "functions/s21_string.h"
 
-int main() {
-  char str[256] = {0};
-  char str1[256] = {0};
-  // char str2[256] = {0};
-  double x = 123.100785;
-  s21_sprintf(str, "%g", x);
-  // если после знака запятой будет < 6 цифр, то нужно округлять
-  double y = 123.100785;
-  // 16313213.3231234124 такой баг при g
-  sprintf(str1, "%g", y);
-  printf("Original: %s\n", str1);
-  // double z = 13044.058697058435;
-  // sprintf(str2, "%.7e", z);
-  // printf("Original: %s\n", str2);
-}
+// int main() {
+//   char str[256] = {0};
+//   char str1[256] = {0};
+//   // char str2[256] = {0};
+//   double x = -764231539.;
+//   s21_sprintf(str, "%e", x);
+//   // если после знака запятой будет < 6 цифр, то нужно округлять
+//   double y = -764231539.;
+//   // 16313213.3231234124 такой баг при g
+//   sprintf(str1, "%e", y);
+//   printf("Check: %s\n", str1);
+//   // double z = 13044.058697058435;
+//   // sprintf(str2, "%.7e", z);
+//   // printf("Original: %s\n", str2);
+// }
 
 int s21_sprintf(char *str, const char *format, ...) {
   int result = 0;

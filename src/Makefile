@@ -7,10 +7,12 @@ FLAG_COV = --coverage
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c11 $(DEBUG)
 S21_MATH=-L. s21_math.a
-DEBUG =-g
+#DEBUG =-g
+TESTS_SOURCES=test_me.c $(wildcard tests/*.c)
+TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 #LEAK=-fsanitize=address
 CTESTFLAGS=-lcheck -lm -lpthread $(LEAK) 
-TEST = tests_functions.c  
+TEST = tests_me.c  
 LIBRARY = s21_string.a
 COMPILE = $(CFILES)
 
@@ -27,11 +29,11 @@ compile : $(COMPILE)
 # 	$(CC) $(OBJ) -o $(TARGET)
 # 	./$(TARGET)
 
-$(LIBRARY): s21_string.h $(CFILES)
+$(LIBRARY): $(CFILES)
+	bash Obj_Files_String.sh
 	$(CC) $(CFLAGS) -c $(CFILES)
-	ar rc $(LIBRARY) $(OBJ)
+	ar rc $(LIBRARY) $(OBJ) s21_strcat.o s21_strcpy.o s21_strlen.o
 	ranlib $(LIBRARY)
-	rm -f $(OBJ)
 
 clean:
 	rm -rf *.o *.a test *.gcda *.gcno *.info coverage
@@ -54,11 +56,17 @@ gcov_report: $(LIBRARY)
 	genhtml -o coverage test.info
 	open coverage/index.html 
 
-test: $(LIBRARY)
-	checkmk tests.check > tests_functions.c
-	checkmk clean_mode=1 tests.check > tests_functions.c
-	$(CC) $(CTESTFLAGS) $(TEST) $(LIBRARY) -o test
+test: $(TESTS_OBJECTS) $(LIBRARY)
+	$(CC) $^ -o test $(CTESTFLAGS)
 	./test
+
+
+
+# test: $(LIBRARY)
+# 	checkmk tests.check > tests_functions.c
+# 	checkmk clean_mode=1 tests.check > tests_functions.c
+# 	$(CC) $(CTESTFLAGS) $(TEST) $(LIBRARY) -o test
+# 	./test
 
 rebuild:
 	make clean

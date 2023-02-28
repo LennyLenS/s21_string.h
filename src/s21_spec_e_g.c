@@ -1,8 +1,8 @@
 #include "functions/s21_string.h"
 #include "s21_sprintf.h"
 
-char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
-                 va_list args, Prototype *prot) {
+int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
+               va_list args, Prototype *prot) {
   int e = 0;
   int num_int = 0;
   int symbol = 0;
@@ -12,6 +12,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   char str_double_g[270] = {'\0'};
   char symbol_e = '\0';
   char str_degree[560] = {'\0'};
+  char *res;
   bool flag_zero = false;
   bool flag_zero_negative = false;
   bool flag_zero_plus = false;
@@ -39,7 +40,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     num = va_arg(args, double);
   double save_number_for_g = num;
   if (s21_check_arg(prot, counter_symbols_str, str, num) != 0)
-    return intermediate_str;
+    return counter_symbols_str;
   if (prot->spec == 'g' || prot->spec == 'G') flag_g = true;
   if ((prot->spec == 'e' || prot->spec == 'E') && (num < 1 && num > 0.0) &&
       flag_zero_plus == false)
@@ -55,7 +56,7 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     str_int[0] = '0';
     s21_strcat(intermediate_str, str_int);
     printf("Finally1: %s\n", intermediate_str);
-    return intermediate_str;
+    return counter_symbols_str;
   }
   s21_fractional_and_integer_part_of_a_number(
       &num_int, &num, prot, flag_zero_negative, flag_minus_num_g);
@@ -136,11 +137,14 @@ char *s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   printf("Дробная часть %s\n", str_double);
   printf("Finally1: %s\n", str_int);
   // Вызываем функцию Юли
+  res = main_func(str_int, prot);
+  s21_strcat(intermediate_str, res);
+  counter_symbols_str = s21_strlen(intermediate_str);
   // Считаем кол-во символов
   // Возвращаем кол-во символов в строке
   // Объединить intermediate_str
-  printf("intermediate_str: %s\n", intermediate_str);
-  return intermediate_str;
+  // printf("intermediate_str: %s\n", intermediate_str);
+  return counter_symbols_str;
 }
 
 int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
@@ -165,7 +169,7 @@ int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
       counter_symbols_str += 4;
     else
       counter_symbols_str += 3;
-    printf("s21check: %s\n", str);
+    // printf("s21check: %s\n", str);
     return counter_symbols_str;
   }
   if (s21_isnan(num) == 1) {
@@ -179,7 +183,7 @@ int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
       str[counter_symbols_str + 2] = 'n';
     }
     counter_symbols_str += 3;
-    printf("s21check: %s\n", str);
+    // printf("s21check: %s\n", str);
     return counter_symbols_str;
   }
   return flag_check_arg;
