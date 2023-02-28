@@ -7,11 +7,11 @@ int main() {
   char str1[256] = {0};
   // char str2[256] = {0};
   double x = -764231539.;
-  s21_sprintf(str, "%.g", x);
+  s21_sprintf(str, "%.15e", x);
   // если после знака запятой будет < 6 цифр, то нужно округлять
   double y = -764231539.;
   // 16313213.3231234124 такой баг при g
-  sprintf(str1, "%.g", y);
+  sprintf(str1, "%.15e", y);
   printf("Original: %s\n", str1);
   // double z = 13044.058697058435;
   // sprintf(str2, "%.7e", z);

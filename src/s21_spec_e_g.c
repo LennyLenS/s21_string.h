@@ -4,7 +4,7 @@
 int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
                va_list args, Prototype *prot) {
   int e = 0;
-  int num_int = 0;
+  long long int num_int = 0;
   int symbol = 0;
   int num_i = 0;
   char str_int[512] = {'\0'};
@@ -65,6 +65,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     num = round(num * pow(10, 0)) / pow(10, 0);
   s21_fractional_and_integer_part_of_a_number(
       &num_int, &num, prot, flag_zero_negative, flag_minus_num_g);
+  // при точности десять баг не выводит дробную часть
   dont_write_number_with_point = s21_rounding_and_precision_number(
       &num, &multiply, prot, &save_number_for_g, &e, &check_g, &precision,
       flag_zero_plus, flag_zero_negative, flag_g,
@@ -193,8 +194,8 @@ int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
   return flag_check_arg;
 }
 
-bool s21_mantisssa_and_degree(double *num, bool flag_zero, int *num_int, int *e,
-                              Prototype *prot) {
+bool s21_mantisssa_and_degree(double *num, bool flag_zero,
+                              long long int *num_int, int *e, Prototype *prot) {
   bool flag_zero_negative = false;
   if (*num == 0) flag_zero = true;
   if ((prot->spec == 'e' || prot->spec == 'E') &&
@@ -222,8 +223,8 @@ bool s21_mantisssa_and_degree(double *num, bool flag_zero, int *num_int, int *e,
   }
   return flag_zero_negative;
 }
-void s21_fractional_and_integer_part_of_a_number(int *num_int, double *num,
-                                                 Prototype *prot,
+void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
+                                                 double *num, Prototype *prot,
                                                  bool flag_zero_negative,
                                                  bool flag_minus_num_g) {
   // Разбиваем дробное число на два интовых типа целое число и дробная часть
@@ -251,7 +252,7 @@ int s21_rounding_and_precision_number(
   // Тут идет округление числа если точность задана в else будет вызываться
   // функция точности
   // если после знака запятой будет < 6 цифр, то нужно округлять
-  int flag = -1;
+  long long int flag = -1;
   int dont_write_number_with_point = 0;
   int counter_g_minus_e = 0;
   int counter_g_plus_e = 0;
@@ -334,7 +335,9 @@ int s21_rounding_and_precision_number(
         *save_number_for_g = *num;
       }
       for (int i = 0; i < *precision; i++) {
+        // int counter = 0;
         *num *= 10;
+        // баг с большим числом
         flag = (int)*num;
         if ((flag_zero_negative == false && flag_zero_plus == false &&
              flag_g == true) &&
@@ -345,13 +348,13 @@ int s21_rounding_and_precision_number(
       if (this_is_used == true) {
         *precision = save_precision_g;  // сохранение точности
       }
-      *num = (int)*num;  // получение дробного числа в виде инта
+      *num = (unsigned long int)*num;  // получение дробного числа в виде инта
     }
   }
   return dont_write_number_with_point;
 }
 void s21_writing_int_number_with_point(
-    int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
+    long long int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
     int *counter_symbols_str, int *dont_write_number_with_point,
     double *save_number_for_g, Prototype *prot, int *num_i_g,
     bool flag_minus_num, int *have_precision_g, int *save_precision_g_1,

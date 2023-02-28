@@ -7,7 +7,7 @@ FLAG_COV = --coverage
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -std=c11 $(DEBUG)
 S21_MATH=-L. s21_math.a
-#DEBUG =-g
+DEBUG =-g
 TESTS_SOURCES=test_me.c $(wildcard tests/*.c)
 TESTS_OBJECTS=$(TESTS_SOURCES:.c=.o)
 #LEAK=-fsanitize=address

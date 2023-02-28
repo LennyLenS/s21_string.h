@@ -8,7 +8,7 @@ int s21_double_to_str(long double num, char *str_double, int num_i) {
     str_double[num_i] = num_double + '0';
     num_i++;
     num /= 10;
-    num = (int)num;
+    num = (unsigned long int)num;
   }
   return num_i;
 }

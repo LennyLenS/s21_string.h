@@ -45,10 +45,10 @@ int s21_spec_g(int counter_symbols_str, char *str, char *intermediate_str,
                va_list args, Prototype *prot);
 int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
                   double num);
-bool s21_mantisssa_and_degree(double *num, bool flag_zero, int *num_int, int *e,
-                              Prototype *prot);
-void s21_fractional_and_integer_part_of_a_number(int *num_int, double *num,
-                                                 Prototype *prot,
+bool s21_mantisssa_and_degree(double *num, bool flag_zero,
+                              long long int *num_int, int *e, Prototype *prot);
+void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
+                                                 double *num, Prototype *prot,
                                                  bool flag_zero_negative,
                                                  bool flag_minus_num_g);
 int s21_rounding_and_precision_number(
@@ -58,7 +58,7 @@ int s21_rounding_and_precision_number(
     bool this_is_used, int *have_precision_g, int *save_precision_g,
     int *save_degree);
 void s21_writing_int_number_with_point(
-    int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
+    long long int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
     int *counter_symbols_str, int *dont_write_number_with_point,
     double *save_number_for_g, Prototype *prot, int *num_i_g,
     bool flag_minus_num, int *have_precision_g, int *save_precision_g,
