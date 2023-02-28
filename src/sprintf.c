@@ -6,7 +6,7 @@ int main() {
   sprintf(str, "%#e", 123.);
   int x = 12345678;
   
-  printf("%0.5d!\n", x);
+  printf("%.5d!\n", x);
  // printf("%d!\n", x);
 
 
