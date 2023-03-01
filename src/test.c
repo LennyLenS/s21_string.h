@@ -5,8 +5,9 @@ int main()
 {
   char str1[400];
   char str2[400];
-  char *str3 = "ж%20.10f\n%20.15f\n%-20.5fж";
-  double num = -76.756589;
+  char *str3 = "test: %- 23.14f!\ntest: %+ 25.15f!";
+  double num = 365289.34628654873789362746834;
+  
 //   sprintf(str1, str3, num, num, num);
 //   s21_sprintf(str2, str3, num, num, num);
 
