@@ -23,7 +23,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   bool this_is_used = false;
   int save_precision_g_1 = 0;
   int have_precision_g = 0;
-  int multiply = 1;
+  unsigned long int multiply = 1;
   int dont_write_number_with_point = 0;
   int check_g = 0;
   int precision = 6;
@@ -244,11 +244,11 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
   // }
 }
 int s21_rounding_and_precision_number(
-    double *num, int *multiply, Prototype *prot, double *save_number_for_g,
-    int *e, int *check_g, int *precision, bool flag_zero_plus,
-    bool flag_zero_negative, bool flag_g, int *save_precision_for_rounding_g,
-    bool this_is_used, int *have_precision_g, int *save_precision_g_1,
-    int *save_degree) {
+    double *num, unsigned long int *multiply, Prototype *prot,
+    double *save_number_for_g, int *e, int *check_g, int *precision,
+    bool flag_zero_plus, bool flag_zero_negative, bool flag_g,
+    int *save_precision_for_rounding_g, bool this_is_used,
+    int *have_precision_g, int *save_precision_g_1, int *save_degree) {
   // Тут идет округление числа если точность задана в else будет вызываться
   // функция точности
   // если после знака запятой будет < 6 цифр, то нужно округлять
@@ -411,7 +411,7 @@ void s21_writing_int_number_with_point(
         }
         if ((*num_i_g == 0 && send_to_function_num < 0) &&
             flag_zero_negative == false) {
-          int counter = 10;
+          unsigned long int counter = 10;
           flag_minus_num = true;
           send_to_function_num *= -1;
           *num_i_g = s21_double_to_str(send_to_function_num, str_int, 0);
@@ -475,7 +475,8 @@ int s21_concat_fractional_number_with_degree(
   return counter_symbols_str;
 }
 
-void s21_check_fractional_number_for_zeros(int *multiply, char *str_double,
+void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
+                                           char *str_double,
                                            bool flag_minus_num, bool flag_g,
                                            bool this_is_used) {
   // Проверка на то,что есть ли в дробной части нули
