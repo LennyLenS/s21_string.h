@@ -32,7 +32,9 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 'f'){
     specifier_f(intermediate_str, args, *prot);
+    printf("%s\n", intermediate_str);
     res = main_func(intermediate_str, prot);
+    printf("%s\n", res);
   }else if (prot->spec == 'p'){
     s21_spec_p(args, intermediate_str);
     res = main_func(intermediate_str, prot);

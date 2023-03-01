@@ -47,7 +47,6 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 	if(count_before_dot == 0){
 		str[index++] = '0';
 	}
-
 	int add_point = 0;
 	if(pres != 0 || sharp_flag == 1){
 		str[index++] = '.';
@@ -60,7 +59,7 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 		num2 -= y;
 		str[index++] = y + '0';
 	}
-	//printf("%d\n", count_before_dot);
+	//printf("%d\n", count_before_dot + pres - 1 + add_point + neg_flag);
 
 	num2 *= 10;
 	int y = (int)num2;
@@ -70,7 +69,7 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 			if(str[i] != '.'){
 				int a = str[i] - '0';
 				str[i] = (a + trans) % 10 + '0';
-				trans = (a + 1) / 10;
+				trans = (a + trans) / 10;
 			}
 		}
 
@@ -85,6 +84,7 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 
 	}
 	str[index] = '\0';
+	printf("%s\n", str);
 }
 
 void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем char * на область памяти в стеке
