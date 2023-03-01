@@ -49,6 +49,7 @@ char *main_func(char *str, Prototype *prot) {
     res = str;
 
   } else {
+    printf("there\n");
     if (prot->sharp_flag) {
       str = add_sharp_sign(str, *prot);
     }
@@ -103,21 +104,54 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
   if (negativ_num == 1 || prot.plus_flag == 1) {
     sign_size = 1;
   }
-  if (!prot.minus_flag) {
-    //printf("1case\n");
-    str = (int)s21_strlen(str) >= prot.width_number
-              ? add_sign_or_space(str, prot, negativ_num)
-              : add_sign_or_space(add_char_left(str,
-                              prot.width_number - s21_strlen(str) - 1 - sign_size,
-                              s21_strlen(str) + 1 + sign_size, ' ', prot), prot, negativ_num); 
-  } else {
-    //printf("2case\n");
-    str = (int)s21_strlen(str) >= prot.width_number
-              ? add_sign_or_space(str, prot, negativ_num)
-              : add_char_right(add_sign_or_space(str, prot, negativ_num),
+  if (prot.minus_flag) {
+    printf("2case\n");
+    if ((int)s21_strlen(str) >= prot.width_number) {
+      str = add_sign_or_space(str, prot, negativ_num);
+    } else {
+      str = add_char_right(add_sign_or_space(str, prot, negativ_num),
                                prot.width_number - s21_strlen(str) - 1 - sign_size,
                                s21_strlen(str) + 1 + sign_size, ' ');
+    }
+  } else {
+    printf("1case\n");
+    if ((int)s21_strlen(str) >= prot.width_number) {
+        str = add_sign_or_space(str, prot, negativ_num);
+    } else {
+
+   if (prot.zero_flag || *str == '0') {
+    str = add_sign_or_space( add_char_left(str , prot.width_number - s21_strlen(str) - 1 - sign_size,
+                                s21_strlen(str) + 1 + sign_size, ' ', prot), prot, negativ_num);
+     
+   } else {
+      str = add_char_left(add_sign_or_space(str, prot, negativ_num),
+                              prot.width_number - s21_strlen(str) - 1 - sign_size,
+                              s21_strlen(str) + 1 + sign_size, ' ', prot); 
+   }
+        // str = add_char_left(str, prot.width_number - s21_strlen(str) - 1 - sign_size,
+        //                       s21_strlen(str) + 1 + sign_size, ' ', prot); 
+    
+    // str  = add_sign_or_space(str, prot, negativ_num);
+    
+    }
+
   }
+  // if (!prot.minus_flag) {
+  //   printf("1case\n");
+  //   printf("wi=%d, len=%ld\n", prot.width_number,s21_strlen(str));
+  //   str = (int)s21_strlen(str) >= prot.width_number
+  //             ? add_sign_or_space(str, prot, negativ_num)
+  //             : add_sign_or_space(add_char_left(str,
+  //                             prot.width_number - s21_strlen(str) - 1 - sign_size,
+  //                             s21_strlen(str) + 1 + sign_size, ' ', prot), prot, negativ_num); 
+  // } else {
+  //   printf("2case\n");
+  //   str = (int)s21_strlen(str) >= prot.width_number
+  //             ? add_sign_or_space(str, prot, negativ_num)
+  //             : add_char_right(add_sign_or_space(str, prot, negativ_num),
+  //                              prot.width_number - s21_strlen(str) - 1 - sign_size,
+  //                              s21_strlen(str) + 1 + sign_size, ' ');
+  // }
   return str;
 }
 
