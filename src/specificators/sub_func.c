@@ -84,7 +84,10 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 
 	}
 	str[index] = '\0';
+<<<<<<< HEAD
 	printf("There %s\n", str);
+=======
+>>>>>>> 753c65899798ad048a723f3b61d3f695838be585
 }
 
 void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем char * на область памяти в стеке
@@ -101,7 +104,7 @@ void *s21_reverse (char *str) {   // str должен быть массивом 
         bgn++;
         end--;
     }
-    printf("ff %s\n", str);
+    //printf("ff %s\n", str);
     return str;
 }
 
