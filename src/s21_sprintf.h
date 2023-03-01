@@ -56,7 +56,8 @@ int s21_rounding_and_precision_number(
     double *save_number_for_g, int *e, int *check_g, int *precison,
     bool flag_zero_plus, bool flag_zero_negative, bool flag_g,
     int *save_precision_for_rounding_g, bool this_is_used,
-    int *have_precision_g, int *save_precision_g, int *save_degree);
+    int *have_precision_g, int *save_precision_g, int *save_degree,
+    long long int *num_int);
 void s21_writing_int_number_with_point(
     long long int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
     int *counter_symbols_str, int *dont_write_number_with_point,

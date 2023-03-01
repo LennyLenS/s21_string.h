@@ -70,7 +70,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
       &num, &multiply, prot, &save_number_for_g, &e, &check_g, &precision,
       flag_zero_plus, flag_zero_negative, flag_g,
       &save_precision_for_rounding_g, this_is_used, &have_precision_g,
-      &save_precision_g_1, &save_degree);
+      &save_precision_g_1, &save_degree, &num_int);
   if (check_g != 1) {
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
@@ -243,15 +243,18 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
   //   *num += *num_int;
   // }
 }
+// Передавть num_int
 int s21_rounding_and_precision_number(
     double *num, unsigned long int *multiply, Prototype *prot,
     double *save_number_for_g, int *e, int *check_g, int *precision,
     bool flag_zero_plus, bool flag_zero_negative, bool flag_g,
     int *save_precision_for_rounding_g, bool this_is_used,
-    int *have_precision_g, int *save_precision_g_1, int *save_degree) {
+    int *have_precision_g, int *save_precision_g_1, int *save_degree,
+    long long int *num_int) {
   // Тут идет округление числа если точность задана в else будет вызываться
   // функция точности
   // если после знака запятой будет < 6 цифр, то нужно округлять
+  (void)num_int;
   long long int flag = -1;
   int dont_write_number_with_point = 0;
   int counter_g_minus_e = 0;
@@ -274,9 +277,8 @@ int s21_rounding_and_precision_number(
   }
   *save_degree = *e;
   if ((prot->spec == 'g' || prot->spec == 'G') &&
-      ((*e >= -4 && *e <= 5 &&
-        (prot->prec_number == -1 || prot->prec_star == -1)) ||
-       (*precision > *e && *e >= -4 && *have_precision_g))) {
+      ((*e >= -4 && *e <= 5 && (*have_precision_g == 0)) ||
+       (*precision > *e && *e >= -4 && *have_precision_g == 1))) {
     flag_g_e_more_minus_four = true;
     *num = *save_number_for_g;
     while (*e < 0) {
@@ -291,6 +293,7 @@ int s21_rounding_and_precision_number(
   }
   if (prot->prec_number == 0 || prot->prec_star == 0) {
     dont_write_number_with_point = 1;
+    if (prot->spec == 'g' || prot->spec == 'G') *save_number_for_g = *num_int;
   } else {
     if (prot->prec_number == -1 || prot->prec_star == -1) {
       if (prot->spec == 'g' || prot->spec == 'G') {
