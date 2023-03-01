@@ -6,7 +6,7 @@ void shift_str(char *str, int size){
 	}
 }
 
-void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     //  изменил int n на long long int n
+void UDecInNumSys(char *buff, unsigned long long  int n, int mes, int flag){     //  изменил int n на long long int n
 	int size_ans = 0;
 	char str[2];
 	str[0] = 'a';
@@ -44,8 +44,10 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 		num -= y;
 		str[index++] = y + '0';
 	}
+
 	if(count_before_dot == 0){
 		str[index++] = '0';
+		count_before_dot = 1;
 	}
 	int add_point = 0;
 	if(pres != 0 || sharp_flag == 1){
@@ -53,14 +55,17 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 		add_point = 1;
 	}
 	num2 -= num1;
+	int flag_bad = 0;
+	if(num2 == 1.){
+		num2 = 0.;
+		flag_bad = 1;
+	}
 	for(int i = 0; i < pres; ++i){
 		num2 *= 10;
 		int y = (int)num2;
 		num2 -= y;
 		str[index++] = y + '0';
 	}
-	//printf("%d\n", count_before_dot + pres - 1 + add_point + neg_flag);
-
 	num2 *= 10;
 	int y = (int)num2;
 	if(y >= 5){
@@ -74,14 +79,30 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 		}
 
 		if(trans == 1 && str[0] == '9'){
-			shift_str(str, count_before_dot + pres + 1);
+			shift_str(str, count_before_dot + pres - 1 + add_point + neg_flag);
 			str[1] = '0';
 			str[0] = '1';
 		}
-		else if(trans == 1){
+		else if(trans == 1 && str[0] == '-'){
+			//printf("$%s$\n", str);
+			shift_str(str + 1, count_before_dot + pres + add_point + 1);
+			//printf("$%s$\n", str);
+			str[1] = '1';
+			index++;
+		}else if(trans == 1){
 			str[0] = str[0] + 1;
 		}
 
+	}
+	if(flag_bad == 1){
+		int trans = 1;
+		for(int i = count_before_dot + neg_flag - 1; i > 0; --i){
+			if(str[i] != '.'){
+				int a = str[i] - '0';
+				str[i] = (a + trans) % 10 + '0';
+				trans = (a + trans) / 10;
+			}
+		}
 	}
 	str[index] = '\0';
 }
