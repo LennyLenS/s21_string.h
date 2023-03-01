@@ -3,11 +3,10 @@
 #include "s21_sprintf.h"
 int main()
 {
-  char str1[400];
+ char str1[400];
   char str2[400];
-  char *str3 = "test: %- 23.14f!\ntest: %+ 25.15f!";
-  double num = 365289.34628654873789362746834;
-  
+  char *str3 = "test: %-+.1Lf!\ntest: %- .2Lf!\ntest: %-0.3Lf!";
+  long double num = -0.999999;
 //   sprintf(str1, str3, num, num, num);
 //   s21_sprintf(str2, str3, num, num, num);
 
