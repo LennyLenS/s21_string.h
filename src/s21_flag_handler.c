@@ -86,7 +86,10 @@ char *main_func(char *str, Prototype *prot) {
 
 char *add_sharp_sign(char *str, Prototype prot) {
   char *res;
-  if ((prot.spec == 'o' && prot.prec_number == -1) || prot.spec == 'x' ||
+  if ( (prot.spec == 'o'  || prot.spec == 'x' ||
+      prot.spec == 'X' ) && *str == '0' && s21_strlen(str) == 1 ) {
+      res = str;
+  } else if ((prot.spec == 'o' && prot.prec_number == -1) || prot.spec == 'x' ||
       prot.spec == 'X') {
     int n = prot.spec == 'o' ? 1 : 2;
 
