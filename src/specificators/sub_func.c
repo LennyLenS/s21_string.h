@@ -18,7 +18,7 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 			size_ans += 1;
 			shift_str(buff, size_ans);
 			if(n % mes > 9){
-				buff[0] = n % mes - 10 + str[flag];    // поменял 'A' на 'a'
+				buff[0] = n % mes - 10 + str[flag];   // поменял 'A' на 'a'
 			}else{
 				buff[0] = n % mes + '0';
 			}

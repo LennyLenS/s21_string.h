@@ -12,7 +12,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
-  printf("start str: %s\n", str);
+  //printf("start str: %s\n", str);
   char *res;
   int str_len = s21_strlen(str);
   int negativ_num;
@@ -68,7 +68,7 @@ char *main_func(char *str, Prototype *prot) {
       // printf("есть ширина 2\n");
       str = n_shift(str, negativ_num, *prot);
     } else {
-       printf("6case\n");
+       //printf("6case\n");
       str = add_sign_or_space(str, *prot, negativ_num);
     }
     res = str; // add_sign_or_space(str, prot, negativ_num);
@@ -169,7 +169,7 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
   } else {
     // printf("no flags\n");
     int str_size = s21_strlen(buf_str);
-    printf("len: %d\n", str_size);
+    //printf("len: %d\n", str_size);
     res = (char *)malloc((str_size + 1) * sizeof(char));
     res = buf_str;
   }
