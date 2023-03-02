@@ -206,7 +206,7 @@ bool s21_mantisssa_and_degree(double *num, bool flag_zero,
   if ((prot->spec == 'g' || prot->spec == 'G') &&
       (*num > -1 && signbit(*num) && *num < 0.0))
     flag_zero_negative = true;
-  *num_int = (int)*num;  // целая часть дробного числа
+  *num_int = (long long int)*num;  // целая часть дробного числа
   // Мантисса + подсчет степени
   if (*num >= 1 || *num <= -1 || flag_zero == true) {
     if ((*num_int >= 10 || *num_int <= -10)) {
@@ -335,6 +335,9 @@ int s21_rounding_and_precision_number(
       else
         *num = round(*num * pow(10, *precision + counter_g_final_precison)) /
                pow(10, *precision + counter_g_final_precison);
+      if (flag_g == true && *check_g == 0)
+        *num = round(*num * pow(10, *precision + counter_g_final_precison)) /
+               pow(10, *precision + counter_g_final_precison);
       // multiply сделать для g
       if (this_is_used == true) {
         *save_number_for_g = *num;
@@ -353,6 +356,9 @@ int s21_rounding_and_precision_number(
       if (this_is_used == true) {
         *precision = save_precision_g;  // сохранение точности
       }
+      if (flag_g == true && *check_g == 0)
+        *num = round(*num * pow(10, 0)) / pow(10, 0);
+      if (*num < 0) *num = fabs(*num);
       *num = (unsigned long int)*num;  // получение дробного числа в виде инта
     }
   }
@@ -430,7 +436,7 @@ void s21_writing_int_number_with_point(
                                                 flag_minus_num, 0, 0);
           str_int[*num_i_g + 1] = '.';
         }
-        if (*num_i_g == 6 ||
+        if ((*num_i_g == 6 && *have_precision_g == 0) ||
             (*num_i_g == *save_precision_g_1 && *have_precision_g == 1))
           str_int[*num_i_g] = '\0';
       } else {
@@ -440,6 +446,12 @@ void s21_writing_int_number_with_point(
       }
     }
   }
+  // дописать для G
+  // if ((*num_i_g == 6 && *have_precision_g == 0 &&
+  //      (prot->spec == 'g' || prot->spec == 'G')) ||
+  //     ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
+  //      (prot->spec == 'g' || prot->spec == 'G')))
+  //   str_int[*num_i_g] = '\0';
 }
 
 int s21_concat_fractional_number_with_degree(
