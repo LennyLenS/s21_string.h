@@ -4,14 +4,16 @@
 int main()
 {
 
-  char str1[100];
-  char str2[100];
-  char *str3 = "%X Test %X Test %X";
-  int val = 0X7a4;
-  int val2 = 0X9112312f;
-  int val3 = 0X3123;
-   int a = sprintf(str1, str3, val, val2, val3);
-   int b = s21_sprintf(str2, str3, val, val2, val3);
+  char str1[200];
+  char str2[200];
+  char *str3 = "%#X Test %#3X Test %#5.7X TEST %#.7X Oof %#.X";
+  int val = 32;
+  int val2 = 8899;
+  int val3 = 91918;
+  int val4 = 32311;
+  int val5 = 8894;
+   int a =  sprintf(str1, str3, val, val2, val3, val4, val5);
+   int b = s21_sprintf(str2, str3, val, val2, val3, val4, val5);
    printf("#%s#\n#%s#\n", str1, str2);
    printf("%d %d", (int)strlen(str1), (int)strlen(str2));
 }

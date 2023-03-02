@@ -17,7 +17,8 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res = intermediate_str;
   }else if (prot->spec == 'n'){
     s21_spec_n(args, counter_symbols_str);
-    res = main_func(intermediate_str, prot);
+    // res = main_func(intermediate_str, prot);
+    res = intermediate_str;
   }else if (prot->spec == 'x'){
     specifier_x(intermediate_str, args, *prot);
     res = main_func(intermediate_str, prot);
