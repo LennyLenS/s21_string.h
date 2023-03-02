@@ -21,19 +21,20 @@ int main(void) {
                               // test_strrchr(),
                               // test_strspn(),
                               // test_sprintf_c(),
-                              //test_sprintf_f(),
+                              // test_sprintf_f(),
                               // test_strstr(),
                               // test_strtok(),
                               // test_sprintf_octal(),
                               // test_sprintf_percent(),
-                               test_sprintf_n(),
+                              // test_sprintf_n(),
                               // test_sprintf_HEX(),
-                              // test_sprintf_hex(),
+                               test_sprintf_hex(),
                               // test_sprintf_pointer(),
                               // test_to_upper(),
                               // test_to_lower(),
                               // test_insert(),
                               // test_trim(),
+
                               NULL};
 
   for (int i = 0; s21_string_test[i] != NULL; i++) {  // (&& failed == 0)

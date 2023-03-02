@@ -11,7 +11,10 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 	char str[2];
 	str[0] = 'a';
 	str[1] = 'A';
-	while(n != 0){
+	if (n == 0) {
+		buff[size_ans++] = '0';
+	}
+	 else {while(n != 0){
 		size_ans += 1;
 		shift_str(buff, size_ans);
 		if(n % mes > 9){
@@ -20,7 +23,7 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 			buff[0] = n % mes + '0';
 		}
 		n /= mes;
-	}
+	}}
 	buff[size_ans] = '\0';
 }
 

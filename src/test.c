@@ -3,22 +3,13 @@
 #include "s21_sprintf.h"
 int main()
 {
- char str1[100];
-  char str2[100];
-  char *str3 = "%o Test %o Te%-+#nst %o";
-  int val = 3015;
-  int val2 = 712;
-  int val3 = 99;
-  int valn1 = 0, valn2 = 0;
-
-// sprintf(str1, str3, val, val2, &valn1, val3);
-// s21_sprintf(str2, str3, val, val2, &valn2, val3);
-
-//   sprintf(str1, str3, num, num, num);
-//   s21_sprintf(str2, str3, num, num, num);
-
-   int a = sprintf(str1, str3, val, val2, &valn1, val3);
-   int b = s21_sprintf(str2, str3, val, val2, &valn2, val3);
+//char str1[100];
+   char str1[200];
+  char str2[200];
+  char *str3 = "%x Test %3.x Test %5.7x TEST %10x %#x %-x %+x %.x % .x";
+  int val = 0;
+  int a = sprintf(str1, str3, val, val, val, val, val, val, val, val, val);
+  int b  = s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val);
    
    printf("#%s#\n#%s#\n", str1, str2);
    printf("%d %d", (int)strlen(str1), (int)strlen(str2));
