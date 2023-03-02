@@ -75,7 +75,8 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
         &dont_write_number_with_point, &save_number_for_g, prot, &num_i_g,
-        flag_minus_num, &have_precision_g, &save_precision_g_1, &save_degree);
+        flag_minus_num, &have_precision_g, &save_precision_g_1, &save_degree,
+        &e);
     counter_symbols_str = s21_concat_fractional_number_with_degree(
         num_i, counter_symbols_str, str_double, num, prot, symbol_e, e,
         str_degree, &dont_write_number_with_point);
@@ -89,7 +90,8 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_writing_int_number_with_point(
         &num_int, &symbol, str_int, flag_zero_negative, &counter_symbols_str,
         &dont_write_number_with_point, &save_number_for_g, prot, &num_i_g,
-        flag_minus_num, &have_precision_g, &save_precision_g_1, &save_degree);
+        flag_minus_num, &have_precision_g, &save_precision_g_1, &save_degree,
+        &e);
     save_multiply = multiply;
     precision++;
     s21_check_fractional_number_for_zeros(&multiply, str_double, flag_minus_num,
@@ -361,9 +363,10 @@ void s21_writing_int_number_with_point(
     int *counter_symbols_str, int *dont_write_number_with_point,
     double *save_number_for_g, Prototype *prot, int *num_i_g,
     bool flag_minus_num, int *have_precision_g, int *save_precision_g_1,
-    int *save_degree) {
+    int *save_degree, int *e) {
   // Записываем целое число в массив char в виде "-4." если целое число
   // отрицательное. "4." если число положительное
+  //(void)*save_number_for_g;
   bool check_g = false;
   double send_to_function_num = 0;
   if ((prot->spec == 'g' || prot->spec == 'G') &&
@@ -371,7 +374,11 @@ void s21_writing_int_number_with_point(
         (prot->prec_number == -1 || prot->prec_star == -1)) ||
        (*save_precision_g_1 > *save_degree && *save_degree >= -4 &&
         (prot->prec_number != -1 || prot->prec_star != -1)))) {
-    *num_int = (int)*save_number_for_g;
+    // 838 точность 2 неверно 838 точность 3 верно
+    if (*save_precision_g_1 <= *e && *save_precision_g_1 != 0)
+      *num_int = *num_int % 10;
+    else
+      *num_int = (int)*save_number_for_g;
     check_g = true;
   }
   if (check_g == true) {

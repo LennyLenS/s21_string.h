@@ -63,7 +63,7 @@ void s21_writing_int_number_with_point(
     int *counter_symbols_str, int *dont_write_number_with_point,
     double *save_number_for_g, Prototype *prot, int *num_i_g,
     bool flag_minus_num, int *have_precision_g, int *save_precision_g,
-    int *save_degree);
+    int *save_degree, int *e);
 int s21_concat_fractional_number_with_degree(int num_i, int counter_symbols_str,
                                              char *str_double, double num,
                                              Prototype *prot, char symbol_e,

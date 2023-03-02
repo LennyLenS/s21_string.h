@@ -6,13 +6,13 @@ int main() {
   char str[256] = {0};
   char str1[256] = {0};
   // char str2[256] = {0};
-  double x = 838.654;
-  s21_sprintf(str, "%.2e", x);
+  double x = 838.354;
+  s21_sprintf(str, "%.3g", x);
   // если после знака запятой будет < 6 цифр, то нужно округлять
-  double y = 838.654;  // 16313213.3231234124 такой баг при g
+  double y = 838.354;  // 16313213.3231234124 такой баг при g
   // 34 35 44 тест e spec c точностью трабл
 
-  sprintf(str1, "%.2e", y);
+  sprintf(str1, "%.3g", y);
   printf("Original: %s\n", str1);
   // double z = 13044.058697058435;
   // sprintf(str2, "%.7e", z);
