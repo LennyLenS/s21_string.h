@@ -6,7 +6,7 @@ int main()
 
   char str1[200];
   char str2[200];
-  char *str3 = "%o Test %3.o Test %5.7o TEST %10o T%#o";
+  char *str3 = "% .o";
   int val = 0;
    int a = sprintf(str1, str3, val, val, val, val, val, val, val, val, val);
    int b = s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val);
