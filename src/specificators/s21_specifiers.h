@@ -13,10 +13,10 @@ int specifier_X(char *buff, va_list args, Prototype prot);
 int specifier_u(char *buff, va_list args, Prototype prot);
 int specifier_f(char *buff, va_list args, Prototype prot);
 
-int s21_spec_c(char *str, va_list args, Prototype *prot, int j);
+int s21_spec_c(char *str, va_list args, Prototype *prot);
 int s21_spec_id(va_list args, Prototype *prot, char *charbuf);
 void s21_spec_n(va_list args, int j);
-int s21_spec_s(char *str, va_list args, Prototype *prot, int j);
-int s21_spec_p(va_list args, char *charbuf);
+int s21_spec_s(char *str, va_list args, Prototype *prot);
+int s21_spec_p(va_list args, char *charbuf, Prototype *prot);
 
 #endif
