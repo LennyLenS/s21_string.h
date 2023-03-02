@@ -75,10 +75,11 @@ char *main_func(char *str, Prototype *prot) {
   }
 
    // printf("last: %d\n", (int)res[strlen(res)-1] );
-   res = add_char_right(str, 1 , strlen(str)+1, '\0');
+   //res = add_char_right(str, 1 , strlen(str)+1, '\0');
    // printf("last 2: %d\n", (int)res[strlen(res)] );
 
    //printf("%s\n", res);
+   res[s21_strlen(res)] = '\0';
    return res;
    
   // return add_char_right(str, 1 , strlen(str), '\0');
@@ -174,9 +175,8 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
     // res = add_sign(str, prot, sign_of_num);
   } else {
     // printf("no flags\n");
-    int str_size = s21_strlen(buf_str);
-    //printf("len: %d\n", str_size);
-    res = (char *)malloc((str_size + 1) * sizeof(char));
+    //int str_size = s21_strlen(buf_str);
+   // res = (char *)malloc((str_size + 1) * sizeof(char));
     res = buf_str;
   }
  
