@@ -194,11 +194,9 @@ char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
     if (j >= 0) {
       res[i] = str[j];
       j--;
-      //  printf("§");
     } else {
       res[i] = c;
     }
-    // printf("%c ", res[i]);
   }
 
   return res;
