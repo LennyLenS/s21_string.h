@@ -26,6 +26,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 'o'){
     specifier_o(intermediate_str, args, *prot);
+    printf("%s\n", intermediate_str);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 'u'){
     specifier_x(intermediate_str, args, *prot);

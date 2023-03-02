@@ -6,23 +6,28 @@ void shift_str(char *str, int size){
 	}
 }
 
-void UDecInNumSys(char *buff, unsigned long long  int n, int mes, int flag){     //  изменил int n на long long int n
+void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     //  изменил int n на long long int n
 	int size_ans = 0;
 	char str[2];
 	str[0] = 'a';
 	str[1] = 'A';
-	while(n != 0){
-		size_ans += 1;
-		shift_str(buff, size_ans);
-		if(n % mes > 9){
-			buff[0] = n % mes - 10 + str[flag];    // поменял 'A' на 'a'
-		}else{
-			buff[0] = n % mes + '0';
+	if (n == 0) {
+		buff[size_ans++] = '0';
+	} else {
+		while(n != 0){
+			size_ans += 1;
+			shift_str(buff, size_ans);
+			if(n % mes > 9){
+				buff[0] = n % mes - 10 + str[flag];    // поменял 'A' на 'a'
+			}else{
+				buff[0] = n % mes + '0';
+			}
+			n /= mes;
 		}
-		n /= mes;
 	}
 	buff[size_ans] = '\0';
 }
+
 
 void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 	int count_before_dot = 0, index = 0, neg_flag = 0;

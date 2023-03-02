@@ -12,29 +12,39 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
+  //printf("start str: %s\n", str);
   char *res;
   int str_len = s21_strlen(str);
   int negativ_num;
-
   if (*str == '-') {
     negativ_num = 1;
     str = str + 1;
   } else {
     negativ_num = 0;
   }
+  
   if (prot->spec == 'f' || prot->spec == 'g' || prot->spec == 'G' || prot->spec == 'e' ||
       prot->spec == 'E') {
     prot->prec_number = -1;
   }
+   if ( prot->spec == 'o' || prot->spec == 'u' ||
+        prot->spec == 'x' || prot->spec == 'X') {
+          prot->plus_flag = 0;
+          prot->space_flag = 0;
+          //printf("xui\n");
+    }
+
   if (prot->prec_number != -1) {
     if (prot->spec == 'd' || prot->spec == 'i' || prot->spec == 'o' || prot->spec == 'u' ||
-        prot->spec == 'x' || prot->spec == 'X') { //  это только для целыx чисел
+        prot->spec == 'x' || prot->spec == 'X' || prot->spec == 'n') { //  это только для целыx чисел
       str = prot->prec_number >= str_len
                 ? add_char_left(str, prot->prec_number - str_len - 1, str_len + 1,
                                 '0', *prot)
                 : str;
      
     }
+   
+
     // printf("Buf str:%s\n", str);
     if (prot->sharp_flag) {
       str = add_sharp_sign(str, *prot);
@@ -58,7 +68,7 @@ char *main_func(char *str, Prototype *prot) {
       // printf("есть ширина 2\n");
       str = n_shift(str, negativ_num, *prot);
     } else {
-      // printf("6case\n");
+       //printf("6case\n");
       str = add_sign_or_space(str, *prot, negativ_num);
     }
     res = str; // add_sign_or_space(str, prot, negativ_num);
@@ -157,7 +167,9 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
     }
     // res = add_sign(str, prot, sign_of_num);
   } else {
+    // printf("no flags\n");
     int str_size = s21_strlen(buf_str);
+    //printf("len: %d\n", str_size);
     res = (char *)malloc((str_size + 1) * sizeof(char));
     res = buf_str;
   }
@@ -188,7 +200,7 @@ char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
 char *add_char_right(char *str, int n, int str_size, char c) {
 
   char *res = (char *)malloc((str_size + n + 1) * sizeof(char));
-
+  // printf("!!%s!!%d %d\n", str, str_size, (int)strlen(str));
   for (int i = 0; i < str_size + n; i++) {
     if (i < str_size - 1) {
       res[i] = str[i];
