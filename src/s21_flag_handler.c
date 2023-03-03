@@ -14,12 +14,21 @@ char *add_sharp_sign(char *str, Prototype prot);
 char *main_func(char *str, Prototype *prot) {
   // printf("start str:%s\n", str);
   prot->width_number = prot->width_number != 0 ? prot->width_number: prot->width_star;
-  char *res;
+  char str_1[512] = {'\0'}, res[512];
+
+  for (int i = 0; i < (int)s21_strlen(str);i++) {
+    str_1[i] = str[i];
+  }
+  
+
   int str_len = s21_strlen(str);
   int negativ_num;
-  if (*str == '-') {
+  if (*str_1 == '-') {
     negativ_num = 1;
-    str = str + 1;
+    // str_1 = str_1 + 1;
+    for (int i = 0; i < (int)s21_strlen(str);i++) {
+      str_1[i+1] = str[i];
+    }
   } else {
     negativ_num = 0;
   }
@@ -57,7 +66,7 @@ char *main_func(char *str, Prototype *prot) {
       // printf("3case\n");
       str = add_sign_or_space(str, *prot, negativ_num);
     }
-    res = str;
+    res = str_1;
 
   } else {
     if (prot->sharp_flag) {
@@ -107,11 +116,11 @@ char *add_sharp_sign(char *str, Prototype prot) {
       res[0] = '0';
       res[1] = prot.spec;
     }
+    res[s21_strlen(str) + n] = '\0';
   } else {
    
     res = str;
   }
-  
   return res;
 }
 
@@ -198,7 +207,7 @@ char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
       res[i] = c;
     }
   }
-
+  res[str_size+n] = '\0';
   return res;
 }
 

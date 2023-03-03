@@ -186,8 +186,8 @@ START_TEST(sprintf_13_HEX) {
   int val5 = 8894;
   sprintf(str1, str3, val, val2, val3, val4, val5);
   s21_sprintf(str2, str3, val, val2, val3, val4, val5);
-  printf("#%s#\n#%s#\n", str1, str2);
-  printf("%d %d", (int)strlen(str1), (int)strlen(str2));
+  // printf("#%s#\n#%s#\n", str1, str2);
+  // printf("%d %d", (int)strlen(str1), (int)strlen(str2));
 
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));

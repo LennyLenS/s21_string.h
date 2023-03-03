@@ -18,7 +18,7 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 			size_ans += 1;
 			shift_str(buff, size_ans);
 			if(n % mes > 9){
-				buff[0] = n % mes - 10 + str[flag];    // поменял 'A' на 'a'
+				buff[0] = n % mes - 10 + str[flag];   // поменял 'A' на 'a'
 			}else{
 				buff[0] = n % mes + '0';
 			}
@@ -28,7 +28,33 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag){     
 	buff[size_ans] = '\0';
 }
 
+int s21_rounding(char *str, int count_before_dot, int pres, int neg_flag, int add_point, int index){
+	int trans = 1;
+	for(int i = count_before_dot + pres - 1 + add_point + neg_flag; i > 0; --i){
+		if(str[i] != '.'){
+			int a = str[i] - '0';
+			str[i] = (a + trans) % 10 + '0';
+			trans = (a + trans) / 10;
+		}
+	}
 
+	if(trans == 1 && str[0] == '9'){
+		shift_str(str, count_before_dot + pres - 1 + add_point + neg_flag);
+		str[1] = '0';
+		str[0] = '1';
+	}
+	else if(trans == 1 && str[0] == '-'){
+		//printf("$%s$\n", str);
+		shift_str(str + 1, count_before_dot + pres + add_point + 1);
+		//printf("$%s$\n", str);
+		str[1] = '1';
+		index++;
+	}else if(trans == 1){
+		str[0] = str[0] + 1;
+	}
+
+	return index;
+}
 void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 	int count_before_dot = 0, index = 0, neg_flag = 0;
 	long double num1 = 0, num2 = num;
@@ -74,30 +100,7 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 	num2 *= 10;
 	int y = (int)num2;
 	if(y >= 5){
-		int trans = 1;
-		for(int i = count_before_dot + pres - 1 + add_point + neg_flag; i > 0; --i){
-			if(str[i] != '.'){
-				int a = str[i] - '0';
-				str[i] = (a + trans) % 10 + '0';
-				trans = (a + trans) / 10;
-			}
-		}
-
-		if(trans == 1 && str[0] == '9'){
-			shift_str(str, count_before_dot + pres - 1 + add_point + neg_flag);
-			str[1] = '0';
-			str[0] = '1';
-		}
-		else if(trans == 1 && str[0] == '-'){
-			//printf("$%s$\n", str);
-			shift_str(str + 1, count_before_dot + pres + add_point + 1);
-			//printf("$%s$\n", str);
-			str[1] = '1';
-			index++;
-		}else if(trans == 1){
-			str[0] = str[0] + 1;
-		}
-
+		index = s21_rounding(str, count_before_dot, pres, neg_flag, add_point, index);
 	}
 	if(flag_bad == 1){
 		int trans = 1;

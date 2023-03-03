@@ -2,7 +2,8 @@
 
 int main(void) {
   int failed = 0;
-  Suite *s21_string_test[] = {test_memchr(),
+  Suite *s21_string_test[] = {
+                              test_memchr(),
                               test_memcmp(),
                               test_memcpy(),
                               test_memmove(),
@@ -20,7 +21,6 @@ int main(void) {
                               test_strpbrk(),
                               test_strrchr(),
                               test_strspn(),
-
                               test_sprintf_c(),
                               test_sprintf_f(),
                               test_strstr(),
@@ -28,14 +28,17 @@ int main(void) {
                               test_sprintf_octal(),
                               test_sprintf_percent(),
                               test_sprintf_n(),
+                              test_sprintf_unsigned(),
                               test_sprintf_HEX(),
-                             test_sprintf_hex(),
+                              test_sprintf_hex(),
                               test_sprintf_pointer(),
+                              test_sprintf_signed(),
+                              test_sprintf_signed_i(),
                               test_to_upper(),
-                              test_to_lower(),
                               test_insert(),
                               test_trim(),
-
+                              test_to_lower(),
+                              test_sprintf_string(),
                               NULL};
 
   for (int i = 0; s21_string_test[i] != NULL; i++) {  // (&& failed == 0)

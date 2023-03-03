@@ -5,16 +5,20 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   // В промежуточном массиве будет храниться строка без учета параметров
   // заданных в спецификаторе т.е флаги,ширина, точность и тд
   char intermediate_str[4096] = {'\0'};
-  char *res = NULL;
+  char *res = S21_NULL;
   if (prot->spec == 'c'){
-    s21_spec_c(intermediate_str, args, prot, counter_symbols_str);
+    s21_spec_c(intermediate_str, args, prot);
     res = intermediate_str;
   }else if (prot->spec == 'd' || prot->spec == 'i'){
     s21_spec_id(args, prot, intermediate_str);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 's'){
-    s21_spec_s(intermediate_str, args, prot, counter_symbols_str);
-    res = intermediate_str;
+    int flag_s = s21_spec_s(intermediate_str, args, prot);
+    if(flag_s == 2){
+      res = main_func(intermediate_str, prot);
+    } else {
+      res = intermediate_str;
+    }
   }else if (prot->spec == 'n'){
     s21_spec_n(args, counter_symbols_str);
     // res = main_func(intermediate_str, prot);
@@ -37,8 +41,8 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     //printf("%s\n", intermediate_str);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 'p'){
-    s21_spec_p(args, intermediate_str);
-    res = main_func(intermediate_str, prot);
+    s21_spec_p(args, intermediate_str, prot);
+    res = intermediate_str;
   }
   //printf("%s, %d\n", intermediate_str, counter_symbols_str);
   while(*res != '\0'){
@@ -46,5 +50,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res++;
   }
   str[counter_symbols_str] = '\0';
+
+  //free(res);
   return counter_symbols_str;
 }
