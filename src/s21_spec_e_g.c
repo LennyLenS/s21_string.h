@@ -437,8 +437,10 @@ void s21_writing_int_number_with_point(
           str_int[*num_i_g + 1] = '.';
         }
         if ((*num_i_g == 6 && *have_precision_g == 0) ||
-            (*num_i_g == *save_precision_g_1 && *have_precision_g == 1))
+            (*num_i_g == *save_precision_g_1 && *have_precision_g == 1)) {
+          if (str_int[0] == '-') *num_i_g += 1;
           str_int[*num_i_g] = '\0';
+        }
       } else {
         str_int[0] = *symbol + '0';
         str_int[1] = '.';
