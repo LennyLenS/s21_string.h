@@ -164,7 +164,8 @@ void s21_spec_n(va_list args, int j){
 }
 
 int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
-    long int num = 0;
+    __int128_t num = 0;
+    int neg_flag = 0;
     if(prot->length == 'h'){
         num = (short)va_arg(args, int);
     } else if(prot->length == 'l'){
@@ -172,16 +173,30 @@ int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
     } else {
         num = va_arg(args, int);
     };
-    
+
     int num_i = 0;
-    while (num > 0){
-        int tmp_dig;
-        tmp_dig = num%10;
-        num = num / 10;
-        charbuf[num_i] = tmp_dig + '0';
-        num_i++;
+
+    if(num < 0){
+        neg_flag = 1;
+        num *= -1;
+        charbuf[num_i] = '-';
+        num_i = 1;
     }
-    s21_reverse(charbuf);
+
+    if(num == 0){
+        charbuf[num_i] = '0';
+        num_i++;
+    } else {
+        while (num > 0){
+            int tmp_dig = 0;
+            tmp_dig = num%10;
+            num = num / 10;
+            charbuf[num_i] = tmp_dig + '0';
+            num_i++;
+        }
+    }
+
+    s21_reverse(charbuf, neg_flag);
     return num_i;
 }
 
