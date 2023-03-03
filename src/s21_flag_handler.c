@@ -106,11 +106,11 @@ char *add_sharp_sign(char *str, Prototype prot) {
       res[0] = '0';
       res[1] = prot.spec;
     }
+    res[s21_strlen(str) + n] = '\0';
   } else {
    
     res = str;
   }
-  
   return res;
 }
 
@@ -198,7 +198,7 @@ char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
       res[i] = c;
     }
   }
-
+  res[str_size+n] = '\0';
   return res;
 }
 

@@ -50,5 +50,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res++;
   }
   str[counter_symbols_str] = '\0';
+
+  //free(res);
   return counter_symbols_str;
 }
