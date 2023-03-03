@@ -27,7 +27,7 @@ int main(void) {
                               // test_strtok(),
                               // test_sprintf_octal(),
                               // test_sprintf_percent(),
-                              // test_sprintf_n(),
+                               test_sprintf_n(),
                                test_sprintf_unsigned(),
                               test_sprintf_HEX(),
                               test_sprintf_hex(),
