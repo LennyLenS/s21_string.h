@@ -53,7 +53,6 @@ int s21_check_prec(const char *format, int i, int *this_is_prec,
   return i;
 }
 
-
 void s21_check_width(const char *format, int i, int *this_is_width,
                      Prototype *prot, va_list args) {
   if (prot->width_number == 0 && format[i] == '*' && *this_is_width == 0) {

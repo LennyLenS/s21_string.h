@@ -1,6 +1,7 @@
+#include <string.h>
+
 #include "s21_sprintf.h"
 #include "s21_string_files/s21_string.h"
-#include <string.h>
 
 char *add_sign_or_space(char *buf_str, Prototype prot, int sign);
 
@@ -12,8 +13,8 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
-  prot->width_number = prot->width_number != 0 ? prot->width_number: prot->width_star;
-
+  prot->width_number =
+      prot->width_number != 0 ? prot->width_number : prot->width_star;
   char *str1;
 
   char *res;
@@ -21,45 +22,52 @@ char *main_func(char *str, Prototype *prot) {
   int negativ_num;
   if (*str == '-') {
     negativ_num = 1;
-    str1 = (char*)malloc(s21_strlen(str));
-    for(int i = 1; i <= (int)s21_strlen(str); ++i){
-      str1[i - i] = str[i];
+    str1 = (char *)malloc(s21_strlen(str));
+    for (int i = 1; i <= (int)s21_strlen(str); ++i) {
+      str1[i - 1] = str[i];
     }
   } else {
-    str1 = (char*)malloc(s21_strlen(str) + 1);
-    for(int i = 0; i < (int)s21_strlen(str) + 1; ++i){
+    str1 = (char *)malloc(s21_strlen(str) + 1);
+    for (int i = 0; i < (int)s21_strlen(str) + 1; ++i) {
       str1[i] = str[i];
     }
     negativ_num = 0;
   }
   str = str1;
-  if (prot->spec == 'f' || prot->spec == 'g' || prot->spec == 'G' || prot->spec == 'e' ||
-      prot->spec == 'E') {
+
+  //printf("!%s!\n", str);
+  if (prot->spec == 'f' || prot->spec == 'g' || prot->spec == 'G' ||
+      prot->spec == 'e' || prot->spec == 'E') {
     prot->prec_number = -1;
   }
-   if ( prot->spec == 'o' || prot->spec == 'u' ||
-        prot->spec == 'x' || prot->spec == 'X') {
-          prot->plus_flag = 0;
-          prot->space_flag = 0;
-    }
+  if (prot->spec == 'o' || prot->spec == 'u' || prot->spec == 'x' ||
+      prot->spec == 'X') {
+    prot->plus_flag = 0;
+    prot->space_flag = 0;
+  }
 
   if (prot->prec_number != -1) {
-    if (prot->spec == 'd' || prot->spec == 'i' || prot->spec == 'o' || prot->spec == 'u' ||
-        prot->spec == 'x' || prot->spec == 'X' || prot->spec == 'n') { //  это только для целыx чисел
-        if(prot->prec_number >= str_len){
-          char *buff_str = add_char_left(str, prot->prec_number - str_len - 1, str_len + 1,
-                                '0', *prot);
-          free(str);
-          str = buff_str;
-        }
-     
+    if (prot->spec == 'd' || prot->spec == 'i' || prot->spec == 'o' ||
+        prot->spec == 'u' || prot->spec == 'x' || prot->spec == 'X' ||
+        prot->spec == 'n') {  //  это только для целыx чисел
+      if (prot->prec_number >= str_len) {
+        char *buff_str = add_char_left(str, prot->prec_number - str_len - 1,
+                                       str_len + 1, '0', *prot);
+        free(str);
+        str = buff_str;
+      }
     }
     // printf("Buf str:%s\n", str);
     if (prot->sharp_flag) {
       char *buff_str = add_sharp_sign(str, *prot);
       free(str);
       str = buff_str;
-    }else {
+    }
+    if (prot->width_number != 0 || prot->width_star != 0) {
+      char *buff_str = n_shift(str, negativ_num, *prot);
+      free(str);
+      str = buff_str;
+    } else {
       // printf("3case\n");
       char *buff_str = add_sign_or_space(str, *prot, negativ_num);
       free(str);
@@ -72,38 +80,39 @@ char *main_func(char *str, Prototype *prot) {
       str = buff_str;
     }
     if (prot->width_number != 0 || prot->width_star != 0) {
+      //printf("!%s!\n", str);
       char *buff_str = n_shift(str, negativ_num, *prot);
       free(str);
       str = buff_str;
-    } 
-    else {
-     //  printf("6case\n");
+      //printf("!%s!\n", str);
+    } else {
+      //  printf("6case\n");
       char *buff_str = add_sign_or_space(str, *prot, negativ_num);
       free(str);
       str = buff_str;
     }
-     //add_sign_or_space(str, prot, negativ_num);
+    // add_sign_or_space(str, prot, negativ_num);
   }
 
-   // printf("last: %d\n", (int)res[strlen(res)-1] );
-   char *buff_str = add_char_right(str, 1 , strlen(str)+1, '\0');
-   free(str);
-   str = buff_str;
+  // printf("last: %d\n", (int)res[strlen(res)-1] );
+  char *buff_str = add_char_right(str, 1, strlen(str) + 1, '\0');
+  free(str);
+  str = buff_str;
 
   res = str;
-   return res;
+  return res;
 }
 
 char *add_sharp_sign(char *str, Prototype prot) {
   char *res;
-  if ( (prot.spec == 'o'  || prot.spec == 'x' ||
-      prot.spec == 'X' ) && *str == '0' && s21_strlen(str) == 1 ) {
-      res = (char *)malloc((s21_strlen(str) + 1) * sizeof(char));
-      s21_memcpy(res, str, s21_strlen(str) + 1);
+  if ((prot.spec == 'o' || prot.spec == 'x' || prot.spec == 'X') &&
+      *str == '0' && s21_strlen(str) == 1) {
+    res = (char *)malloc((s21_strlen(str) + 1) * sizeof(char));
+    s21_memcpy(res, str, s21_strlen(str) + 1);
 
-  } else if ((prot.spec == 'o' && (prot.prec_number == -1 || prot.prec_number ==0)) || prot.spec == 'x' ||
-      prot.spec == 'X') {
-  
+  } else if ((prot.spec == 'o' &&
+              (prot.prec_number == -1 || prot.prec_number == 0)) ||
+             prot.spec == 'x' || prot.spec == 'X') {
     int n = prot.spec == 'o' ? 1 : 2;
 
     res = (char *)malloc((s21_strlen(str) + 1 + n) * sizeof(char));
@@ -135,49 +144,48 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
       char *buff_str = add_sign_or_space(str, prot, negativ_num);
       str = buff_str;
     } else {
-
+      int str_size = s21_strlen(str);
       char *buff_str = add_sign_or_space(str, prot, negativ_num);
       str = buff_str;
-      buff_str = add_char_right(str,
-                               prot.width_number - s21_strlen(str) - 1 - sign_size,
-                               s21_strlen(str) + 1 + sign_size, ' ');
-      
+      buff_str = add_char_right(
+          str, prot.width_number - str_size - 1 - sign_size,
+          str_size + 1 + sign_size, ' ');
 
       free(str);
       str = buff_str;
-
     }
   } else {
     if ((int)s21_strlen(str) >= prot.width_number) {
+      char *buff_str = add_sign_or_space(str, prot, negativ_num);
+      str = buff_str;
+    } else {
+      if (prot.zero_flag || *str == '0') {
+        char *buff_str = add_char_left(
+            str, prot.width_number - s21_strlen(str) - 1 - sign_size,
+            s21_strlen(str) + 1 + sign_size, ' ', prot);
+        str = buff_str;
+        buff_str = add_sign_or_space(str, prot, negativ_num);
+        free(str);
+        str = buff_str;
+
+      } else {
+        int str_size = s21_strlen(str);
         char *buff_str = add_sign_or_space(str, prot, negativ_num);
         str = buff_str;
-    } else {
-
-      if (prot.zero_flag || *str == '0') {
-        char *buff_str = add_char_left(str , prot.width_number - s21_strlen(str) - 1 - sign_size,
-                                    s21_strlen(str) + 1 + sign_size, ' ', prot);
-        str = buff_str;               
-        buff_str = add_sign_or_space( str, prot, negativ_num);
+        //printf("%d\n", (int)strlen(str));
+        buff_str = add_char_left(
+            str, prot.width_number - str_size - 1 - sign_size,
+            str_size + 1 + sign_size, ' ', prot);
         free(str);
-        str = buff_str;   
-        
-      } else {
-        char *buff_str = add_sign_or_space(str, prot, negativ_num);
-        str = buff_str;  
-        buff_str = add_char_left(str,
-                                  prot.width_number - s21_strlen(str) - 1 - sign_size,
-                                  s21_strlen(str) + 1 + sign_size, ' ', prot); 
-        free(str);
-        str = buff_str; 
+        str = buff_str;
       }
     }
-
   }
   return str;
 }
 
 char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
-  char *res;  
+  char *res;
   if (prot.plus_flag == 1 || sign == 1 || prot.space_flag) {
     int str_size = s21_strlen(buf_str);
     res = (char *)malloc((str_size + 2) * sizeof(char));
@@ -186,7 +194,7 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
       res[i] = buf_str[i - 1];
     }
 
-    if (sign == 1) { // если отрицательное число то по дефолту ставим -
+    if (sign == 1) {  // если отрицательное число то по дефолту ставим -
       res[0] = '-';
     } else if (sign == 0 && prot.plus_flag) {
       res[0] = '+';
@@ -197,7 +205,7 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
   } else {
     // printf("no flags\n");
     int str_size = s21_strlen(buf_str);
-    //printf("len: %d\n", str_size);
+    // printf("len: %d\n", str_size);
     res = (char *)malloc((str_size + 1) * sizeof(char));
     s21_memcpy(res, buf_str, s21_strlen(buf_str) + 1);
   }
@@ -220,7 +228,7 @@ char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
       res[i] = c;
     }
   }
-  res[str_size+n] = '\0';
+  res[str_size + n] = '\0';
   return res;
 }
 
@@ -233,6 +241,6 @@ char *add_char_right(char *str, int n, int str_size, char c) {
       res[i] = c;
     }
   }
-  res[str_size+n] = '\0';
+  res[str_size + n] = '\0';
   return res;
 }
