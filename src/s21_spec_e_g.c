@@ -21,6 +21,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   bool check_num_i_g = false;
   bool flag_g = false;
   bool this_is_used = false;
+  bool flag_g_prec_1 = true;
   int save_precision_g_1 = 0;
   int have_precision_g = 0;
   unsigned long int multiply = 1;
@@ -60,8 +61,14 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     printf("Finally1: %s\n", intermediate_str);
     return counter_symbols_str;
   }
+  if (flag_g == true && 1 > e && e >= -4 &&
+      (prot->prec_number == 1 || prot->prec_star == 1))
+    flag_g_prec_1 = false;
   // ------------------------------------------ если .0 тут проверку сделать num
   if (prot->prec_number == 0 || prot->prec_star == 0)
+    num = round(num * pow(10, 0)) / pow(10, 0);
+  else if ((prot->prec_number == 1 || prot->prec_star == 1) &&
+           (flag_g_prec_1 = true))
     num = round(num * pow(10, 0)) / pow(10, 0);
   s21_fractional_and_integer_part_of_a_number(
       &num_int, &num, prot, flag_zero_negative, flag_minus_num_g);
@@ -140,6 +147,43 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_reverse(str_double_g);
     s21_strcat(str_double, str_double_g);
     s21_strcat(str_int, str_double);
+    // убираем незначащие нули
+    int counter_g_leading_zeros = 0;
+    int counter_g_prec = 0;
+    bool this_is_zero = false;
+    bool this_is_int = false;
+    // Мб for надо убрать
+    if (str_int[counter_g_prec] == '-' && str_int[counter_g_prec + 1] == '.') {
+      counter_g_leading_zeros += 1;
+      this_is_zero = true;
+      this_is_int = true;
+    } else if (str_int[counter_g_prec] == '-')
+      counter_g_prec += 1;
+    while (this_is_int == false && this_is_zero == false) {
+      if (str_int[counter_g_prec] != '.') {
+        counter_g_leading_zeros += 1;
+        counter_g_prec += 1;
+      } else {
+        counter_g_prec += 1;
+        this_is_int = true;
+      }
+    }
+    save_precision_g_1 -= counter_g_leading_zeros;
+    for (int i = 1; i <= save_precision_g_1; i++) {
+      if (str_int[counter_g_prec] != '\0') counter_g_prec++;
+      // if (str_int[counter_g_prec] != '0')
+    }
+    counter_g_prec--;
+    bool this_is_not_zero = false;
+    while (this_is_not_zero == false) {
+      if (str_int[counter_g_prec] == '0') {
+        counter_g_prec--;
+      } else
+        this_is_not_zero = true;
+    }
+    if (this_is_not_zero == true) {
+      str_int[counter_g_prec + 1] = '\0';
+    }
     s21_strcat(intermediate_str, str_int);
   }
 
@@ -230,6 +274,7 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
                                                  bool flag_zero_negative,
                                                  bool flag_minus_num_g) {
   // Разбиваем дробное число на два интовых типа целое число и дробная часть
+  // здесь фиксить баг с точностью 1
   *num_int = (int)*num;
   if (*num_int >= 0)
     *num -= *num_int;
