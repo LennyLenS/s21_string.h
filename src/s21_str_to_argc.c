@@ -6,6 +6,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   // заданных в спецификаторе т.е флаги,ширина, точность и тд
   char intermediate_str[4096] = {'\0'};
   char *res = S21_NULL;
+  int flag_s = 0;
   if (prot->spec == 'c'){
     s21_spec_c(intermediate_str, args, prot);
     res = intermediate_str;
@@ -13,7 +14,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     s21_spec_id(args, prot, intermediate_str);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 's'){
-    int flag_s = s21_spec_s(intermediate_str, args, prot);
+    flag_s = s21_spec_s(intermediate_str, args, prot);
     if(flag_s == 2){
       res = main_func(intermediate_str, prot);
     } else {
@@ -34,7 +35,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     //printf("%s\n", intermediate_str);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 'u'){
-    specifier_x(intermediate_str, args, *prot);
+    specifier_u(intermediate_str, args, *prot);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 'f'){
     specifier_f(intermediate_str, args, *prot);
@@ -45,12 +46,13 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res = intermediate_str;
   }
   //printf("%s, %d\n", intermediate_str, counter_symbols_str);
-  while(*res != '\0'){
-    str[counter_symbols_str++] = *res;
-    res++;
+  int index = 0;
+  while(res[index] != '\0'){
+    str[counter_symbols_str++] = res[index++];
   }
   str[counter_symbols_str] = '\0';
-
-  //free(res);
+  if(prot->spec == 'f' || prot->spec == 'u' || prot->spec == 'o' || prot->spec == 'X' || prot->spec == 'x' || prot->spec == 'd' || prot->spec == 'i'){
+    free(res);
+  }
   return counter_symbols_str;
 }

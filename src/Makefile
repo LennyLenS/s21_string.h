@@ -1,5 +1,5 @@
 CC=gcc -std=c11 -D_GNU_SOURCE
-CFLAGS=-c -Wall -Wextra -Werror -g
+CFLAGS=-c -Wall -Wextra -g
 TEST_FLAGS=-lcheck -lm -lpthread
 GCOV_FLAGS=--coverage -Wall -Wextra -Werror
 SOURCES=$(wildcard s21_string_files/*.c)
