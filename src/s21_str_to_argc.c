@@ -46,7 +46,12 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   } else if (prot->spec == 'p') {
     s21_spec_p(args, intermediate_str, prot);
     res = intermediate_str;
+  } else if (prot->spec == 'e' || prot->spec == 'E' || prot->spec == 'g' ||
+           prot->spec == 'G') {
+    s21_spec_e(counter_symbols_str, str, intermediate_str, args, prot);
+        res = main_func(intermediate_str, prot);
   }
+
   // printf("%s, %d\n", intermediate_str, counter_symbols_str);
   int index = 0;
   while (res[index] != '\0') {

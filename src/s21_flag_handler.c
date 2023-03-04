@@ -13,7 +13,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
-  // printf("start str:%s\n", str);
+  //printf("start str:%s\n", str);
   prot->width_number =
       prot->width_number != 0 ? prot->width_number : prot->width_star;
   char *str1;

@@ -325,7 +325,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   if (num_int == 0 && (prot->spec == 'g' || prot->spec == 'G')) {
     str_int[0] = '0';
     s21_strcat(intermediate_str, str_int);
-    printf("Finally1: %s\n", intermediate_str);
+    // printf("Finally1: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (flag_g == true && 1 > e && e >= -4 &&
@@ -454,8 +454,8 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_strcat(intermediate_str, str_int);
   }
 
-  printf("Дробная часть %s\n", str_double);
-  printf("Finally1: %s\n", intermediate_str);
+//   printf("Дробная часть %s\n", str_double);
+//   printf("Finally1: %s\n", intermediate_str);
   // Вызываем функцию Юли
   // s21_strcat(intermediate_str, res);
   // Считаем кол-во символов

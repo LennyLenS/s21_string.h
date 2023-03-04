@@ -19,4 +19,13 @@ void s21_spec_n(va_list args, int j);
 int s21_spec_s(char *str, va_list args, Prototype *prot);
 int s21_spec_p(va_list args, char *charbuf, Prototype *prot);
 
+//-------------------------- Artem func start -------------------
+int s21_spec_e(int j, char *str, char *intermediate_str, va_list args,
+               Prototype *prot);
+
+int s21_spec_g(int counter_symbols_str, char *str, char *intermediate_str,
+               va_list args, Prototype *prot);
+
+
+//-------------------------- Artem func end -------------------
 #endif
