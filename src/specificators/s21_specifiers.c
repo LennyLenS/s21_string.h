@@ -263,10 +263,9 @@ int s21_spec_c(char *str, va_list args, Prototype *prot) {
     return ret;
 }
 
-// #include "functions/s21_string.h"
-// #include "s21_sprintf.h"
 
 // ----------------------------- Artem func start -----------------------------
+
 
 int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
                va_list args, Prototype *prot) {
@@ -325,7 +324,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   if (num_int == 0 && (prot->spec == 'g' || prot->spec == 'G')) {
     str_int[0] = '0';
     s21_strcat(intermediate_str, str_int);
-    // printf("Finally1: %s\n", intermediate_str);
+    //printf("Finally1: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (flag_g == true && 1 > e && e >= -4 &&
@@ -435,7 +434,11 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
         this_is_int = true;
       }
     }
-    save_precision_g_1 -= counter_g_leading_zeros;
+    if (have_precision_g == 0) {
+      save_precision_g_1 = 6;
+      save_precision_g_1 -= counter_g_leading_zeros;
+    } else
+      save_precision_g_1 -= counter_g_leading_zeros;
     for (int i = 1; i <= save_precision_g_1; i++) {
       if (str_int[counter_g_prec] != '\0') counter_g_prec++;
       // if (str_int[counter_g_prec] != '0')
@@ -454,8 +457,8 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_strcat(intermediate_str, str_int);
   }
 
-//   printf("Дробная часть %s\n", str_double);
-//   printf("Finally1: %s\n", intermediate_str);
+  //printf("Дробная часть %s\n", str_double);
+  //printf("Finally1: %s\n", intermediate_str);
   // Вызываем функцию Юли
   // s21_strcat(intermediate_str, res);
   // Считаем кол-во символов
@@ -631,6 +634,7 @@ int s21_rounding_and_precision_number(
         check_fractional_num_from_zeros_g = *save_number_for_g;
         for (int i = 0; i < *precision; i++)
           check_fractional_num_from_zeros_g *= 10;
+        // Здесь баг
         if ((int)check_fractional_num_from_zeros_g % 10 != 0)
           this_is_prec_with_zeros = true;
         int counter = *precision;
@@ -761,11 +765,11 @@ void s21_writing_int_number_with_point(
     }
   }
   // дописать для G
-  // if ((*num_i_g == 6 && *have_precision_g == 0 &&
-  //      (prot->spec == 'g' || prot->spec == 'G')) ||
-  //     ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
-  //      (prot->spec == 'g' || prot->spec == 'G')))
-  //   str_int[*num_i_g] = '\0';
+  if ((*num_i_g == 6 && *have_precision_g == 0 &&
+       (prot->spec == 'g' || prot->spec == 'G')) ||
+      ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
+       (prot->spec == 'g' || prot->spec == 'G')))
+    str_int[*counter_symbols_str - 1] = '\0';
 }
 
 int s21_concat_fractional_number_with_degree(
@@ -837,4 +841,5 @@ void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
     *multiply /= 10;
   }
 }
+
 // ----------------------------- Artem func end -----------------------------

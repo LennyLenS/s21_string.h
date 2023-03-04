@@ -217,7 +217,7 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
 }
 
 char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
-  if (prot.zero_flag) {
+  if (prot.zero_flag == 1) {
     c = '0';
   }
   int j = str_size - 1;
