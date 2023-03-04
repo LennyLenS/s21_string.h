@@ -42,6 +42,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   double save_number_for_g = num;
   if (s21_check_arg(prot, counter_symbols_str, str, num) != 0) {
     s21_strcat(intermediate_str, str);
+    printf("s21_stri: %s\n", str);
     return counter_symbols_str;
   }
   if (prot->spec == 'g' || prot->spec == 'G') flag_g = true;
@@ -125,6 +126,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
       }
       check_num_i_g = true;
     }
+    // хуйня какая-то число пропадает
     s21_fractional_and_integer_part_of_a_number(&num_int, &save_number_for_g,
                                                 prot, flag_zero_negative,
                                                 flag_minus_num_g);
@@ -141,18 +143,17 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
           round(save_number_for_g * pow(10, save_precision_for_rounding_g)) /
           pow(10, save_precision_for_rounding_g);
     }
-    save_number_for_g = (long int)save_number_for_g;
+    save_number_for_g = (long long int)save_number_for_g;
     // if (save_number_for_g < 0) save_number_for_g *= -1;
     s21_double_to_str(save_number_for_g, str_double_g, num_i);
     s21_reverse(str_double_g);
     s21_strcat(str_double, str_double_g);
     s21_strcat(str_int, str_double);
-    // убираем незначащие нули
+    // убираем незначащие нули если есть
     int counter_g_leading_zeros = 0;
     int counter_g_prec = 0;
     bool this_is_zero = false;
     bool this_is_int = false;
-    // Мб for надо убрать
     if (str_int[counter_g_prec] == '-' && str_int[counter_g_prec + 1] == '.') {
       counter_g_leading_zeros += 1;
       this_is_zero = true;
@@ -193,12 +194,6 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
 
   printf("Дробная часть %s\n", str_double);
   printf("Finally1: %s\n", intermediate_str);
-  // Вызываем функцию Юли
-  // s21_strcat(intermediate_str, res);
-  // Считаем кол-во символов
-  // Возвращаем кол-во символов в строке
-  // Объединить intermediate_str
-  // printf("intermediate_str: %s\n", intermediate_str);
   return counter_symbols_str;
 }
 
@@ -369,12 +364,12 @@ int s21_rounding_and_precision_number(
         for (int i = 0; i < *precision; i++)
           check_fractional_num_from_zeros_g *= 10;
         // Здесь баг
-        if ((int)check_fractional_num_from_zeros_g % 10 != 0)
+        if ((long long int)check_fractional_num_from_zeros_g % 10 != 0)
           this_is_prec_with_zeros = true;
         int counter = *precision;
         for (int i = 0; i < counter && this_is_prec_with_zeros == false; i++) {
           check_fractional_num_g *= 10;
-          if ((int)check_fractional_num_g % 10 == 0) *precision -= 1;
+          if ((long long int)check_fractional_num_g % 10 == 0) *precision -= 1;
         }
         *save_precision_for_rounding_g = *precision;
         flag = -1;
@@ -499,11 +494,11 @@ void s21_writing_int_number_with_point(
     }
   }
   // дописать для G
-  if ((*num_i_g == 6 && *have_precision_g == 0 &&
-       (prot->spec == 'g' || prot->spec == 'G')) ||
-      ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
-       (prot->spec == 'g' || prot->spec == 'G')))
-    str_int[*counter_symbols_str - 1] = '\0';
+  // if ((*num_i_g == 6 && *have_precision_g == 0 &&
+  //      (prot->spec == 'g' || prot->spec == 'G')) ||
+  //     ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
+  //      (prot->spec == 'g' || prot->spec == 'G')))
+  //   str_int[*counter_symbols_str - 1] = '\0';
 }
 
 int s21_concat_fractional_number_with_degree(
