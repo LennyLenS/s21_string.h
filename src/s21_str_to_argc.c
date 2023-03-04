@@ -6,11 +6,14 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   // заданных в спецификаторе т.е флаги,ширина, точность и тд
   char intermediate_str[4096] = {'\0'};
   char *res = S21_NULL;
+  int z = 0;
   if (prot->spec == 'c'){
-    s21_spec_c(intermediate_str, args, prot);
+    z = s21_spec_c(intermediate_str, args, prot);
     res = intermediate_str;
   }else if (prot->spec == 'd' || prot->spec == 'i'){
     s21_spec_id(args, prot, intermediate_str);
+    // res = intermediate_str;
+    // printf("! %s\n", intermediate_str);
     res = main_func(intermediate_str, prot);
   }else if (prot->spec == 's'){
     int flag_s = s21_spec_s(intermediate_str, args, prot);
@@ -44,11 +47,14 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     s21_spec_p(args, intermediate_str, prot);
     res = intermediate_str;
   }
-  //printf("%s, %d\n", intermediate_str, counter_symbols_str);
+
   while(*res != '\0'){
     str[counter_symbols_str++] = *res;
     res++;
   }
   str[counter_symbols_str] = '\0';
+    if(z == -1) {
+      counter_symbols_str++;
+    }
   return counter_symbols_str;
 }

@@ -164,7 +164,9 @@ void s21_spec_n(va_list args, int j){
 }
 
 int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
-    long int num = 0;
+    // long long int_128 num = 0;
+    __int128_t num = 0;
+    int neg_flag = 0;
     if(prot->length == 'h'){
         num = (short)va_arg(args, int);
     } else if(prot->length == 'l'){
@@ -172,16 +174,36 @@ int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
     } else {
         num = va_arg(args, int);
     };
-    
+    // printf("!d %lld\n", num);
+
     int num_i = 0;
-    while (num > 0){
-        int tmp_dig;
-        tmp_dig = num%10;
-        num = num / 10;
-        charbuf[num_i] = tmp_dig + '0';
-        num_i++;
+
+    if(num < 0){
+        neg_flag = 1;
+        num *= -1;
+        charbuf[num_i] = '-';
+        num_i = 1;
     }
-    s21_reverse(charbuf);
+
+    if(num == 0){
+        if (prot->prec_number == 0) {
+            charbuf[num_i] = '\0';
+        num_i++;
+        } else {
+            charbuf[num_i] = '0';
+            num_i++;
+        }
+    } else {
+        while (num > 0){
+            int tmp_dig = 0;
+            tmp_dig = num%10;
+            num = num / 10;
+            charbuf[num_i] = tmp_dig + '0';
+            num_i++;
+        }
+    }
+    printf("!@ %s\n", charbuf);
+    s21_reverse(charbuf, neg_flag);
     return num_i;
 }
 
@@ -219,8 +241,11 @@ int s21_spec_s(char *str, va_list args, Prototype *prot) {
 
 int s21_spec_c(char *str, va_list args, Prototype *prot) {
     char c = va_arg(args, int);
+    // if(c == '\0') c = 0;
+    //  printf(":%d:\n", c);
     int sp_qnt = 0;
     int i = 0;
+    int ret = 0;
     if(prot->width_number > 0){
         sp_qnt = prot->width_number -1;
     };
@@ -233,5 +258,7 @@ int s21_spec_c(char *str, va_list args, Prototype *prot) {
         str[i] = c;
         i++;
     };
-    return i;
+    if(c == 0) ret = -1;
+    // printf("i :%d: s:%d:\n", i, str[i]);
+    return ret;
 }

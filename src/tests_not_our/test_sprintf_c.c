@@ -65,8 +65,15 @@ END_TEST
 START_TEST(sprintf_5_c) {
   char str1[100];
   char str2[100];
-  char *str3 = "%c Test %c Test %c Test %c Test %c";
+  char *str3 = "%c Test %c Test %c Test %c Test %c R";
   char a = 0;
+
+  // printf("val %d\n", val);
+  // printf("%s\n", str3);
+  // sprintf(str1, str3, a, a, a, a, a);
+  // s21_sprintf(str2, str3, a, a, a, a, a);
+  // printf("1 - :%s:\n2 - :%s:\n\n", str1, str2);
+
   ck_assert_int_eq(sprintf(str1, str3, a, a, a, a, a),
                    s21_sprintf(str2, str3, a, a, a, a, a));
   ck_assert_pstr_eq(str1, str2);
@@ -159,9 +166,15 @@ END_TEST
 START_TEST(sprintf_13_c) {
   char str1[100];
   char str2[100];
-  char *str3 = "%c Test %c Test %c Test %c Test %c";
-  ck_assert_int_eq(sprintf(str1, str3, 'b', '4', '#', '@', '\0'),
-                   s21_sprintf(str2, str3, 'b', '4', '#', '@', '\0'));
+
+  char *str3 = "%c T %c Test %c Test %c Test %c";
+  printf("%s\n", str3);
+  sprintf(str1, str3, 'b', '\0', '#', '@', 'x');
+  s21_sprintf(str2, str3, 'b', '\0', '#', '@', 'x');
+  printf("st - :%s:\nmy - :%s:\n\n", str1, str2);
+
+  ck_assert_int_eq(sprintf(str1, str3, 'b', '\0', '#', '@', 'x'),
+                   s21_sprintf(str2, str3, 'b', '\0', '#', '@', 'x'));
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST

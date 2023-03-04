@@ -24,7 +24,7 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag);
 
 void s21_double_to_str(long double num, char *str, int pres, int sharp_flag);
 
-void *s21_reverse (char *str);
+void *s21_reverse(char *str, int neg_flag);
 
 int print_spaces(char *str, int n, int j);
 

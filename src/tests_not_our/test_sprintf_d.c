@@ -78,6 +78,13 @@ START_TEST(sprintf_6_signed) {
   int val3 = -99;
   int val4 = -38;
   int val5 = -100;
+
+  // printf("val %d\n", val);
+  // printf("%s\n", str3);
+  // sprintf(str1, str3, val, val2, val3, val4, val5);
+  // s21_sprintf(str2, str3, val, val2, val3, val4, val5);
+  // printf("1 - :%s:\n2 - :%s:\n\n", str1, str2);
+
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
   ck_assert_pstr_eq(str1, str2);
@@ -93,6 +100,14 @@ START_TEST(sprintf_7_signed) {
   int val2 = -712;
   int val3 = -99;
   int val4 = -2939;
+
+  // printf("val %d\n", val);
+  // printf("%s\n", str3);
+  // sprintf(str1, str3, val, val2, val3, val4);
+  // s21_sprintf(str2, str3, val, val2, val3, val4);
+  // printf("1 - :%s:\n2 - :%s:\n\n", str1, str2);
+
+
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
   ck_assert_pstr_eq(str1, str2);
@@ -124,6 +139,13 @@ START_TEST(sprintf_9_signed) {
   int val2 = -712;
   int val3 = -99;
   int val4 = -2939;
+
+  // printf("val %d\n", val);
+  // printf("%s\n", str3);
+  // sprintf(str1, str3, val, val2, val3, val4);
+  // s21_sprintf(str2, str3, val, val2, val3, val4);
+  // printf("1 - :%s:\n2 - :%s:\n\n", str1, str2);
+
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
   ck_assert_pstr_eq(str1, str2);
@@ -222,6 +244,14 @@ START_TEST(sprintf_15_signed) {
   int ast3 = 4;
   int ast4 = 10;
   int ast5 = 7;
+
+  printf("val %d\n", val);
+  printf("%s\n", str3);
+  sprintf(str1, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5, val4);
+  s21_sprintf(str2, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5,
+                  val4);
+  printf("1 - :%s:\n2 - :%s:\n\n", str1, str2);
+
   ck_assert_int_eq(
       sprintf(str1, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5, val4),
       s21_sprintf(str2, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5,
@@ -240,6 +270,7 @@ START_TEST(sprintf_16_signed) {
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
+
 START_TEST(sprintf_17_signed) {
   char str1[1024] = "";
   char str2[1024] = "";
@@ -260,6 +291,13 @@ START_TEST(sprintf_18_signed) {
   short val4 = SHRT_MIN;
   int val5 = INT_MAX;
   int val6 = INT_MIN;
+
+  // printf("val %ld\n", val);
+  // printf("%s\n", str3);
+  // sprintf(str1, str3, val, val2, val3, val4, val5, val6);
+  // s21_sprintf(str2, str3, val, val2, val3, val4, val5, val6);
+  // printf("1 - :%s:\n2 - :%s:\n\n", str1, str2);
+
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5, val6),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5, val6));
   ck_assert_pstr_eq(str1, str2);

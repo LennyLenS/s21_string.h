@@ -115,9 +115,10 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 	str[index] = '\0';
 }
 
-void *s21_reverse (char *str) {   // str должен быть массивом или сделан через malloc, а не указателем char * на область памяти в стеке
+void *s21_reverse(char *str, int neg_flag) {   // str должен быть массивом или сделан через malloc, а не указателем char * на область памяти в стеке
     if(str == NULL) return NULL;
     int bgn = 0;
+	if(neg_flag == 1) bgn = 1;
     int end = strlen(str) - 1;
     char temp;
     // printf("ee %s\n", str);
