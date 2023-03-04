@@ -62,4 +62,9 @@ int s21_concat_fractional_number_with_degree(
 
 void s21_check_fractional_number_for_zeros(int *multiply, char *str_double,
                                            bool flag_minus_num);
+
+int s21_double_to_str_artem(long double num, char *str_double, int num_i);
+int s21_isnan(double number);
+void *s21_reverse_artem(char *str);
+
 #endif

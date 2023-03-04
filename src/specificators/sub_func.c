@@ -113,7 +113,7 @@ void s21_double_to_str(long double num, char *str, int pres, int sharp_flag) {
 		}
 	}
 	str[index] = '\0';
-	printf("%s\n", str);
+	//printf("%s\n", str);
 }
 
 void *s21_reverse(char *str, int neg_flag) {   // str должен быть массивом или сделан через malloc, а не указателем char * на область памяти в стеке
@@ -147,3 +147,44 @@ int prep_string(char *str, char *strng_arg, int n, int j) {
     };
     return n;
 }
+
+// ----------------------------- Artem func start -----------------------------
+// #include "functions/s21_string.h"
+// #include "s21_sprintf.h"
+
+int s21_double_to_str_artem(long double num, char *str_double, int num_i) {
+  while (num > 0) {
+    int num_double = 0;
+    num_double = (long int)num % 10;
+    str_double[num_i] = num_double + '0';
+    num_i++;
+    num /= 10;
+    num = (unsigned long int)num;
+  }
+  return num_i;
+}
+
+int s21_isnan(double number) {
+  int result = 0;
+  if (number != number) {
+    result = 1;
+  }
+  return result;
+}
+
+void *s21_reverse_artem(char *str) {
+  if (str == NULL) return NULL;
+  int bgn = 0;
+  int end = strlen(str) - 1;
+  char temp;
+  while (bgn < end) {
+    temp = str[bgn];
+    *(str + bgn) = *(str + end);
+    *(str + end) = temp;
+    bgn++;
+    end--;
+  }
+  return str;
+}
+
+// ----------------------------- Artem func end -----------------------------

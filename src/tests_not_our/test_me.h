@@ -44,6 +44,8 @@ Suite *test_sprintf_HEX(void);
 Suite *test_sprintf_percent(void);
 Suite *test_sprintf_pointer(void);
 Suite *test_sprintf_n(void);
+Suite *test_sprintf_e(void);
+Suite *test_sprintf_g(void);
 Suite *test_sprintf_string(void);
 
 Suite *test_to_upper(void);

@@ -4,19 +4,12 @@
 #include "s21_sprintf.h"
 int main()
 {
-
- char str1[200];
+char str1[200];
   char str2[200];
-  char *str3 = "%6.5d Test %.23d Test %3.d TEST %.d %.6d";
-  int val = -3015;
-  int val2 = -712;
-  int val3 = -99;
-  int val4 = -38;
-  int val5 = -100;
-
-  int a = sprintf(str1, str3, val, val2, val3, val4, val5);
-   int b = s21_sprintf(str2, str3, val, val2, val3, val4, val5);
-
+  char* str3 = "%p Test %3.p Test %5.7p TEST %10p %#p %-p %+p %.p % .p";
+  char* val = 0;
+  int a = sprintf(str1, str3, val, val, val, val, val, val, val, val, val);
+      int b = s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val);
                
    printf("#%s#\n#%s#\n", str1, str2);
    printf("%d %d", (int)strlen(str1), (int)strlen(str2));

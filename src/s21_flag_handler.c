@@ -13,12 +13,13 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
+  // printf("start str:%s\n", str);
   prot->width_number =
       prot->width_number != 0 ? prot->width_number : prot->width_star;
   char *str1;
 
   char *res;
-  int str_len = s21_strlen(str);
+  //int str_len = s21_strlen(str);
   int negativ_num;
   if (*str == '-') {
     negativ_num = 1;
@@ -50,11 +51,11 @@ char *main_func(char *str, Prototype *prot) {
     if (prot->spec == 'd' || prot->spec == 'i' || prot->spec == 'o' ||
         prot->spec == 'u' || prot->spec == 'x' || prot->spec == 'X' ||
         prot->spec == 'n') {  //  это только для целыx чисел
-      if (prot->prec_number > str_len) {
-        printf("1:%s\n", str);
-        char *buff_str = add_char_left(str, prot->prec_number - str_len-1,
-                                       str_len + 1, '0', *prot);
-        printf("2:%s\n", buff_str);
+      if (prot->prec_number > (int)s21_strlen(str)) {
+        //printf("1:%s\n", str);
+        char *buff_str = add_char_left(str, prot->prec_number - (int)s21_strlen(str)-1,
+                                       (int)s21_strlen(str) + 1, '0', *prot);
+        //printf("2:%s\n", buff_str);
         free(str);
         str = buff_str;
       }

@@ -8,8 +8,9 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   char intermediate_str[4096] = {'\0'};
   char *res = S21_NULL;
   int flag_s = 0;
-  if (prot->spec == 'c') {
-    s21_spec_c(intermediate_str, args, prot);
+  int z = 0;
+  if (prot->spec == 'c'){
+    z = s21_spec_c(intermediate_str, args, prot);
     res = intermediate_str;
   } else if (prot->spec == 'd' || prot->spec == 'i') {
     s21_spec_id(args, prot, intermediate_str);
@@ -57,5 +58,9 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
       prot->spec == 'i') {
     free(res);
   }
+   if(z == -1) {
+      counter_symbols_str++;
+    }
+
   return counter_symbols_str;
 }
