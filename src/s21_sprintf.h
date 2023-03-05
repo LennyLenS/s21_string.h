@@ -58,6 +58,8 @@ int s21_rounding_and_precision_number(
     int *save_precision_for_rounding_g, bool this_is_used,
     int *have_precision_g, int *save_precision_g, int *save_degree,
     long long int *num_int);
+void s21_leading_zeros(char *str_int, int *save_precision_g_1,
+                       int *have_precision_g, int *check_g, bool prec_0);
 void s21_writing_int_number_with_point(
     long long int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
     int *counter_symbols_str, int *dont_write_number_with_point,

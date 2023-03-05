@@ -22,6 +22,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   bool flag_g = false;
   bool this_is_used = false;
   bool flag_g_prec_1 = true;
+  bool prec_0 = false;
   int save_precision_g_1 = 0;
   int have_precision_g = 0;
   unsigned long int multiply = 1;
@@ -56,8 +57,12 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     flag_minus_num_g = true;
   flag_zero_negative =
       s21_mantisssa_and_degree(&num, flag_zero, &num_int, &e, prot);
-  if (num_int == 0 && (prot->spec == 'g' || prot->spec == 'G')) {
-    str_int[0] = '0';
+  if ((num_int == 0 || num_int == 1) &&
+      (prot->spec == 'g' || prot->spec == 'G')) {
+    if (num_int == 0) {
+      str_int[0] = '0';
+    } else
+      str_int[0] = '1';
     s21_strcat(intermediate_str, str_int);
     printf("Finally1: %s\n", intermediate_str);
     return counter_symbols_str;
@@ -66,11 +71,14 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
       (prot->prec_number == 1 || prot->prec_star == 1))
     flag_g_prec_1 = false;
   // ------------------------------------------ если .0 тут проверку сделать num
-  if (prot->prec_number == 0 || prot->prec_star == 0)
+  if (prot->prec_number == 0 || prot->prec_star == 0) {
     num = round(num * pow(10, 0)) / pow(10, 0);
-  else if ((prot->prec_number == 1 || prot->prec_star == 1) &&
-           (flag_g_prec_1 = true))
+    prec_0 = true;
+  } else if ((prot->prec_number == 1 || prot->prec_star == 1) &&
+             (flag_g_prec_1 = true)) {
     num = round(num * pow(10, 0)) / pow(10, 0);
+    if (num == 10) num /= 10;
+  }
   s21_fractional_and_integer_part_of_a_number(
       &num_int, &num, prot, flag_zero_negative, flag_minus_num_g);
   // при точности десять баг не выводит дробную часть
@@ -92,6 +100,9 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
                                           flag_g, this_is_used);
 
     s21_strcat(str_int, str_double);  // соединяем 2 строки получаем число
+    if (flag_g == true)
+      s21_leading_zeros(str_int, &save_precision_g_1, &have_precision_g,
+                        &check_g, prec_0);
     s21_strcat(intermediate_str,
                str_int);  // закидываем готовый результат в промежуточную строку
   } else {
@@ -126,7 +137,6 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
       }
       check_num_i_g = true;
     }
-    // хуйня какая-то число пропадает
     s21_fractional_and_integer_part_of_a_number(&num_int, &save_number_for_g,
                                                 prot, flag_zero_negative,
                                                 flag_minus_num_g);
@@ -149,52 +159,72 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_reverse(str_double_g);
     s21_strcat(str_double, str_double_g);
     s21_strcat(str_int, str_double);
-    // убираем незначащие нули если есть
-    int counter_g_leading_zeros = 0;
-    int counter_g_prec = 0;
-    bool this_is_zero = false;
-    bool this_is_int = false;
-    if (str_int[counter_g_prec] == '-' && str_int[counter_g_prec + 1] == '.') {
-      counter_g_leading_zeros += 1;
-      this_is_zero = true;
-      this_is_int = true;
-    } else if (str_int[counter_g_prec] == '-')
-      counter_g_prec += 1;
-    while (this_is_int == false && this_is_zero == false) {
-      if (str_int[counter_g_prec] != '.') {
-        counter_g_leading_zeros += 1;
-        counter_g_prec += 1;
-      } else {
-        counter_g_prec += 1;
-        this_is_int = true;
-      }
-    }
-    if (have_precision_g == 0) {
-      save_precision_g_1 = 6;
-      save_precision_g_1 -= counter_g_leading_zeros;
-    } else
-      save_precision_g_1 -= counter_g_leading_zeros;
-    for (int i = 1; i <= save_precision_g_1; i++) {
-      if (str_int[counter_g_prec] != '\0') counter_g_prec++;
-      // if (str_int[counter_g_prec] != '0')
-    }
-    counter_g_prec--;
-    bool this_is_not_zero = false;
-    while (this_is_not_zero == false) {
-      if (str_int[counter_g_prec] == '0') {
-        counter_g_prec--;
-      } else
-        this_is_not_zero = true;
-    }
-    if (this_is_not_zero == true) {
-      str_int[counter_g_prec + 1] = '\0';
-    }
+    s21_leading_zeros(str_int, &save_precision_g_1, &have_precision_g, &check_g,
+                      prec_0);
     s21_strcat(intermediate_str, str_int);
   }
 
   printf("Дробная часть %s\n", str_double);
   printf("Finally1: %s\n", intermediate_str);
   return counter_symbols_str;
+}
+
+void s21_leading_zeros(char *str_int, int *save_precision_g_1,
+                       int *have_precision_g, int *check_g, bool prec_0) {
+  int counter_g_leading_zeros = 0;
+  int counter_g_prec = 0;
+  char str_degree_from_degree[1024] = {'\0'};
+  bool this_is_zero = false;
+  bool this_is_int = false;
+  bool check_for_g = false;
+  if (str_int[counter_g_prec] == '-' && str_int[counter_g_prec + 1] == '.') {
+    counter_g_leading_zeros += 1;
+    this_is_zero = true;
+    this_is_int = true;
+  } else if (str_int[counter_g_prec] == '-')
+    counter_g_prec += 1;
+  while (this_is_int == false && this_is_zero == false) {
+    if (str_int[counter_g_prec] != '.') {
+      counter_g_leading_zeros += 1;
+      counter_g_prec += 1;
+    } else {
+      counter_g_prec += 1;
+      this_is_int = true;
+    }
+  }
+  if (*have_precision_g == 0) {
+    *save_precision_g_1 = 6;
+    *save_precision_g_1 -= counter_g_leading_zeros;
+  } else
+    *save_precision_g_1 -= counter_g_leading_zeros;
+  for (int i = 1; i <= *save_precision_g_1; i++) {
+    if (str_int[counter_g_prec] != '\0') counter_g_prec++;
+  }
+  counter_g_prec--;
+  if (*check_g != 1) {
+    check_for_g = true;
+    str_degree_from_degree[0] = str_int[counter_g_prec + 1];
+    str_degree_from_degree[1] = str_int[counter_g_prec + 2];
+    int n = 3;
+    int n_degree = 2;
+    while (str_int[counter_g_prec + n] != '\0') {
+      str_degree_from_degree[n_degree] = str_int[counter_g_prec + n];
+      n++;
+      n_degree++;
+    }
+  }
+  bool this_is_not_zero = false;
+  while (this_is_not_zero == false) {
+    if (str_int[counter_g_prec] == '0') {
+      counter_g_prec--;
+    } else
+      this_is_not_zero = true;
+  }
+  if (this_is_not_zero == true) {
+    str_int[counter_g_prec + 1] = '\0';
+    if (check_for_g == true && prec_0 == false)
+      s21_strcat(str_int, str_degree_from_degree);
+  }
 }
 
 int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
@@ -274,7 +304,7 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
                                                  bool flag_minus_num_g) {
   // Разбиваем дробное число на два интовых типа целое число и дробная часть
   // здесь фиксить баг с точностью 1
-  *num_int = (int)*num;
+  *num_int = (long long int)*num;
   if (*num_int >= 0)
     *num -= *num_int;
   else {
@@ -284,10 +314,6 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
   if ((prot->spec == 'g' || prot->spec == 'G') && flag_zero_negative == true &&
       flag_minus_num_g == true)
     *num *= -1;
-  // else {
-  //   *num *= -1;
-  //   *num += *num_int;
-  // }
 }
 // Передавть num_int
 int s21_rounding_and_precision_number(
@@ -300,7 +326,6 @@ int s21_rounding_and_precision_number(
   // Тут идет округление числа если точность задана в else будет вызываться
   // функция точности
   // если после знака запятой будет < 6 цифр, то нужно округлять
-  (void)num_int;
   long long int flag = -1;
   int dont_write_number_with_point = 0;
   int counter_g_minus_e = 0;
@@ -358,8 +383,13 @@ int s21_rounding_and_precision_number(
         check_fractional_num_g = *save_number_for_g;
         s21_fractional_and_integer_part_of_a_number(
             &flag, &check_fractional_num_g, prot, 0, 0);
-
+        // check_fractional_num_g =
+        //     round(check_fractional_num_g * pow(10, *precision)) /
+        //     pow(10, *precision);
         *precision -= counter_g_plus_e;
+        check_fractional_num_g =
+            round(check_fractional_num_g * pow(10, *precision)) /
+            pow(10, *precision);
         check_fractional_num_from_zeros_g = *save_number_for_g;
         for (int i = 0; i < *precision; i++)
           check_fractional_num_from_zeros_g *= 10;
@@ -391,12 +421,17 @@ int s21_rounding_and_precision_number(
         // int counter = 0;
         *num *= 10;
         // баг с большим числом
-        flag = (int)*num;
+        flag = (long long int)*num;
         if ((flag_zero_negative == false && flag_zero_plus == false &&
              flag_g == true) &&
             flag % 10 == 0)
           *multiply *= 10;
         if (flag == 0) *multiply *= 10;
+      }
+      while (flag % 10 == 0) {
+        *multiply /= 10;
+        flag /= 10;
+        flag = (long long int)flag;
       }
       if (this_is_used == true) {
         *precision = save_precision_g;  // сохранение точности
@@ -429,7 +464,7 @@ void s21_writing_int_number_with_point(
     if (*save_precision_g_1 <= *e && *save_precision_g_1 != 0)
       *num_int = *num_int % 10;
     else
-      *num_int = (int)*save_number_for_g;
+      *num_int = (long long int)*save_number_for_g;
     check_g = true;
   }
   if (check_g == true) {
