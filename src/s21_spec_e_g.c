@@ -75,7 +75,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     num = round(num * pow(10, 0)) / pow(10, 0);
     prec_0 = true;
   } else if ((prot->prec_number == 1 || prot->prec_star == 1) &&
-             (flag_g_prec_1 = true)) {
+             (flag_g_prec_1 = true) && (flag_g == true)) {
     num = round(num * pow(10, 0)) / pow(10, 0);
     if (num == 10) num /= 10;
   }
