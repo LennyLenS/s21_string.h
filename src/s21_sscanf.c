@@ -1,4 +1,6 @@
 #include "s21_sscanf.h"
+
+
 int s21_read_format_scanf(Prototype *prot, const char *format, int i, va_list args);
 int s21_check_prec_scanf(const char *format, int i, int *this_is_prec, Prototype *prot, va_list args);
 void s21_check_width_scanf(const char *format, int i, int *this_is_width, Prototype *prot);
@@ -14,14 +16,14 @@ int s21_sscanf(const char *str, const char *format, ...){
   int i = 0;  // для format
   int j = 0;  // для str
 
-  // strchr(const char *str, int c)
+  // s21_strchr(const char *str, int c)
 
   while((c = format[i]) != '\0'){
     // printf("0 i = %d  %c\n", i, format[i]);
     if(c != '%'){
       // pass_spaces(int *i, int *j);
-      if(strchr(SPACES, c) != NULL) {   // SPACES определен в define
-          while (strchr(SPACES, str[j]) != NULL) {
+      if(s21_strchr(SPACES, c) != NULL) {   // SPACES определен в define
+          while (s21_strchr(SPACES, str[j]) != NULL) {
             j++;
           }
       } else if(str[j] == format[i]){
@@ -51,13 +53,13 @@ int s21_sscanf(const char *str, const char *format, ...){
     };    
     
     Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, -1, '\0'};
-    i = s21_read_format(&prot, format, i, args);
+    i = s21_read_format_scanf(&prot, format, i, args);
 // printf("1 i = %d  %c  * - %d\n", i, format[i], prot.width_star);
 
     // skip spaces in str
     int space_counter_for_n = 0;
     if(prot.spec != 'c'){
-      while(strchr(SPACES, str[j]) != NULL){
+      while(s21_strchr(SPACES, str[j]) != NULL){
         space_counter_for_n++;
         j++;
       }
@@ -86,7 +88,7 @@ int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, i
   int width_counter = 0;
   int write_count = 0;
   char buff_str[4096] = {'\0'};
-
+  format++;
   if(prot -> width_number > 0){
     width_counter = prot -> width_number;
   } else {
@@ -96,23 +98,23 @@ int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str, i
   switch (prot -> spec) {
   case 'd':
     write_count += scanf_spec_d(prot, str, buff_str, args, width_counter, j);
-    *j += strlen(buff_str);
+    *j += s21_strlen(buff_str);
 
     // Проверить *
 
-    printf("DD spec - %c, width_number - %d, * - :%c:, format - %s\n", prot -> spec, prot -> width_number, prot -> width_star, format);
+    // printf("DD spec - %c, width_number - %d, * - :%c:, format - %s\n", prot -> spec, prot -> width_number, prot -> width_star, format);
     break;
 
   case 'c':
     write_count += scanf_spec_c(prot, str, buff_str, args, j);
-    *j += strlen(buff_str);
+    *j += s21_strlen(buff_str);
 
     // printf("CC spec - %c, width_number - %d, str - :%s:, buf - :%c:%d:\n", prot -> spec, prot -> width_number, str, buff_str[0], buff_str[0]);
     break;
 
   case 's':
     write_count += scanf_spec_s(prot, str, args, buff_str, width_counter, j);
-    *j += strlen(buff_str);
+    *j += s21_strlen(buff_str);
 
     // printf("SS spec - %c, width_number - %d, str - :%s:, buf - %s\n", prot -> spec, prot -> width_number, str, buff_str);
     break;
@@ -142,7 +144,7 @@ int scanf_spec_s(Prototype *prot, const char *str, va_list args,  char *buff_str
   int ret = 1;
   if(prot -> width_star != '*') p_args = va_arg(args, char*);
   // printf("S - %c\n", str[*j]);
-  while(k < width_counter && strchr(SPACES, str[*j + k]) == NULL){
+  while(k < width_counter && s21_strchr(SPACES, str[*j + k]) == NULL){
     buff_str[k] = str[*j + k];
     if(prot -> width_star != '*') *(p_args + k) = str[*j + k];
     k++;
@@ -192,7 +194,7 @@ int scanf_spec_d(Prototype *prot, const char *str,  char *buff_str, va_list args
     k++;
   };
   printf("%d\n", k);
-  while(k < width_counter && strchr(SPACES, str[*j + k]) == NULL){
+  while(k < width_counter && s21_strchr(SPACES, str[*j + k]) == NULL){
     if(isNumber(str[*j + k])){
       buff_str[k] = str[*j + k];
     } else {

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdarg.h>
 typedef struct {
   char spec;         // спецификаторы
   int minus_flag;    // флаг -
@@ -22,7 +23,7 @@ void shift_str(char *str, int size);
 
 void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag);
 
-void s21_double_to_str(long double num, char *str, int pres, int sharp_flag);
+void s21_long_double_to_str(long double num, char *str, int pres, int sharp_flag);
 
 void *s21_reverse(char *str, int neg_flag);
 
@@ -32,96 +33,5 @@ int prep_string(char *str, char *strng_arg, int n, int j);
 
 int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
                   double num);
-
-//-------------------------- Artem func start -------------------
-void s21_check_width(const char *format, int i, int *this_is_width,
-                     Prototype *prot, va_list args);
-int s21_check_prec(const char *format, int i, int *this_is_prec,
-                   Prototype *prot, va_list args);
-int s21_args_to_str(int j, char *str, Prototype *prot, va_list args);
-//int s21_spec_c(int j, char *str, va_list args);
-int s21_spec_e(int j, char *str, char *intermediate_str, va_list args,
-               Prototype *prot);
-// int s21_spec_e(int j, char *str, va_list args, Prototype *prot);
-// void *s21_reverse(char *str);
-// int s21_double_to_str(long double num, char *str_double, int num_i);
-//int s21_isnan(double number);
-int s21_spec_g(int counter_symbols_str, char *str, char *intermediate_str,
-               va_list args, Prototype *prot);
-int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
-                  double num);
-bool s21_mantisssa_and_degree(double *num, bool flag_zero,
-                              long long int *num_int, int *e, Prototype *prot);
-void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
-                                                 double *num, Prototype *prot,
-                                                 bool flag_zero_negative,
-                                                 bool flag_minus_num_g);
-int s21_rounding_and_precision_number(
-    double *num, unsigned long int *multiply, Prototype *prot,
-    double *save_number_for_g, int *e, int *check_g, int *precison,
-    bool flag_zero_plus, bool flag_zero_negative, bool flag_g,
-    int *save_precision_for_rounding_g, bool this_is_used,
-    int *have_precision_g, int *save_precision_g, int *save_degree,
-    long long int *num_int);
-void s21_writing_int_number_with_point(
-    long long int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
-    int *counter_symbols_str, int *dont_write_number_with_point,
-    double *save_number_for_g, Prototype *prot, int *num_i_g,
-    bool flag_minus_num, int *have_precision_g, int *save_precision_g,
-    int *save_degree, int *e);
-int s21_concat_fractional_number_with_degree(int num_i, int counter_symbols_str,
-                                             char *str_double, double num,
-                                             Prototype *prot, char symbol_e,
-                                             int e, char *str_degree,
-                                             int *dont_write_number_with_point);
-void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
-                                           char *str_double,
-                                           bool flag_minus_num, bool flag_g,
-                                           bool this_is_used);
-
-
-// void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
-//                                            char *str_double,
-//                                            bool flag_minus_num, bool flag_g,
-//                                            bool this_is_used);
-
-
-
-//-------------------------- Artem func end -------------------
-
-/*
-// bool s21_mantisssa_and_degree(double *num, bool flag_zero, int *num_int, int *e,
-//                               Prototype *prot);
-
-// void s21_fractional_and_integer_part_of_a_number(int *num_int, double *num,
-//                                                  Prototype *prot,
-//                                                  bool flag_zero_negative,
-//                                                  bool flag_minus_num_g);
-
-// int s21_rounding_and_precision_number(
-//     double *num, int *multiply, Prototype *prot, double *save_number_for_g,
-//     int *e, int *check_g, int *precision, bool flag_zero_plus,
-//     bool flag_zero_negative, bool flag_g, int *save_precision_for_rounding_g);
-
-// void s21_writing_int_number_with_point(int *num_int, int *symbol, char *str_int,
-//                                        bool flag_zero_negative,
-//                                        int *counter_symbols_str,
-//                                        int *dont_write_number_with_point,
-//                                        double *save_number_for_g, int *e,
-//                                        Prototype *prot, int *num_i_g,
-//                                        bool flag_minus_num);
-
-// int s21_concat_fractional_number_with_degree(
-//     int num_i, int counter_symbols_str, char *str_double, double num,
-//     Prototype *prot, char symbol_e, int e, char *str_degree,
-//     int *dont_write_number_with_point);
-
-// void s21_check_fractional_number_for_zeros(int *multiply, char *str_double,
-//                                            bool flag_minus_num);
-*/
-
-int s21_double_to_str_artem(long double num, char *str_double, int num_i);
-int s21_isnan(double number);
-void *s21_reverse_artem(char *str);
 
 #endif

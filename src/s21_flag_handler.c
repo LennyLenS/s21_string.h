@@ -11,7 +11,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
-  //printf("start str:%s\n", str);
+  // printf("start str:%s\n", str);
   prot->width_number =
       prot->width_number != 0 ? prot->width_number : prot->width_star;
   char *str1;
@@ -58,6 +58,7 @@ char *main_func(char *str, Prototype *prot) {
         str = buff_str;
       }
     }
+
     // printf("Buf str:%s\n", str);
     if (prot->sharp_flag) {
       char *buff_str = add_sharp_sign(str, *prot);
@@ -81,7 +82,7 @@ char *main_func(char *str, Prototype *prot) {
       str = buff_str;
     }
     if (prot->width_number != 0 || prot->width_star != 0) {
-      //printf("!%s!\n", str);
+      // printf("!%s!\n", str);
       char *buff_str = n_shift(str, negativ_num, *prot);
       free(str);
       str = buff_str;
@@ -93,7 +94,8 @@ char *main_func(char *str, Prototype *prot) {
       str = buff_str;
     }
     // add_sign_or_space(str, prot, negativ_num);
-  }} else {
+  }
+  } else {
     if (!prot->minus_flag) {
     if (prot->width_number > (int)s21_strlen(str)) {
       // printf("wi:%d \n", prot->width_number );
@@ -115,12 +117,12 @@ char *main_func(char *str, Prototype *prot) {
     }
 
   }
-
   // printf("last: %d\n", (int)res[strlen(res)-1] );
   char *buff_str = add_char_right(str, 1, s21_strlen(str) + 1, '\0');
   free(str);
   str = buff_str;
-
+  printf("@!%s@\n", str);
+  
   res = str;
   // printf("str fin:%s\n", res);
   return res;
@@ -180,9 +182,11 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
   } else {
     if ((int)s21_strlen(str) >= prot.width_number) {
       char *buff_str = add_sign_or_space(str, prot, negativ_num);
+      printf("!!%s@\n", buff_str);
       str = buff_str;
     } else {
       if (prot.zero_flag || *str == '0') {
+        printf("%d\n", (int)s21_strlen(str));
         char *buff_str = add_char_left(
             str, prot.width_number - s21_strlen(str) - 1 - sign_size,
             s21_strlen(str) + 1, ' ', prot);
@@ -195,7 +199,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
         int str_size = s21_strlen(str);
         char *buff_str = add_sign_or_space(str, prot, negativ_num);
         str = buff_str;
-        //printf("%d\n", (int)strlen(str));
+        // printf("%d\n", (int)s21_strlen(str));
         buff_str = add_char_left(
             str, prot.width_number - str_size - 1 - sign_size,
             str_size + 1 + sign_size, ' ', prot);
@@ -208,6 +212,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
 }
 
 char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
+  // printf("@%s@\n", buf_str);
   char *res;
   if (prot.plus_flag == 1 || sign == 1 || prot.space_flag) {
     int str_size = s21_strlen(buf_str);
@@ -231,6 +236,7 @@ char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {
     // printf("len: %d\n", str_size);
     res = (char *)malloc((str_size + 1) * sizeof(char));
     s21_memcpy(res, buf_str, s21_strlen(buf_str) + 1);
+    printf("@%s@\n", res);
   }
 
   return res;

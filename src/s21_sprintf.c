@@ -31,8 +31,10 @@ int s21_parser(char *str, const char *format, va_list args) {
       }
       // перевод args в массив str и возвращение количество символов в массиве
       //printf("%d\n", counter_symbols_str);
+      printf("sprintf1 - %s  %d\n", str, counter_symbols_str);
       counter_symbols_str =
           s21_args_to_str(counter_symbols_str, str, &prot, args);
+      printf("sprintf2 - %s  %d\n", str, counter_symbols_str);
     }
   }
   str[counter_symbols_str] = '\0';

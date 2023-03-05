@@ -48,18 +48,24 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   } else if (prot->spec == 'e' || prot->spec == 'E' || prot->spec == 'g' ||
            prot->spec == 'G') {
     s21_spec_e(counter_symbols_str, str, intermediate_str, args, prot);
-        res = main_func(intermediate_str, prot);
+    res = main_func(intermediate_str, prot);
+
   }
 
-  // printf("%s, %d\n", intermediate_str, counter_symbols_str);
+  printf("%s, %d\n", str, counter_symbols_str);
   int index = 0;
   while (res[index] != '\0') {
+    printf("res - %c ", res[index]);
     str[counter_symbols_str++] = res[index++];
+    printf("str - %c\n", str[counter_symbols_str-1]);
+    printf("str - %s  %d\n", str, counter_symbols_str);
   }
+  printf("§§§§%s§§§§§\n", str);
   str[counter_symbols_str] = '\0';
   if (prot->spec == 'f' || prot->spec == 'u' || prot->spec == 'o' ||
       prot->spec == 'X' || prot->spec == 'x' || prot->spec == 'd' ||
-      prot->spec == 'i' || prot->spec == 's') {
+      prot->spec == 'i' || prot->spec == 's' || prot->spec == 'e' ||
+      prot->spec == 'E' || prot->spec == 'g' || prot->spec == 'G') {
     free(res);
   }
    if(z == -1) {

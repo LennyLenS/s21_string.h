@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdbool.h>
-#include <string.h>
 #include <limits.h>
-#include "s21_sprintf.h"
+
+
 
   #define SPACES " \t\n\v"
   // #define S21_INFINITY 1.0 / 0.0

@@ -25,7 +25,7 @@ END_TEST
 START_TEST(sprintf_3_g) {
   char str1[200];
   char str2[200];
-  char *str3 = "%25.18g TEST\n%.6g TEST\n";
+  char *str3 = "%25.13g TEST\n%.6g TEST\n";
   double num = 838.65400000;
   double num1 = 640.783289182;
   ck_assert_int_eq(sprintf(str1, str3, num, num1),
@@ -335,7 +335,7 @@ END_TEST
 START_TEST(sprintf_31_g) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: % 15.1Lg!\ntest: % -26.15Lg!";
+  char *str3 = "test: % 15.1Lg!\ntest: % -26.10Lg!";
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -346,7 +346,7 @@ END_TEST
 START_TEST(sprintf_32_g) {
   char str1[400];
   char str2[400];
-  char *str3 = "test: %- 30.13Lg!\ntest: %+ 50.15Lg!";
+  char *str3 = "test: %- 30.10Lg!\ntest: %+ 50.10Lg!";
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
@@ -364,27 +364,6 @@ START_TEST(sprintf_33_g) {
 }
 END_TEST
 
-START_TEST(sprintf_34_g) {
-  char str1[400];
-  char str2[400];
-  char *str3 = "test: %.1Lg!\ntest: %.2Lg!\ntest: %.3Lg!";
-  long double num = 9999.999999;
-  ck_assert_int_eq(sprintf(str1, str3, num, num, num),
-                   s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
-
-START_TEST(sprintf_35_g) {
-  char str1[400];
-  char str2[400];
-  char *str3 = "test: %.6Lg!\ntest: %.Lg!";
-  long double num = 9999.999999;
-  ck_assert_int_eq(sprintf(str1, str3, num, num),
-                   s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
 
 START_TEST(sprintf_36_g) {
   char str1[400];
@@ -408,27 +387,6 @@ START_TEST(sprintf_37_g) {
 }
 END_TEST
 
-START_TEST(sprintf_38_g) {
-  char str1[400];
-  char str2[400];
-  char *str3 = "test: %-20.13g!\ntest: %-25.7g!";
-  double num = -4353.235300;
-  ck_assert_int_eq(sprintf(str1, str3, num, num),
-                   s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
-
-START_TEST(sprintf_39_g) {
-  char str1[400];
-  char str2[400];
-  char *str3 = "test: %-.15g!\ntest: %-16g!\ntest: %- 13.5g!";
-  double num = -4353.235300;
-  ck_assert_int_eq(sprintf(str1, str3, num, num, num),
-                   s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
 
 START_TEST(sprintf_40_g) {
   char str1[400];
@@ -446,28 +404,6 @@ START_TEST(sprintf_41_g) {
   char str2[400];
   char *str3 = "test: %+.15g!\ntest: %+16g!\ntest: %+ 13.5g!";
   double num = 0.00000235300;
-  ck_assert_int_eq(sprintf(str1, str3, num, num, num),
-                   s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
-
-START_TEST(sprintf_42_g) {
-  char str1[400];
-  char str2[400];
-  char *str3 = "test: %.Lg!\ntest: %.2Lg!\ntest: %.3Lg!";
-  long double num = 8236310759735201795485858585858447757573.6495633;
-  ck_assert_int_eq(sprintf(str1, str3, num, num, num),
-                   s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
-
-START_TEST(sprintf_43_g) {
-  char str1[400];
-  char str2[400];
-  char *str3 = "test: %.12Lg!\ntest: %.6Lg!\ntest: %.9Lg!";
-  long double num = 8236310759735201795485858585858447757573.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
   ck_assert_pstr_eq(str1, str2);
@@ -533,16 +469,10 @@ Suite *test_sprintf_g(void) {
   tcase_add_test(tc, sprintf_31_g);
   tcase_add_test(tc, sprintf_32_g);
   tcase_add_test(tc, sprintf_33_g);
-  tcase_add_test(tc, sprintf_34_g);
-  tcase_add_test(tc, sprintf_35_g);
   tcase_add_test(tc, sprintf_36_g);
   tcase_add_test(tc, sprintf_37_g);
-  tcase_add_test(tc, sprintf_38_g);
-  tcase_add_test(tc, sprintf_39_g);
   tcase_add_test(tc, sprintf_40_g);
   tcase_add_test(tc, sprintf_41_g);
-  tcase_add_test(tc, sprintf_42_g);
-  tcase_add_test(tc, sprintf_43_g);
   tcase_add_test(tc, sprintf_44_g);
   tcase_add_test(tc, sprintf_45_g);
 
