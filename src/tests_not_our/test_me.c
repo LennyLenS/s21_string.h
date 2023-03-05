@@ -31,7 +31,7 @@ int main(void) {
                               // test_sprintf_unsigned(),
                               // test_sprintf_HEX(),
                               // test_sprintf_hex(),
-                              // test_sprintf_pointer(),
+                              test_sprintf_pointer(),
                               // test_sprintf_signed(),
                               // test_sprintf_signed_i(),
                               // test_to_upper(),

@@ -8,5 +8,6 @@ char *s21_strcat(char *dest, const char *src) {
     i++;
     src++;
   };
+  *(dest + p + i) = '\0';
   return dest;
 }
