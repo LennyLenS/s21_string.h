@@ -40,7 +40,7 @@ int main(void) {
                               test_to_lower(),
                                test_sprintf_string(),
                                test_sscanf_empty(),
-                              // test_sscanf_c(),
+                              test_sscanf_c(),
                               test_sscanf_d(),
                               test_sscanf_pr(),
                               test_sscanf_n(),
