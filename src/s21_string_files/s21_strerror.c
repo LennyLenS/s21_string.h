@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include <string.h>
 
 #include "s21_string.h"
-
+#include "../s21_sprintf.h"
 // Ошибки strerror на маке всего 107 ошибка, когда код ошибки > 107 или < 0 то
 // выводиться Unknown error: <номер несуществующего кода ошибки>
 
@@ -275,10 +274,10 @@ char *s21_strerror(int errnum) {
   // ERROR
   if (errnum >= MAXMASERROR || errnum < MINMASERROR) {
 #if defined(__APPLE__)
-    sprintf(res, "%s %d", ERROR,
+    s21_sprintf(res, "%s %d", ERROR,
             errnum);  // Не забыть поменять на свой s21_printf !!!
 #elif defined(__linux__)
-    sprintf(res, "%s", ERROR);  // Не забыть поменять на свой s21_printf !!!
+    s21_sprintf(res, "%s", ERROR);  // Не забыть поменять на свой s21_printf !!!
 #endif
   } else {
     s21_strcpy(res, (char *)maserror[errnum]);

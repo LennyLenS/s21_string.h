@@ -1,5 +1,4 @@
 #include <stdarg.h>
-#include <string.h>
 #include <math.h>
 #include "s21_specifiers.h"
 
@@ -157,6 +156,8 @@ int s21_spec_p(va_list args, char *charbuf, Prototype *prot){
     }
     return s21_strlen(charbuf);
 }
+
+
 
 
 

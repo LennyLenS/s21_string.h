@@ -35,8 +35,6 @@ int s21_parser(char *str, const char *format, va_list args) {
           s21_args_to_str(counter_symbols_str, str, &prot, args);
     }
   }
-  if(str[counter_symbols_str] != '\0'){
-    str[counter_symbols_str] = '\0';
-  }
+  str[counter_symbols_str] = '\0';
   return counter_symbols_str;
 }

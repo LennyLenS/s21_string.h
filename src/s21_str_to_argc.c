@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "s21_sprintf.h"
 int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
                     va_list args) {
@@ -61,7 +59,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
   str[counter_symbols_str] = '\0';
   if (prot->spec == 'f' || prot->spec == 'u' || prot->spec == 'o' ||
       prot->spec == 'X' || prot->spec == 'x' || prot->spec == 'd' ||
-      prot->spec == 'i') {
+      prot->spec == 'i' || prot->spec == 's') {
     free(res);
   }
    if(z == -1) {

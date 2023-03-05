@@ -46,7 +46,7 @@ char *s21_strtok(char *str, const char *delim) {
   while (str[str_ind] != '\0') {
     int delim_ind = 0;
     int match = 0;
-    while (delim[delim_ind] != '\0') {
+    while (delim_ind <= (int)s21_strlen(delim) && delim[delim_ind] != '\0') {
       if (str[str_ind] == delim[delim_ind]) {
         str[str_ind] = '\0';
         match++;

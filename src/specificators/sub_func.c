@@ -1,5 +1,5 @@
 #include "sub_func.h"
-#include <string.h>
+#include "../s21_string_files/s21_string.h"
 void shift_str(char *str, int size){
 	for(int i = size - 1; i > 0; --i){
 		str[i] = str[i - 1];
@@ -120,7 +120,7 @@ void *s21_reverse(char *str, int neg_flag) {   // str должен быть ма
     if(str == NULL) return NULL;
     int bgn = 0;
  if(neg_flag == 1) bgn = 1;
-    int end = strlen(str) - 1;
+    int end = s21_strlen(str) - 1;
     char temp;
     // printf("ee %s\n", str);
     // printf("d %d  %d\n", bgn, end);
@@ -175,7 +175,7 @@ int s21_isnan(double number) {
 void *s21_reverse_artem(char *str) {
   if (str == NULL) return NULL;
   int bgn = 0;
-  int end = strlen(str) - 1;
+  int end = s21_strlen(str) - 1;
   char temp;
   while (bgn < end) {
     temp = str[bgn];

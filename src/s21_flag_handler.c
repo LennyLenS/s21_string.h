@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "s21_sprintf.h"
 #include "s21_string_files/s21_string.h"
 
@@ -119,7 +117,7 @@ char *main_func(char *str, Prototype *prot) {
   }
 
   // printf("last: %d\n", (int)res[strlen(res)-1] );
-  char *buff_str = add_char_right(str, 1, strlen(str) + 1, '\0');
+  char *buff_str = add_char_right(str, 1, s21_strlen(str) + 1, '\0');
   free(str);
   str = buff_str;
 
@@ -187,7 +185,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
       if (prot.zero_flag || *str == '0') {
         char *buff_str = add_char_left(
             str, prot.width_number - s21_strlen(str) - 1 - sign_size,
-            s21_strlen(str) + 1 + sign_size, ' ', prot);
+            s21_strlen(str) + 1, ' ', prot);
         str = buff_str;
         buff_str = add_sign_or_space(str, prot, negativ_num);
         free(str);
