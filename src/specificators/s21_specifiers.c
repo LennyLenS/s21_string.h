@@ -1,6 +1,10 @@
 #include <stdarg.h>
+#include <math.h>
+#include <stdio.h>
 #include <string.h>
 #include "s21_specifiers.h"
+#include "../s21_flag_handler.h"
+
 
 int specifier_f(char *buff, va_list args, Prototype prot){
 	if(prot.prec_number == -1){
@@ -211,7 +215,7 @@ int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
 int s21_spec_s(char *str, va_list args, Prototype *prot) {
     int i = 0;
     int len = 0;
-    int sp_qnt = 0;
+   // int sp_qnt = 0;
     char *strng_arg = va_arg(args, char*);
 
     if(strng_arg == S21_NULL){
@@ -219,25 +223,59 @@ int s21_spec_s(char *str, va_list args, Prototype *prot) {
         return 2;
     }
 
-    if(prot->prec_number == -1) {
-        len = (int)s21_strlen(strng_arg);
-    } else {
-        len = prot->prec_number;
-    };
     
-    if(prot->width_number < len) prot->width_number = len;
+        len = (int)s21_strlen(strng_arg);
+   
+    if (prot->minus_flag) {
+        if (prot->prec_number < len && prot->prec_number != -1) {
+          i += prep_string(str, strng_arg, prot->prec_number, i);
+        } else {
+          i += prep_string(str, strng_arg, len, i);
+        }
 
-    sp_qnt = prot->width_number - len;
-
-    if(prot->minus_flag == 1){
-        i += prep_string(str, strng_arg, len, i);
-        i += print_spaces(str, sp_qnt, i);
+    if (prot->width_number >= (int)s21_strlen(str)) {
+      i += print_spaces(str, prot->width_number - (int)s21_strlen(str), i);
+    }
     } else {
-        i += print_spaces(str, sp_qnt, i);
-        i += prep_string(str, strng_arg, len, i);
-    };
+     
+      if (prot->prec_number == 0) {
+        i += print_spaces(str, prot->width_number, i);
+      } else if ( prot->width_number >= len) {
+          if (prot->prec_number < len && prot->prec_number != -1) {
+             printf("qwe\n"); 
+              i += print_spaces(str, prot->width_number- prot->prec_number, i);
+          } else {
+            printf("qwe\n"); 
+             i += print_spaces(str, prot->width_number- len, i);
+          }
+      } 
+
+      if (prot->prec_number < len && prot->prec_number != -1) {
+          i += prep_string(str, strng_arg, prot->prec_number, i);
+        } else {
+          i += prep_string(str, strng_arg, len, i);
+        }
+
+    }
+    
+
+
+    // if(prot->width_number < len) prot->width_number = len;
+
+    // sp_qnt = prot->width_number - len;
+
+    // if(prot->minus_flag == 1){
+    //     i += prep_string(str, strng_arg, len, i);
+    //     i += print_spaces(str, sp_qnt, i);
+    // } else {
+    //     i += print_spaces(str, sp_qnt, i);
+    //     i += prep_string(str, strng_arg, len, i);
+    // };
     return i;
 }
+
+
+
 
 int s21_spec_c(char *str, va_list args, Prototype *prot) {
     char c = va_arg(args, int);

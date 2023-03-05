@@ -7,7 +7,7 @@ START_TEST(memmove_1) {
   s21_size_t n = 4;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -18,7 +18,7 @@ START_TEST(memmove_2) {
   s21_size_t n = 0;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -29,7 +29,7 @@ START_TEST(memmove_3) {
   s21_size_t n = 0;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -39,7 +39,7 @@ START_TEST(memmove_4) {
   s21_size_t n = 6;
   memmove(s1, s1, n);
   s21_memmove(s2, s2, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -50,7 +50,7 @@ START_TEST(memmove_5) {
   s21_size_t n = 2;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -61,7 +61,7 @@ START_TEST(memmove_6) {
   s21_size_t n = 1;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -72,7 +72,7 @@ START_TEST(memmove_7) {
   s21_size_t n = strlen(s3);
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -83,7 +83,7 @@ START_TEST(memmove_8) {
   s21_size_t n = 3;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -94,7 +94,7 @@ START_TEST(memmove_9) {
   s21_size_t n = 1;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 
@@ -105,7 +105,7 @@ START_TEST(memmove_10) {
   s21_size_t n = 4;
   memmove(s1, s3, n);
   s21_memmove(s2, s3, n);
-  ck_assert_mem_eq(s1, s2, n);
+  ck_assert_str_eq(s1, s2);
 }
 END_TEST
 

@@ -7,7 +7,7 @@ START_TEST(sprintf_1_HEX) {
   char *str3 = "Test %X Test";
   int val = 0X32;
   ck_assert_int_eq(sprintf(str1, str3, val), s21_sprintf(str2, str3, val));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -21,7 +21,7 @@ START_TEST(sprintf_2_HEX) {
   int val3 = 0X3123;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3),
                    s21_sprintf(str2, str3, val, val2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -35,7 +35,7 @@ START_TEST(sprintf_3_HEX) {
   int val3 = 0X99;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3),
                    s21_sprintf(str2, str3, val, val2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -50,7 +50,7 @@ START_TEST(sprintf_4_HEX) {
   unsigned short val4 = 120;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -64,7 +64,7 @@ START_TEST(sprintf_5_HEX) {
   int val3 = 99;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3),
                    s21_sprintf(str2, str3, val, val2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -79,7 +79,7 @@ START_TEST(sprintf_6_HEX) {
   int val4 = 38;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -94,7 +94,7 @@ START_TEST(sprintf_7_HEX) {
   int val4 = 2939;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -110,7 +110,7 @@ START_TEST(sprintf_8_HEX) {
   int val5 = 0123;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -125,7 +125,7 @@ START_TEST(sprintf_9_HEX) {
   int val4 = 2939;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -138,7 +138,7 @@ START_TEST(sprintf_10_HEX) {
   ck_assert_int_eq(
       sprintf(str1, str3, val, val, val, val, val, val, val, val, val),
       s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -154,7 +154,7 @@ START_TEST(sprintf_11_HEX) {
   int val5 = 23;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -170,7 +170,7 @@ START_TEST(sprintf_12_HEX) {
   int val5 = 3261;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -191,7 +191,7 @@ START_TEST(sprintf_13_HEX) {
 
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -207,7 +207,7 @@ START_TEST(sprintf_14_HEX) {
   int val5 = 8894;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -229,7 +229,7 @@ START_TEST(sprintf_15_HEX) {
       sprintf(str1, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5, val4),
       s21_sprintf(str2, str3, ast, val, ast2, val2, ast3, ast4, val3, ast5,
                   val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -243,7 +243,7 @@ START_TEST(sprintf_16_HEX) {
   int val4 = 3231;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 

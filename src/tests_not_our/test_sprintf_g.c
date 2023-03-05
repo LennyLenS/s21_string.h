@@ -7,7 +7,7 @@ START_TEST(sprintf_1_g) {
   double num = 76.756589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -18,7 +18,7 @@ START_TEST(sprintf_2_g) {
   double num = -76.756589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -30,7 +30,7 @@ START_TEST(sprintf_3_g) {
   double num1 = 640.783289182;
   ck_assert_int_eq(sprintf(str1, str3, num, num1),
                    s21_sprintf(str2, str3, num, num1));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -42,7 +42,7 @@ START_TEST(sprintf_4_g) {
   double num1 = 640.783289182;
   ck_assert_int_eq(sprintf(str1, str3, num, num1),
                    s21_sprintf(str2, str3, num, num1));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -53,7 +53,7 @@ START_TEST(sprintf_5_g) {
   double num = 0.0000756589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -64,7 +64,7 @@ START_TEST(sprintf_6_g) {
   double num = -0.0000756589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -75,7 +75,7 @@ START_TEST(sprintf_7_g) {
   double num = 573429.56589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -86,7 +86,7 @@ START_TEST(sprintf_8_g) {
   double num = -57251397732103429.56589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -97,7 +97,7 @@ START_TEST(sprintf_9_g) {
   double num = -57251397732103429.56589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -108,7 +108,7 @@ START_TEST(sprintf_10_g) {
   double num = -57251397732103429.56589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -119,7 +119,7 @@ START_TEST(sprintf_11_g) {
   double num = -7648938790.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -130,7 +130,7 @@ START_TEST(sprintf_12_g) {
   double num = -7648938790.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -141,7 +141,7 @@ START_TEST(sprintf_13_g) {
   double num = -0.0000756589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -152,7 +152,7 @@ START_TEST(sprintf_14_g) {
   double num = 573429.56589367;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -163,7 +163,7 @@ START_TEST(sprintf_15_g) {
   long double num_long = -76.756589;
   ck_assert_int_eq(sprintf(str1, str3, num_long, num_long),
                    s21_sprintf(str2, str3, num_long, num_long));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -174,7 +174,7 @@ START_TEST(sprintf_16_g) {
   double num = -76.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -185,7 +185,7 @@ START_TEST(sprintf_17_g) {
   long double num = 76.756589;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
                    s21_sprintf(str2, str3, num, num, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -196,7 +196,7 @@ START_TEST(sprintf_18_g) {
   double num = -365289.34628654873789362746834;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -207,7 +207,7 @@ START_TEST(sprintf_19_g) {
   double num = -365289.34628654873789362746834;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -218,7 +218,7 @@ START_TEST(sprintf_20_g) {
   double num = 365289.34628654873789362746834;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -229,7 +229,7 @@ START_TEST(sprintf_21_g) {
   double num = 365289.34628654873789362746834;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -240,7 +240,7 @@ START_TEST(sprintf_22_g) {
   double num = 837564.4753366;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -251,7 +251,7 @@ START_TEST(sprintf_23_g) {
   double num = 837564.4753366;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -262,7 +262,7 @@ START_TEST(sprintf_24_g) {
   double num = -837564.4753366;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -273,7 +273,7 @@ START_TEST(sprintf_25_g) {
   double num = -837564.4753366;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -284,7 +284,7 @@ START_TEST(sprintf_26_g) {
   double num = -947.6785643;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -295,7 +295,7 @@ START_TEST(sprintf_27_g) {
   double num = -947.6785643;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -306,7 +306,7 @@ START_TEST(sprintf_28_g) {
   long double num = 278.723786;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -317,7 +317,7 @@ START_TEST(sprintf_29_g) {
   long double num = 278.723786;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -328,7 +328,7 @@ START_TEST(sprintf_30_g) {
   long double num = 278.723786;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -339,7 +339,7 @@ START_TEST(sprintf_31_g) {
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -350,7 +350,7 @@ START_TEST(sprintf_32_g) {
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -360,7 +360,7 @@ START_TEST(sprintf_33_g) {
   char *str3 = "test: % +40.15Lg!";
   long double num = -2358.367776967;
   ck_assert_int_eq(sprintf(str1, str3, num), s21_sprintf(str2, str3, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -371,7 +371,7 @@ START_TEST(sprintf_34_g) {
   long double num = 9999.999999;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -382,7 +382,7 @@ START_TEST(sprintf_35_g) {
   long double num = 9999.999999;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -393,7 +393,7 @@ START_TEST(sprintf_36_g) {
   double num = 0;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -404,7 +404,7 @@ START_TEST(sprintf_37_g) {
   double num = 0;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -415,7 +415,7 @@ START_TEST(sprintf_38_g) {
   double num = -4353.235300;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -426,7 +426,7 @@ START_TEST(sprintf_39_g) {
   double num = -4353.235300;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -437,7 +437,7 @@ START_TEST(sprintf_40_g) {
   double num = 0.00000235300;
   ck_assert_int_eq(sprintf(str1, str3, num, num),
                    s21_sprintf(str2, str3, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -448,7 +448,7 @@ START_TEST(sprintf_41_g) {
   double num = 0.00000235300;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -459,7 +459,7 @@ START_TEST(sprintf_42_g) {
   long double num = 8236310759735201795485858585858447757573.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -470,7 +470,7 @@ START_TEST(sprintf_43_g) {
   long double num = 8236310759735201795485858585858447757573.6495633;
   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
                    s21_sprintf(str2, str3, num, num, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -480,7 +480,7 @@ START_TEST(sprintf_44_g) {
   char *str3 = "test: %Lg!\n";
   long double num = INFINITY;
   ck_assert_int_eq(sprintf(str1, str3, num), s21_sprintf(str2, str3, num));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -492,7 +492,7 @@ START_TEST(sprintf_45_g) {
   long double num1 = 1.;
   ck_assert_int_eq(sprintf(str1, str3, num, num1),
                    s21_sprintf(str2, str3, num, num1));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 

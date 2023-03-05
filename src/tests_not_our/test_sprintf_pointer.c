@@ -7,7 +7,7 @@ START_TEST(sprintf_1_pointer) {
   char* str3 = "Test %p Test";
   char* val = "0p32";
   ck_assert_int_eq(sprintf(str1, str3, val), s21_sprintf(str2, str3, val));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -21,7 +21,7 @@ START_TEST(sprintf_2_pointer) {
   char* val3 = "0p3123";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3),
                    s21_sprintf(str2, str3, val, val2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -35,7 +35,7 @@ START_TEST(sprintf_3_pointer) {
   char* val3 = "0p99";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3),
                    s21_sprintf(str2, str3, val, val2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -50,7 +50,7 @@ START_TEST(sprintf_4_pointer) {
   unsigned char* val4 = (void*)120;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -64,7 +64,7 @@ START_TEST(sprintf_5_pointer) {
   char* val3 = "99";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3),
                    s21_sprintf(str2, str3, val, val2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -79,7 +79,7 @@ START_TEST(sprintf_6_pointer) {
   char* val4 = "38";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -94,7 +94,7 @@ START_TEST(sprintf_7_pointer) {
   char* val4 = "2939";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -110,7 +110,7 @@ START_TEST(sprintf_8_pointer) {
   char* val5 = "0123";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -125,7 +125,7 @@ START_TEST(sprintf_9_pointer) {
   char* val4 = "2939";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4),
                    s21_sprintf(str2, str3, val, val2, val3, val4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -138,7 +138,7 @@ START_TEST(sprintf_10_pointer) {
   ck_assert_int_eq(
       sprintf(str1, str3, val, val, val, val, val, val, val, val, val),
       s21_sprintf(str2, str3, val, val, val, val, val, val, val, val, val));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -154,7 +154,7 @@ START_TEST(sprintf_11_pointer) {
   char* val5 = "23";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -170,7 +170,7 @@ START_TEST(sprintf_12_pointer) {
   char* val5 = "3261";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -186,7 +186,7 @@ START_TEST(sprintf_13_pointer) {
   char* val5 = "8894";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -202,7 +202,7 @@ START_TEST(sprintf_14_pointer) {
   char* val5 = "8894";
   ck_assert_int_eq(sprintf(str1, str3, val, val2, val3, val4, val5),
                    s21_sprintf(str2, str3, val, val2, val3, val4, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 
@@ -226,7 +226,7 @@ START_TEST(sprintf_15_pointer) {
                            ast5, val4, ast6, val5),
                    s21_sprintf(str2, str3, ast, val, ast2, val2, ast3, ast4,
                                val3, ast5, val4, ast6, val5));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
 }
 END_TEST
 

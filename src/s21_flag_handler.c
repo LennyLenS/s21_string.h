@@ -13,7 +13,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot);
 char *add_sharp_sign(char *str, Prototype prot);
 
 char *main_func(char *str, Prototype *prot) {
-  //printf("start str:%s\n", str);
+  printf("start str:%s\n", str);
   prot->width_number =
       prot->width_number != 0 ? prot->width_number : prot->width_star;
   char *str1;
@@ -165,7 +165,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
       if (prot.zero_flag || *str == '0') {
         char *buff_str = add_char_left(
             str, prot.width_number - s21_strlen(str) - 1 - sign_size,
-            s21_strlen(str) + 1 + sign_size, ' ', prot);
+            s21_strlen(str) + 1 , ' ', prot);
         str = buff_str;
         buff_str = add_sign_or_space(str, prot, negativ_num);
         free(str);

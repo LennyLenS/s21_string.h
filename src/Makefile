@@ -51,7 +51,7 @@ test: $(TESTS_OBJECTS) s21_string.a
 	./test
  
 sprintf : $(SPRINTF_OBJECTS) s21_string.a test.c
-	$(CC) $^ -o sprintf
+	$(CC) $^ -o sprintf -lm
 
 sprintf_test: $(TEST_SPRINTF_OBJECTS) s21_sprintf.a s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)

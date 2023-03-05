@@ -7,7 +7,7 @@ START_TEST(sprintf_1_n) {
   int valn1 = 0, valn2 = 0;
   ck_assert_int_eq(sprintf(str1, str3, &valn1),
                    s21_sprintf(str2, str3, &valn2));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(valn1, valn2);
 }
 END_TEST
@@ -21,7 +21,7 @@ START_TEST(sprintf_2_n) {
   int valn1 = 0, valn2 = 0, valn3 = 0, valn4 = 0;
   ck_assert_int_eq(sprintf(str1, str3, val, &valn1, val2, &valn3),
                    s21_sprintf(str2, str3, val, &valn2, val2, &valn4));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(valn1, valn2);
   ck_assert_int_eq(valn3, valn4);
 }
@@ -37,7 +37,7 @@ START_TEST(sprintf_3_n) {
   int valn1 = 0, valn2 = 0;
   ck_assert_int_eq(sprintf(str1, str3, val, val2, &valn1, val3),
                    s21_sprintf(str2, str3, val, val2, &valn2, val3));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(valn1, valn2);
 }
 END_TEST
@@ -54,7 +54,7 @@ START_TEST(sprintf_4_n) {
   ck_assert_int_eq(
       sprintf(str1, str3, val, val2, (unsigned short)val3, &valn1),
       s21_sprintf(str2, str3, val, val2, (unsigned short)val3, &valn2));
-  ck_assert_pstr_eq(str1, str2);
+  ck_assert_str_eq(str1, str2);
   ck_assert_int_eq(valn1, valn2);
 }
 END_TEST
