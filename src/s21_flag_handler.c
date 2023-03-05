@@ -46,7 +46,7 @@ char *main_func(char *str, Prototype *prot) {
     prot->plus_flag = 0;
     prot->space_flag = 0;
   }
-
+  if (prot->spec != 's') {
   if (prot->prec_number != -1) {
     if (prot->spec == 'd' || prot->spec == 'i' || prot->spec == 'o' ||
         prot->spec == 'u' || prot->spec == 'x' || prot->spec == 'X' ||
@@ -95,6 +95,27 @@ char *main_func(char *str, Prototype *prot) {
       str = buff_str;
     }
     // add_sign_or_space(str, prot, negativ_num);
+  }} else {
+    if (!prot->minus_flag) {
+    if (prot->width_number > (int)s21_strlen(str)) {
+      // printf("wi:%d \n", prot->width_number );
+      char *buff_str = add_char_left(str, prot->width_number - (int)s21_strlen(str)-1,
+                                       (int)s21_strlen(str) + 1, ' ', *prot);
+      free(str);
+      str = buff_str;
+      //printf("str:%s\n", str);
+    }
+    } else {
+     if (prot->width_number > (int)s21_strlen(str)) {
+      // printf("wi:%d \n", prot->width_number );
+      char *buff_str = add_char_right(str, prot->width_number - (int)s21_strlen(str)-1,
+                                       (int)s21_strlen(str) + 1, ' ');
+      free(str);
+      str = buff_str;
+      //printf("str:%s\n", str);
+    }
+    }
+
   }
 
   // printf("last: %d\n", (int)res[strlen(res)-1] );
@@ -103,6 +124,7 @@ char *main_func(char *str, Prototype *prot) {
   str = buff_str;
 
   res = str;
+  // printf("str fin:%s\n", res);
   return res;
 }
 

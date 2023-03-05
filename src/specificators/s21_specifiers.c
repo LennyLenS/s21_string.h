@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <string.h>
+#include <math.h>
 #include "s21_specifiers.h"
 
 int specifier_f(char *buff, va_list args, Prototype prot){
@@ -117,7 +118,6 @@ int specifier_x(char *buff, va_list args, Prototype prot){
 	return s21_strlen(buff);
 }
 
-
 int s21_spec_p(va_list args, char *charbuf, Prototype *prot){
     void *num = va_arg(args, void*);
     char buff[512] = {'\0'};
@@ -157,6 +157,8 @@ int s21_spec_p(va_list args, char *charbuf, Prototype *prot){
     }
     return s21_strlen(charbuf);
 }
+
+
 
 
 void s21_spec_n(va_list args, int j){
@@ -208,36 +210,39 @@ int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
 }
 
 
+
 int s21_spec_s(char *str, va_list args, Prototype *prot) {
     int i = 0;
     int len = 0;
-    int sp_qnt = 0;
+   // int sp_qnt = 0;
     char *strng_arg = va_arg(args, char*);
 
     if(strng_arg == S21_NULL){
-        s21_strcpy(str, "(null)");
+      if (prot->prec_number == 0) {
+         i += prep_string(str, strng_arg, prot->prec_number, i);
+      } else {
+         s21_strncpy(str, "(null)", fmin(6, prot->prec_number));
+      } 
         return 2;
     }
 
-    if(prot->prec_number == -1) {
-        len = (int)s21_strlen(strng_arg);
-    } else {
-        len = prot->prec_number;
-    };
     
-    if(prot->width_number < len) prot->width_number = len;
-
-    sp_qnt = prot->width_number - len;
-
-    if(prot->minus_flag == 1){
-        i += prep_string(str, strng_arg, len, i);
-        i += print_spaces(str, sp_qnt, i);
-    } else {
-        i += print_spaces(str, sp_qnt, i);
-        i += prep_string(str, strng_arg, len, i);
-    };
+    len = (int)s21_strlen(strng_arg);
+    
+  //  if(strng_arg == S21_NULL){
+  //       s21_strcpy(str, "(null)");
+  //   } else
+   if (prot->prec_number < len && prot->prec_number != -1 ) {
+       i += prep_string(str, strng_arg, prot->prec_number, i);
+   } else if (prot->prec_number == 0) {
+       i += prep_string(str, strng_arg, prot->prec_number, i);
+   } else if (len <= prot->prec_number  || prot->prec_number == -1 ) {
+       i += prep_string(str, strng_arg, len, i);
+   }
+ 
     return i;
 }
+
 
 int s21_spec_c(char *str, va_list args, Prototype *prot) {
     char c = va_arg(args, int);
