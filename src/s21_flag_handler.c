@@ -83,7 +83,7 @@ char *main_func(char *str, Prototype *prot) {
       str = buff_str;
     }
     if (prot->width_number != 0 || prot->width_star != 0) {
-      //printf("!%s!\n", str);
+      // printf("!%s!\n", str);
       char *buff_str = n_shift(str, negativ_num, *prot);
       free(str);
       str = buff_str;
@@ -165,7 +165,7 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
       if (prot.zero_flag || *str == '0') {
         char *buff_str = add_char_left(
             str, prot.width_number - s21_strlen(str) - 1 - sign_size,
-            s21_strlen(str) + 1 + sign_size, ' ', prot);
+            s21_strlen(str) + 1, ' ', prot);
         str = buff_str;
         buff_str = add_sign_or_space(str, prot, negativ_num);
         free(str);
@@ -222,7 +222,8 @@ char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {
   }
   int j = str_size - 1;
   char *res = (char *)malloc((str_size + n + 1) * sizeof(char));
-
+  // printf("!%s!\n", str);
+  // printf("\n%d %d %d\n", str_size + n + 1, str_size, (int)strlen(str));
   for (int i = str_size + n; i >= 0; i--) {
     if (j >= 0) {
       res[i] = str[j];

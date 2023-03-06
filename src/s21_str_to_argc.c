@@ -17,6 +17,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res = main_func(intermediate_str, prot);
   } else if (prot->spec == 's') {
     flag_s = s21_spec_s(intermediate_str, args, prot);
+    // printf("%s\n", intermediate_str);
     if (flag_s == 2) {
       res = main_func(intermediate_str, prot);
     } else {

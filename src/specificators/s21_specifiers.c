@@ -213,7 +213,7 @@ int s21_spec_s(char *str, va_list args, Prototype *prot) {
     int len = 0;
     int sp_qnt = 0;
     char *strng_arg = va_arg(args, char*);
-
+    // printf("%s\n", strng_arg+1);
     if(strng_arg == S21_NULL){
         s21_strcpy(str, "(null)");
         return 2;

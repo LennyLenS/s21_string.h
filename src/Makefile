@@ -51,11 +51,12 @@ test: $(TESTS_OBJECTS) s21_string.a
 	./test
  
 sprintf : $(SPRINTF_OBJECTS) s21_string.a test.c
-	$(CC) $^ -o sprintf
+	$(CC) $^ -o sprintf -lm
+	valgrind --leak-check=full ./sprintf
 
 sprintf_test: $(TEST_SPRINTF_OBJECTS) s21_sprintf.a s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
-	./test
+	valgrind --leak-check=full --show-leak-kinds=all ./test
 
 gcov_report: $(TESTS_OBJECTS)
 	$(CC) $(GCOV_FLAGS) $(TESTS_OBJECTS) $(SOURCES) $(TEST_FLAGS) -o test
@@ -64,3 +65,4 @@ gcov_report: $(TESTS_OBJECTS)
 	lcov -t "s21_string" -o s21_string.info -c -d . --rc lcov_branch_coverage=1
 	genhtml -o report s21_string.info --rc lcov_branch_coverage=1
 	open report/index.html
+
