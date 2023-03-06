@@ -337,7 +337,6 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
       flag_minus_num_g == true)
     *num *= -1;
 }
-// Передавть num_int
 int s21_rounding_and_precision_number(
     double *num, unsigned long int *multiply, Prototype *prot,
     double *save_number_for_g, int *e, int *check_g, int *precision,
@@ -554,12 +553,6 @@ void s21_writing_int_number_with_point(
       }
     }
   }
-  // дописать для G
-  // if ((*num_i_g == 6 && *have_precision_g == 0 &&
-  //      (prot->spec == 'g' || prot->spec == 'G')) ||
-  //     ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
-  //      (prot->spec == 'g' || prot->spec == 'G')))
-  //   str_int[*counter_symbols_str - 1] = '\0';
 }
 
 int s21_concat_fractional_number_with_degree(
@@ -621,12 +614,6 @@ void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
     if (flag_minus_num == true) {
       str_double[0] = '-';
     } else
-      // if(flag_g == true  && this_is_used == true){
-
-      // }
-      // else{
-      //   str_double[0] = '0';
-      // }
       str_double[0] = '0';
     *multiply /= 10;
   }
