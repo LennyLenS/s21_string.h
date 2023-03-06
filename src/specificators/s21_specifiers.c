@@ -1,276 +1,263 @@
-#include <stdarg.h>
-#include <math.h>
 #include "s21_specifiers.h"
 
-int specifier_f(char *buff, va_list args, Prototype prot){
-	if(prot.prec_number == -1){
-		prot.prec_number = 6;
-	}
-	if(prot.length == 'L'){
-		long double a = va_arg(args, long double);
-		s21_long_double_to_str(a, buff, prot.prec_number, prot.sharp_flag);
-	}
-	else{
-		double a = va_arg(args, double);
-		s21_long_double_to_str(a, buff, prot.prec_number, prot.sharp_flag);
-	}
-	return s21_strlen(buff);
+#include <math.h>
+#include <stdarg.h>
+
+int specifier_f(char *buff, va_list args, Prototype prot) {
+  if (prot.prec_number == -1) {
+    prot.prec_number = 6;
+  }
+  if (prot.length == 'L') {
+    long double a = va_arg(args, long double);
+    s21_long_double_to_str(a, buff, prot.prec_number, prot.sharp_flag);
+  } else {
+    double a = va_arg(args, double);
+    s21_long_double_to_str(a, buff, prot.prec_number, prot.sharp_flag);
+  }
+  return s21_strlen(buff);
 }
 
-
-int specifier_o(char *buff, va_list args, Prototype prot){
-	if(prot.length == 'l'){
-		unsigned long int num = va_arg(args, unsigned long int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 8, 0);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-	else{
-		unsigned int num = va_arg(args, unsigned int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 8, 0);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-
-	return s21_strlen(buff);
-}
-
-int specifier_u(char *buff, va_list args, Prototype prot){
-	if(prot.length == 'l'){
-		unsigned long int num = va_arg(args, unsigned long int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 10, 0);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-	else{
-		unsigned int num = va_arg(args, unsigned int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 10, 0);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-	return s21_strlen(buff);
-}
-
-int specifier_X(char *buff, va_list args, Prototype prot){
-	if(prot.length == 'l'){
-		unsigned long int num = va_arg(args, unsigned long int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 16, 1);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-	else{
-		unsigned int num = va_arg(args, unsigned int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 16, 1);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-
-	return s21_strlen(buff);
-}
-
-int specifier_x(char *buff, va_list args, Prototype prot){
-	if(prot.length == 'l'){
-		unsigned long int num = va_arg(args, unsigned long int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 16, 0);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-	else{
-		unsigned int num = va_arg(args, unsigned int);
-        if(num == 0 && prot.prec_number == 0 && prot.width_number == 0){
-            buff[0] = '\0';
-        }else if(!(num == 0 && prot.prec_number == 0)){
-		    UDecInNumSys(buff, num, 16, 0);
-        }else{
-            buff[0] = ' ';
-        }
-	}
-
-	return s21_strlen(buff);
-}
-
-int s21_spec_p(va_list args, char *charbuf, Prototype *prot){
-    void *num = va_arg(args, void*);
-    char buff[512] = {'\0'};
-    long long int num2 = (long long int)num;
-    if(num == S21_NULL) num2 = 0;
-    int i = 0;
-    UDecInNumSys(buff, num2, 16, 0);
-
-    int p_len = s21_strlen(buff);
-    int space_len = 0;
-    int zero_len = 0;
-    if(prot->prec_number > p_len) zero_len = prot->prec_number - p_len;
-    if(prot->width_number > p_len + zero_len + 2) space_len = prot->width_number - (p_len + zero_len + 2);
-
-    if(prot->minus_flag != 1){
-        for(int k = 0; k < space_len; k++){
-            *(charbuf + i) = ' ';
-            i++;
-        };
+int specifier_o(char *buff, va_list args, Prototype prot) {
+  if (prot.length == 'l') {
+    unsigned long int num = va_arg(args, unsigned long int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 8, 0);
+    } else {
+      buff[0] = ' ';
     }
+  } else {
+    unsigned int num = va_arg(args, unsigned int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 8, 0);
+    } else {
+      buff[0] = ' ';
+    }
+  }
 
-    s21_strcat(charbuf, "0x");
-    i +=2;
+  return s21_strlen(buff);
+}
 
-    for(int k = 0; k < zero_len; k++){
-        *(charbuf + i) = '0';
-        i++;
+int specifier_u(char *buff, va_list args, Prototype prot) {
+  if (prot.length == 'l') {
+    unsigned long int num = va_arg(args, unsigned long int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 10, 0);
+    } else {
+      buff[0] = ' ';
+    }
+  } else {
+    unsigned int num = va_arg(args, unsigned int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 10, 0);
+    } else {
+      buff[0] = ' ';
+    }
+  }
+  return s21_strlen(buff);
+}
+
+int specifier_X(char *buff, va_list args, Prototype prot) {
+  if (prot.length == 'l') {
+    unsigned long int num = va_arg(args, unsigned long int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 16, 1);
+    } else {
+      buff[0] = ' ';
+    }
+  } else {
+    unsigned int num = va_arg(args, unsigned int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 16, 1);
+    } else {
+      buff[0] = ' ';
+    }
+  }
+
+  return s21_strlen(buff);
+}
+
+int specifier_x(char *buff, va_list args, Prototype prot) {
+  if (prot.length == 'l') {
+    unsigned long int num = va_arg(args, unsigned long int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 16, 0);
+    } else {
+      buff[0] = ' ';
+    }
+  } else {
+    unsigned int num = va_arg(args, unsigned int);
+    if (num == 0 && prot.prec_number == 0 && prot.width_number == 0) {
+      buff[0] = '\0';
+    } else if (!(num == 0 && prot.prec_number == 0)) {
+      UDecInNumSys(buff, num, 16, 0);
+    } else {
+      buff[0] = ' ';
+    }
+  }
+
+  return s21_strlen(buff);
+}
+
+int s21_spec_p(va_list args, char *charbuf, Prototype *prot) {
+  void *num = va_arg(args, void *);
+  char buff[512] = {'\0'};
+  long long int num2 = (long long int)num;
+  if (num == S21_NULL) num2 = 0;
+  int i = 0;
+  UDecInNumSys(buff, num2, 16, 0);
+
+  int p_len = s21_strlen(buff);
+  int space_len = 0;
+  int zero_len = 0;
+  if (prot->prec_number > p_len) zero_len = prot->prec_number - p_len;
+  if (prot->width_number > p_len + zero_len + 2)
+    space_len = prot->width_number - (p_len + zero_len + 2);
+
+  if (prot->minus_flag != 1) {
+    for (int k = 0; k < space_len; k++) {
+      *(charbuf + i) = ' ';
+      i++;
     };
+  }
 
-    s21_strcat(charbuf, buff);
-    i += p_len;
-    if(prot->minus_flag == 1){
-        for(int k = 0; k < space_len; k++){
-            *(charbuf + i) = ' ';
-            i++;
-        };
-    }
-    return s21_strlen(charbuf);
+  s21_strcat(charbuf, "0x");
+  i += 2;
+
+  for (int k = 0; k < zero_len; k++) {
+    *(charbuf + i) = '0';
+    i++;
+  };
+
+  s21_strcat(charbuf, buff);
+  i += p_len;
+  if (prot->minus_flag == 1) {
+    for (int k = 0; k < space_len; k++) {
+      *(charbuf + i) = ' ';
+      i++;
+    };
+  }
+  return s21_strlen(charbuf);
 }
 
-
-
-
-
-
-void s21_spec_n(va_list args, int j){
-    int *var = va_arg(args, int*);
-    *var = j;
+void s21_spec_n(va_list args, int j) {
+  int *var = va_arg(args, int *);
+  *var = j;
 }
 
 int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
-    __int128_t num = 0;
-    int neg_flag = 0;
-    if(prot->length == 'h'){
-        num = (short)va_arg(args, int);
-    } else if(prot->length == 'l'){
-        num = va_arg(args, long int);
+  __int128_t num = 0;
+  int neg_flag = 0;
+  if (prot->length == 'h') {
+    num = (short)va_arg(args, int);
+  } else if (prot->length == 'l') {
+    num = va_arg(args, long int);
+  } else {
+    num = va_arg(args, int);
+  };
+
+  int num_i = 0;
+
+  if (num < 0) {
+    neg_flag = 1;
+    num *= -1;
+    charbuf[num_i] = '-';
+    num_i = 1;
+  }
+
+  if (num == 0) {
+    if (prot->prec_number == 0) {
+      charbuf[num_i] = '\0';
+      num_i++;
     } else {
-        num = va_arg(args, int);
-    };
-
-    int num_i = 0;
-
-    if(num < 0){
-        neg_flag = 1;
-        num *= -1;
-        charbuf[num_i] = '-';
-        num_i = 1;
+      charbuf[num_i] = '0';
+      num_i++;
     }
 
-    if(num == 0){
-        if (prot->prec_number == 0) {
-            charbuf[num_i] = '\0';
-        num_i++;
-        } else {
-            charbuf[num_i] = '0';
-        num_i++;
-        }
-        
-    } else {
-        while (num > 0){
-            int tmp_dig = 0;
-            tmp_dig = num%10;
-            num = num / 10;
-            charbuf[num_i] = tmp_dig + '0';
-            num_i++;
-        }
+  } else {
+    while (num > 0) {
+      int tmp_dig = 0;
+      tmp_dig = num % 10;
+      num = num / 10;
+      charbuf[num_i] = tmp_dig + '0';
+      num_i++;
     }
+  }
 
-    s21_reverse(charbuf, neg_flag);
-    return num_i;
+  s21_reverse(charbuf, neg_flag);
+  return num_i;
 }
 
-
-
 int s21_spec_s(char *str, va_list args, Prototype *prot) {
-    int i = 0;
-    int len = 0;
-   // int sp_qnt = 0;
-    char *strng_arg = va_arg(args, char*);
+  int i = 0;
+  int len = 0;
+  // int sp_qnt = 0;
+  char *strng_arg = va_arg(args, char *);
 
-    if(strng_arg == S21_NULL){
-      if (prot->prec_number == 0) {
-         i += prep_string(str, strng_arg, prot->prec_number, i);
-      } else {
-         s21_strncpy(str, "(null)", fmin(6, prot->prec_number));
-      } 
-        return 2;
+  if (strng_arg == S21_NULL) {
+    if (prot->prec_number == 0) {
+      i += prep_string(str, strng_arg, prot->prec_number, i);
+    } else {
+      s21_strncpy(str, "(null)", fmin(6, prot->prec_number));
     }
+    return 2;
+  }
 
-    
-    len = (int)s21_strlen(strng_arg);
-    
+  len = (int)s21_strlen(strng_arg);
+
   //  if(strng_arg == S21_NULL){
   //       s21_strcpy(str, "(null)");
   //   } else
-   if (prot->prec_number < len && prot->prec_number != -1 ) {
-       i += prep_string(str, strng_arg, prot->prec_number, i);
-   } else if (prot->prec_number == 0) {
-       i += prep_string(str, strng_arg, prot->prec_number, i);
-   } else if (len <= prot->prec_number  || prot->prec_number == -1 ) {
-       i += prep_string(str, strng_arg, len, i);
-   }
- 
-    return i;
-}
+  if (prot->prec_number < len && prot->prec_number != -1) {
+    i += prep_string(str, strng_arg, prot->prec_number, i);
+  } else if (prot->prec_number == 0) {
+    i += prep_string(str, strng_arg, prot->prec_number, i);
+  } else if (len <= prot->prec_number || prot->prec_number == -1) {
+    i += prep_string(str, strng_arg, len, i);
+  }
 
+  return i;
+}
 
 int s21_spec_c(char *str, va_list args, Prototype *prot) {
-    char c = va_arg(args, int);
-    // if(c == '\0') c = 0;
-    //  printf(":%d:\n", c);
-    int sp_qnt = 0;
-    int i = 0;
-    int ret = 0;
-    if(prot->width_number > 0){
-        sp_qnt = prot->width_number -1;
-    };
-    if(prot->minus_flag == 1){
-        str[i] = c;
-        i++;
-        i += print_spaces(str, sp_qnt, i);
-    } else {
-        i += print_spaces(str, sp_qnt, i);
-        str[i] = c;
-        i++;
-    };
-    if(c == 0) ret = -1;
-    // printf("i :%d: s:%d:\n", i, str[i]);
-    return ret;
+  char c = va_arg(args, int);
+  // if(c == '\0') c = 0;
+  //  printf(":%d:\n", c);
+  int sp_qnt = 0;
+  int i = 0;
+  int ret = 0;
+  if (prot->width_number > 0) {
+    sp_qnt = prot->width_number - 1;
+  };
+  if (prot->minus_flag == 1) {
+    str[i] = c;
+    i++;
+    i += print_spaces(str, sp_qnt, i);
+  } else {
+    i += print_spaces(str, sp_qnt, i);
+    str[i] = c;
+    i++;
+  };
+  if (c == 0) ret = -1;
+  // printf("i :%d: s:%d:\n", i, str[i]);
+  return ret;
 }
 
-int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
-               va_list args, Prototype *prot) {
+int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
+               Prototype *prot) {
   int e = 0;
   long long int num_int = 0;
   int symbol = 0;
@@ -280,7 +267,6 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   char str_double_g[270] = {'\0'};
   char symbol_e = '\0';
   char str_degree[560] = {'\0'};
-  // char *res;
   bool flag_zero = false;
   bool flag_zero_negative = false;
   bool flag_zero_plus = false;
@@ -309,9 +295,8 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
   else
     num = va_arg(args, double);
   double save_number_for_g = num;
-  if (s21_check_arg(prot, counter_symbols_str, str, num) != 0) {
-    s21_strcat(intermediate_str, str);
-    printf("s21_stri: %s\n", str);
+  if (s21_check_arg(prot, intermediate_str, counter_symbols_str, num) != 0) {
+    // printf("s21_stri: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (prot->spec == 'g' || prot->spec == 'G') flag_g = true;
@@ -343,7 +328,7 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     num = round(num * pow(10, 0)) / pow(10, 0);
     prec_0 = true;
   } else if ((prot->prec_number == 1 || prot->prec_star == 1) &&
-             (flag_g_prec_1 = true)) {
+             (flag_g_prec_1 = true) && (flag_g == true)) {
     num = round(num * pow(10, 0)) / pow(10, 0);
     if (num == 10) num /= 10;
   }
@@ -366,9 +351,32 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
         str_degree, &dont_write_number_with_point);
     s21_check_fractional_number_for_zeros(&multiply, str_double, flag_minus_num,
                                           flag_g, this_is_used);
-
+    bool point_is_not_here = false;
+    if ((str_double[0] == 'e' || str_double[0] == 'E') &&
+        prot->sharp_flag == 0 && flag_g == true) {
+      int n = 0;
+      point_is_not_here = true;
+      for (; str_int[n] != '\0'; n++) {
+      }
+      if (str_int[n - 1] == '.') {
+        n--;
+        str_int[n] = '\0';
+      }
+    }
+    if (prot->sharp_flag == 1 &&
+        (str_double[0] == 'e' || str_double[0] == 'E')) {
+      int i = 0;
+      for (; str_int[i] != '\0'; i++) {
+      }
+      if (str_int[i - 1] == '.') {
+        str_int[i] = '\0';
+      } else {
+        str_int[i] = '.';
+        str_int[i + 1] = '\0';
+      }
+    }
     s21_strcat(str_int, str_double);  // соединяем 2 строки получаем число
-    if (flag_g == true)
+    if (flag_g == true && prot->sharp_flag == 0 && point_is_not_here == false)
       s21_leading_zeros(str_int, &save_precision_g_1, &have_precision_g,
                         &check_g, prec_0);
     s21_strcat(intermediate_str,
@@ -427,12 +435,13 @@ int s21_spec_e(int counter_symbols_str, char *str, char *intermediate_str,
     s21_reverse(str_double_g, 0);
     s21_strcat(str_double, str_double_g);
     s21_strcat(str_int, str_double);
-    s21_leading_zeros(str_int, &save_precision_g_1, &have_precision_g, &check_g,
-                      prec_0);
+    if (prot->sharp_flag == 0)
+      s21_leading_zeros(str_int, &save_precision_g_1, &have_precision_g,
+                        &check_g, prec_0);
     s21_strcat(intermediate_str, str_int);
   }
 
-//   printf("Дробная часть %s\n", str_double);
-//   printf("Finally1: %s\n", intermediate_str);
+  // printf("Дробная часть %s\n", str_double);
+  printf("Finally1: %s\n", intermediate_str);
   return counter_symbols_str;
 }

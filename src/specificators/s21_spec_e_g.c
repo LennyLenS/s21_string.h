@@ -21,7 +21,6 @@ int s21_isnan(double number) {
   return result;
 }
 
-
 void s21_leading_zeros(char *str_int, int *save_precision_g_1,
                        int *have_precision_g, int *check_g, bool prec_0) {
   int counter_g_leading_zeros = 0;
@@ -80,23 +79,23 @@ void s21_leading_zeros(char *str_int, int *save_precision_g_1,
   }
 }
 
-int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
-                  double num) {
+int s21_check_arg(Prototype *prot, char *intermediate_str,
+                  int counter_symbols_str, double num) {
   int flag_check_arg = 0;
   if (num == INFINITY || num == -INFINITY) {
     int counter = 0;
     if (num == -INFINITY) {
-      str[counter_symbols_str] = '-';
+      intermediate_str[counter_symbols_str] = '-';
       counter++;
     }
     if (prot->spec == 'E' || prot->spec == 'G') {
-      str[counter_symbols_str + counter] = 'I';
-      str[counter_symbols_str + counter + 1] = 'N';
-      str[counter_symbols_str + counter + 2] = 'F';
+      intermediate_str[counter_symbols_str + counter] = 'I';
+      intermediate_str[counter_symbols_str + counter + 1] = 'N';
+      intermediate_str[counter_symbols_str + counter + 2] = 'F';
     } else {
-      str[counter_symbols_str + counter] = 'i';
-      str[counter_symbols_str + counter + 1] = 'n';
-      str[counter_symbols_str + counter + 2] = 'f';
+      intermediate_str[counter_symbols_str + counter] = 'i';
+      intermediate_str[counter_symbols_str + counter + 1] = 'n';
+      intermediate_str[counter_symbols_str + counter + 2] = 'f';
     }
     if (counter > 0)
       counter_symbols_str += 4;
@@ -107,13 +106,13 @@ int s21_check_arg(Prototype *prot, int counter_symbols_str, char *str,
   }
   if (s21_isnan(num) == 1) {
     if (prot->spec == 'E' || prot->spec == 'G') {
-      str[counter_symbols_str] = 'N';
-      str[counter_symbols_str + 1] = 'A';
-      str[counter_symbols_str + 2] = 'N';
+      intermediate_str[counter_symbols_str] = 'N';
+      intermediate_str[counter_symbols_str + 1] = 'A';
+      intermediate_str[counter_symbols_str + 2] = 'N';
     } else {
-      str[counter_symbols_str] = 'n';
-      str[counter_symbols_str + 1] = 'a';
-      str[counter_symbols_str + 2] = 'n';
+      intermediate_str[counter_symbols_str] = 'n';
+      intermediate_str[counter_symbols_str + 1] = 'a';
+      intermediate_str[counter_symbols_str + 2] = 'n';
     }
     counter_symbols_str += 3;
     // printf("s21check: %s\n", str);
@@ -168,7 +167,6 @@ void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
       flag_minus_num_g == true)
     *num *= -1;
 }
-// Передавть num_int
 int s21_rounding_and_precision_number(
     double *num, unsigned long int *multiply, Prototype *prot,
     double *save_number_for_g, int *e, int *check_g, int *precision,
@@ -189,6 +187,7 @@ int s21_rounding_and_precision_number(
   double check_fractional_num_g = 0;
   bool flag_g_e_more_minus_four = false;
   bool this_is_prec_with_zeros = false;
+  bool skip = false;
 
   if (prot->prec_star != -1) {
     *precision = prot->prec_star;
@@ -273,6 +272,9 @@ int s21_rounding_and_precision_number(
       for (int i = 0; i < *precision; i++) {
         // int counter = 0;
         *num *= 10;
+        if (*num == 0) {
+          skip = true;
+        }
         // баг с большим числом
         flag = (long long int)*num;
         if ((flag_zero_negative == false && flag_zero_plus == false &&
@@ -281,7 +283,7 @@ int s21_rounding_and_precision_number(
           *multiply *= 10;
         if (flag == 0) *multiply *= 10;
       }
-      while (flag % 10 == 0) {
+      while (flag % 10 == 0 && skip == false) {
         *multiply /= 10;
         flag /= 10;
         flag = (long long int)flag;
@@ -381,12 +383,6 @@ void s21_writing_int_number_with_point(
       }
     }
   }
-  // дописать для G
-  // if ((*num_i_g == 6 && *have_precision_g == 0 &&
-  //      (prot->spec == 'g' || prot->spec == 'G')) ||
-  //     ((*num_i_g == *save_precision_g_1 && *have_precision_g == 1) &&
-  //      (prot->spec == 'g' || prot->spec == 'G')))
-  //   str_int[*counter_symbols_str - 1] = '\0';
 }
 
 int s21_concat_fractional_number_with_degree(
@@ -448,12 +444,6 @@ void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
     if (flag_minus_num == true) {
       str_double[0] = '-';
     } else
-      // if(flag_g == true  && this_is_used == true){
-
-      // }
-      // else{
-      //   str_double[0] = '0';
-      // }
       str_double[0] = '0';
     *multiply /= 10;
   }
