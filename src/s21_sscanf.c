@@ -115,7 +115,6 @@ int scanf_spec_s(Prototype *prot, const char *str, va_list args, char *buff_str,
     if (prot->width_star != '*') *(p_args + k) = str[*j + k];
     k++;
   };
-  printf("ret = %d\n", ret);
   if (prot->width_star == '*') ret = 0;
   return ret;
 }
