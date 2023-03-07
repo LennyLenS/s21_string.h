@@ -19,7 +19,6 @@ int s21_sscanf(const char *str, const char *format, ...) {
   int i = 0;
   int j = 0;
 
-
   while ((c = format[i]) != '\0') {
     if (c != '%') {
       if (s21_strchr(SPACES, c) != NULL) {
@@ -91,7 +90,6 @@ int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str,
       write_count += scanf_spec_s(prot, str, args, buff_str, width_counter, j);
       *j += s21_strlen(buff_str);
 
-      
       break;
 
     case 'n':
@@ -164,8 +162,7 @@ int scanf_spec_d(Prototype *prot, const char *str, char *buff_str, va_list args,
     if (isNumber(str[*j + k])) {
       buff_str[k] = str[*j + k];
     } else {
-      if (k == 0)
-        return -1;
+      if (k == 0) return -1;
       break;
     };
     k++;

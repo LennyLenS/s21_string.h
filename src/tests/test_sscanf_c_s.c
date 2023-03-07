@@ -79,10 +79,8 @@ START_TEST(sscanf_spec_c_6) {
 END_TEST
 
 START_TEST(sscanf_spec_s_1) {
-  char a1[100] = "", b1[100] = "", c1[100] = "",
-       d1[100] = "";
-  char a2[100] = "", b2[100] = "", c2[100] = "",
-       d2[100] = "";
+  char a1[100] = "", b1[100] = "", c1[100] = "", d1[100] = "";
+  char a2[100] = "", b2[100] = "", c2[100] = "", d2[100] = "";
   const char str[] = "gcc -Wall -Wextra -Werror -std=c11 -fsanitize=address";
   const char str1[] = "%s%s%s%s";
   int res1 = s21_sscanf(str, str1, a1, b1, c1, d1);
@@ -96,10 +94,8 @@ START_TEST(sscanf_spec_s_1) {
 END_TEST
 
 START_TEST(sscanf_spec_s_2) {
-  char a1[100] = "", b1[100] = "", c1[100] = "",
-       d1[100] = "";
-  char a2[100] = "", b2[100] = "", c2[100] = "",
-       d2[100] = "";
+  char a1[100] = "", b1[100] = "", c1[100] = "", d1[100] = "";
+  char a2[100] = "", b2[100] = "", c2[100] = "", d2[100] = "";
   const char str[] = "gcc -Wall -Wextra -Werror -std=c11 -fsanitize=address";
   const char str1[] = "%2s%3s%4s%5s";
   int res1 = s21_sscanf(str, str1, a1, b1, c1, d1);
@@ -113,10 +109,8 @@ START_TEST(sscanf_spec_s_2) {
 END_TEST
 
 START_TEST(sscanf_spec_s_3) {
-  char a1[100] = "", b1[100] = "", c1[100] = "",
-       d1[100] = "";
-  char a2[100] = "", b2[100] = "", c2[100] = "",
-       d2[100] = "";
+  char a1[100] = "", b1[100] = "", c1[100] = "", d1[100] = "";
+  char a2[100] = "", b2[100] = "", c2[100] = "", d2[100] = "";
   const char str[] = "gcc \n-Wall \n-Wextra \n-Werror \n-std=c11";
   const char str1[] = "%5s%4s%3s%2s";
   int res1 = s21_sscanf(str, str1, a1, b1, c1, d1);
@@ -144,10 +138,8 @@ START_TEST(sscanf_spec_s_4) {
 END_TEST
 
 START_TEST(sscanf_spec_s_5) {
-  char a1[100] = "", b1[100] = "", c1[100] = "",
-       d1[100] = "";
-  char a2[100] = "", b2[100] = "", c2[100] = "",
-       d2[100] = "";
+  char a1[100] = "", b1[100] = "", c1[100] = "", d1[100] = "";
+  char a2[100] = "", b2[100] = "", c2[100] = "", d2[100] = "";
   const char str[] = "gcc -Wall -Wextra -Werror -std=c11 -fsanitize=address";
   const char str1[] = "%*s%*s%*s%1s%1s%5s%5s";
   int res1 = s21_sscanf(str, str1, a1, b1, c1, d1);

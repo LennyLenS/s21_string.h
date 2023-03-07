@@ -1,8 +1,7 @@
 #include <stdio.h>
 
-#include "s21_string.h"
 #include "../s21_sprintf.h"
-
+#include "s21_string.h"
 
 #if defined(__APPLE__)
 #define ERROR "Unknown error:"
@@ -116,7 +115,6 @@ static const char *maserror[] = {
     "State not recoverable",
     "Previous owner died",
     "Interface output queue is full"};
-
 
 #elif defined(__linux__)
 #define ERROR "No error information"
@@ -257,13 +255,11 @@ static const char *maserror[] = {"No error information",
                                  "State not recoverable"};
 #endif
 
-
 char *s21_strerror(int errnum) {
   static char res[256];
   if (errnum >= MAXMASERROR || errnum < MINMASERROR) {
 #if defined(__APPLE__)
-    s21_sprintf(res, "%s %d", ERROR,
-            errnum);
+    s21_sprintf(res, "%s %d", ERROR, errnum);
 #elif defined(__linux__)
     s21_sprintf(res, "%s", ERROR);
 #endif

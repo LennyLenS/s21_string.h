@@ -1,5 +1,6 @@
-#include "s21_string.h"
 #include <stdio.h>
+
+#include "s21_string.h"
 char *s21_strtok(char *str, const char *delim) {
   int str_ind = 0;
   static int ret_ind;
@@ -8,7 +9,7 @@ char *s21_strtok(char *str, const char *delim) {
   if (str == S21_NULL && first_time == 0) {
     return S21_NULL;
   };
-  if(str_cash == NULL && str == S21_NULL){
+  if (str_cash == NULL && str == S21_NULL) {
     return S21_NULL;
   }
   first_time = 1;
@@ -21,7 +22,7 @@ char *s21_strtok(char *str, const char *delim) {
   if (str == S21_NULL) {
     str = str_cash;
   };
-  
+
   while (str[str_ind] != '\0') {
     int delim_ind = 0;
     int match_count = 0;
@@ -36,7 +37,7 @@ char *s21_strtok(char *str, const char *delim) {
     str_ind++;
   };
 
-  if ((int)s21_strlen(str) == str_ind){
+  if ((int)s21_strlen(str) == str_ind) {
     str_cash = NULL;
     return S21_NULL;
   }

@@ -7,8 +7,7 @@ void shift_str(char *str, int size) {
   }
 }
 
-void UDecInNumSys(char *buff, unsigned long long int n, int mes,
-                  int flag) {
+void UDecInNumSys(char *buff, unsigned long long int n, int mes, int flag) {
   int size_ans = 0;
   char str[2];
   str[0] = 'a';
@@ -117,9 +116,7 @@ void s21_long_double_to_str(long double num, char *str, int pres,
   str[index] = '\0';
 }
 
-void *s21_reverse(
-    char *str,
-    int neg_flag) {
+void *s21_reverse(char *str, int neg_flag) {
   if (str == NULL) return NULL;
   int bgn = 0;
   if (neg_flag == 1) bgn = 1;

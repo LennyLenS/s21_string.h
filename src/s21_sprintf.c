@@ -29,10 +29,10 @@ int s21_parser(char *str, const char *format, va_list args) {
         counter_symbols_str++;
         continue;
       }
-      //printf("prev sprintf - %s\n", str);
+      // printf("prev sprintf - %s\n", str);
       counter_symbols_str =
           s21_args_to_str(counter_symbols_str, str, &prot, args);
-      //printf("sprintf - %s\n", str);
+      // printf("sprintf - %s\n", str);
     }
   }
   str[counter_symbols_str] = '\0';

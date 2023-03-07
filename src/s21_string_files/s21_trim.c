@@ -31,12 +31,11 @@ void *s21_trim(const char *src, const char *trim_chars) {
     ind_bgn++;
     i++;
   };
-  if(src_len > 1){
+  if (src_len > 1) {
     *(str_new + i) = '\0';
-  }else{
+  } else {
     *str_new = '\0';
   }
-  
 
   return (void *)str_new;
 }

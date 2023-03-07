@@ -8,9 +8,9 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "../s21_string_files/s21_string.h"
 #include "../s21_sprintf.h"
 #include "../s21_sscanf.h"
+#include "../s21_string_files/s21_string.h"
 Suite *test_memchr(void);
 Suite *test_memcmp(void);
 Suite *test_memcpy(void);

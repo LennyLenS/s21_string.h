@@ -48,8 +48,6 @@ START_TEST(sscanf_spec_n_3) {
 }
 END_TEST
 
-
-
 START_TEST(sscanf_spec_n_4) {
   char format[] = "%d  %d %d %d %hhn %d";
   char str[] = "80 50 70 371 327";
@@ -60,10 +58,8 @@ START_TEST(sscanf_spec_n_4) {
   int k1 = 0, k2 = 0;
   unsigned char n1 = 0, n2 = 0;
 
-  int16_t res1 =
-      s21_sscanf(str, format, &d1, &dd1, &f1, &ff1, &n1, &k1);
-  int16_t res2 =
-      sscanf(str, format, &d2, &dd2, &f2, &ff2, &n2, &k2);
+  int16_t res1 = s21_sscanf(str, format, &d1, &dd1, &f1, &ff1, &n1, &k1);
+  int16_t res2 = sscanf(str, format, &d2, &dd2, &f2, &ff2, &n2, &k2);
   ck_assert_int_eq(res1, res2);
   ck_assert_int_eq(d1, d2);
   ck_assert_int_eq(dd1, dd2);
@@ -114,8 +110,6 @@ START_TEST(sscanf_spec_n_6) {
 }
 END_TEST
 
-
-
 START_TEST(sscanf_spec_n_7) {
   char format[] = "%d %d %d %d %n %d";
   char str[] = "0 6634 987766 199 999";
@@ -137,8 +131,6 @@ START_TEST(sscanf_spec_n_7) {
   ck_assert_int_eq(n1, n2);
 }
 END_TEST
-
-
 
 Suite *test_sscanf_n(void) {
   Suite *s = suite_create("\033[45m-=S21_SSCANF_N=-\033[0m");

@@ -44,7 +44,7 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
 
   int index = 0;
   while (res[index] != '\0') {
-        str[counter_symbols_str++] = res[index++];
+    str[counter_symbols_str++] = res[index++];
   }
   str[counter_symbols_str] = '\0';
   if (prot->spec == 'f' || prot->spec == 'u' || prot->spec == 'o' ||

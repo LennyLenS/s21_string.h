@@ -3,10 +3,10 @@
 
 #include <stdarg.h>
 #include <stdbool.h>
-#include "s21_string_files/s21_string.h"
-#include "s21_flag_handler.h"
-#define PRECISION 6;
 
+#include "s21_flag_handler.h"
+#include "s21_string_files/s21_string.h"
+#define PRECISION 6;
 
 int s21_sprintf(char *str, const char *format, ...);
 int s21_parser(char *str, const char *format, va_list args);

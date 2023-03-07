@@ -228,7 +228,6 @@ START_TEST(sscanf_spec_d_19) {
 }
 END_TEST
 
-
 START_TEST(sscanf_spec_d_20) {
   char format[] = "%d";
   char str[] = "9223372036854775807";
@@ -244,7 +243,7 @@ END_TEST
 START_TEST(sscanf_spec_d_21) {
   char format[] = "%d%d";
   char str[] = "92233720 36854775807";
-  int d1 = 0, d2 = 0, d3 = 0, d4 = 0; 
+  int d1 = 0, d2 = 0, d3 = 0, d4 = 0;
 
   int16_t res1 = s21_sscanf(str, format, &d1, &d3);
   int16_t res2 = sscanf(str, format, &d2, &d4);
@@ -289,7 +288,6 @@ START_TEST(sscanf_spec_ld_3) {
   ck_assert_int_eq(d1, d2);
 }
 END_TEST
-
 
 Suite *test_sscanf_d(void) {
   Suite *s = suite_create("\033[45m-=S21_SSCANF_D=-\033[0m");

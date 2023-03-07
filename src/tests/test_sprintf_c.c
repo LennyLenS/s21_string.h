@@ -1,7 +1,5 @@
 #include "test_me.h"
 
-
-
 START_TEST(sprintf_1_c) {
   char str1[100];
   char str2[100];

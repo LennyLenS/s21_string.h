@@ -41,7 +41,6 @@ START_TEST(sscanf_spec_pr_3) {
 }
 END_TEST
 
-
 Suite *test_sscanf_pr(void) {
   Suite *s = suite_create("\033[45m-=S21_SSCANF_%=-\033[0m");
   TCase *tc = tcase_create("sscanf_tc");
