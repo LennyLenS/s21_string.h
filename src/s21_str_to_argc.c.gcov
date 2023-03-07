@@ -1,0 +1,62 @@
+        -:    0:Source:s21_str_to_argc.c
+        -:    1:#include "s21_sprintf.h"
+     1105:    2:int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
+        -:    3:                    va_list args) {
+        -:    4:  // В промежуточном массиве будет храниться строка без учета параметров
+        -:    5:  // заданных в спецификаторе т.е флаги,ширина, точность и тд
+     1105:    6:  char intermediate_str[4096] = {'\0'};
+     1105:    7:  char *res = S21_NULL;
+     1105:    8:  int z = 0;
+     1105:    9:  if (prot->spec == 'c') {
+       65:   10:    z = s21_spec_c(intermediate_str, args, prot);
+       65:   11:    res = intermediate_str;
+     1040:   12:  } else if (prot->spec == 'd' || prot->spec == 'i') {
+      192:   13:    s21_spec_id(args, prot, intermediate_str);
+      192:   14:    res = main_func(intermediate_str, prot);
+      848:   15:  } else if (prot->spec == 's') {
+      119:   16:    s21_spec_s(intermediate_str, args, prot);
+      119:   17:    res = main_func(intermediate_str, prot);
+      729:   18:  } else if (prot->spec == 'n') {
+        5:   19:    s21_spec_n(args, counter_symbols_str);
+        5:   20:    res = intermediate_str;
+      724:   21:  } else if (prot->spec == 'x') {
+       71:   22:    specifier_x(intermediate_str, args, *prot);
+       71:   23:    res = main_func(intermediate_str, prot);
+      653:   24:  } else if (prot->spec == 'X') {
+       75:   25:    specifier_X(intermediate_str, args, *prot);
+       75:   26:    res = main_func(intermediate_str, prot);
+      578:   27:  } else if (prot->spec == 'o') {
+       86:   28:    specifier_o(intermediate_str, args, *prot);
+       86:   29:    res = main_func(intermediate_str, prot);
+      492:   30:  } else if (prot->spec == 'u') {
+       80:   31:    specifier_u(intermediate_str, args, *prot);
+       80:   32:    res = main_func(intermediate_str, prot);
+      412:   33:  } else if (prot->spec == 'f') {
+      141:   34:    specifier_f(intermediate_str, args, *prot);
+      141:   35:    res = main_func(intermediate_str, prot);
+      271:   36:  } else if (prot->spec == 'p') {
+       62:   37:    s21_spec_p(args, intermediate_str, prot);
+       62:   38:    res = intermediate_str;
+     209*:   39:  } else if (prot->spec == 'e' || prot->spec == 'E' || prot->spec == 'g' ||
+    #####:   40:             prot->spec == 'G') {
+      209:   41:    s21_spec_e(counter_symbols_str, intermediate_str, args, prot);
+      209:   42:    res = main_func(intermediate_str, prot);
+        -:   43:  }
+        -:   44:
+     1105:   45:  int index = 0;
+    13088:   46:  while (res[index] != '\0') {
+    11983:   47:    str[counter_symbols_str++] = res[index++];
+        -:   48:  }
+     1105:   49:  str[counter_symbols_str] = '\0';
+     1105:   50:  if (prot->spec == 'f' || prot->spec == 'u' || prot->spec == 'o' ||
+      798:   51:      prot->spec == 'X' || prot->spec == 'x' || prot->spec == 'd' ||
+      524:   52:      prot->spec == 'i' || prot->spec == 's' || prot->spec == 'e' ||
+      273:   53:      prot->spec == 'E' || prot->spec == 'g' || prot->spec == 'G') {
+      973:   54:    free(res);
+        -:   55:  }
+     1105:   56:  if (z == -1) {
+       10:   57:    counter_symbols_str++;
+        -:   58:  }
+        -:   59:
+     1105:   60:  return counter_symbols_str;
+        -:   61:}

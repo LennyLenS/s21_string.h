@@ -1,0 +1,16 @@
+        -:    0:Source:s21_string_files/s21_memchr.c
+        -:    1:#include "s21_string.h"
+        -:    2:
+       10:    3:void *s21_memchr(const void *str, int c, size_t n) {
+       10:    4:  char *ans = NULL;
+       10:    5:  char *p = (char *)str;
+       74:    6:  for (int i = 0; i < (int)n; ++i) {
+       68:    7:    if (*p == c) {
+        4:    8:      ans = p;
+        4:    9:      break;
+        -:   10:    }
+       64:   11:    p++;
+        -:   12:  }
+        -:   13:
+       10:   14:  return (void *)ans;
+        -:   15:}

@@ -1,0 +1,13 @@
+        -:    0:Source:s21_string_files/s21_strncpy.c
+        -:    1:#include "s21_string.h"
+        -:    2:
+       17:    3:char *s21_strncpy(char *dest, const char *src, size_t n) {
+       17:    4:  int save_i = 0;
+       17:    5:  size_t i = 0;
+      144:    6:  for (i = 0; i < n && src[i] != '\0'; i++) {
+      127:    7:    dest[i] = src[i];
+        -:    8:  }
+       17:    9:  if (save_i == 0) save_i = i;
+       17:   10:  if (src[i] == '\0') dest[i] = '\0';
+       17:   11:  return dest;
+        -:   12:}

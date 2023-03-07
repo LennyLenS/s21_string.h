@@ -1,0 +1,12 @@
+        -:    0:Source:s21_string_files/s21_strlen.c
+        -:    1:#include "s21_string.h"
+        -:    2:
+    16607:    3:s21_size_t s21_strlen(const char *str) {
+    16607:    4:  s21_size_t size = 0;
+    16607:    5:  const char *p = str;
+   172150:    6:  while (*p != '\0') {
+   155543:    7:    size++;
+   155543:    8:    p++;
+        -:    9:  };
+    16607:   10:  return size;
+        -:   11:}
