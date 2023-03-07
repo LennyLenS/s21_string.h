@@ -3,7 +3,6 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
                     va_list args) {
   // В промежуточном массиве будет храниться строка без учета параметров
   // заданных в спецификаторе т.е флаги,ширина, точность и тд
-  printf("str_to_arg str - %s\n", str);
   char intermediate_str[4096] = {'\0'};
   char *res = S21_NULL;
   int z = 0;
@@ -39,11 +38,9 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
     res = intermediate_str;
   } else if (prot->spec == 'e' || prot->spec == 'E' || prot->spec == 'g' ||
              prot->spec == 'G') {
-    //printf("str_to_arg spec_g str - %s\n", str);
     s21_spec_e(counter_symbols_str, intermediate_str, args, prot);
-    //printf("str_to_arg mid spec_g str - %s\n", str);
     res = main_func(intermediate_str, prot);
-    printf("%s\n", res);
+    printf("res - !%s!\n", res);
   }
 
   int index = 0;
