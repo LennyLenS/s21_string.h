@@ -78,6 +78,19 @@ START_TEST(sscanf_spec_c_6) {
 }
 END_TEST
 
+START_TEST(sscanf_spec_c_7) {
+  char str1[] = "%4c%2c";
+  char str[] = "abcdefge";
+  char a1[100] = "", a2[100] = "";
+  char b1[100] = "", b2[100] = "";
+  int res1 = s21_sscanf(str, str1, &a1, &b1);
+  int res2 = sscanf(str, str1, &a2, &b2);
+  ck_assert_int_eq(res1, res2);
+  ck_assert_str_eq(a1, a2);
+  ck_assert_str_eq(b1, b2);
+}
+END_TEST
+
 START_TEST(sscanf_spec_s_1) {
   char a1[100] = "", b1[100] = "", c1[100] = "", d1[100] = "";
   char a2[100] = "", b2[100] = "", c2[100] = "", d2[100] = "";
@@ -154,7 +167,7 @@ END_TEST
 
 START_TEST(sscanf_spec_s_6) {
   char str1[] = "%d%c%s%2d";
-  char str[] = "-999 aaaaa +22";
+  char str[] = "-999 abcdef +22";
   int a1 = 0, a2 = 0, b1 = 0, b2 = 0, e1 = 0, e2 = 0;
   char c1[100] = "", c2[100] = "";
   int res1 = s21_sscanf(str, str1, &a1, &b1, c1, &e1);
@@ -164,6 +177,19 @@ START_TEST(sscanf_spec_s_6) {
   ck_assert_int_eq(b1, b2);
   ck_assert_str_eq(c1, c2);
   ck_assert_int_eq(e1, e2);
+}
+END_TEST
+
+START_TEST(sscanf_spec_s_7) {
+  char str1[] = "%5s%s";
+  char str[] = "abcdef ge";
+  char a1[100] = "", a2[100] = "";
+  char b1[100] = "", b2[100] = "";
+  int res1 = s21_sscanf(str, str1, &a1, &b1);
+  int res2 = sscanf(str, str1, &a2, &b2);
+  ck_assert_int_eq(res1, res2);
+  ck_assert_str_eq(a1, a2);
+  ck_assert_str_eq(b1, b2);
 }
 END_TEST
 
@@ -177,6 +203,7 @@ Suite *test_sscanf_c(void) {
   tcase_add_test(tc, sscanf_spec_c_4);
   tcase_add_test(tc, sscanf_spec_c_5);
   tcase_add_test(tc, sscanf_spec_c_6);
+  tcase_add_test(tc, sscanf_spec_c_7);
 
   tcase_add_test(tc, sscanf_spec_s_1);
   tcase_add_test(tc, sscanf_spec_s_2);
@@ -184,6 +211,7 @@ Suite *test_sscanf_c(void) {
   tcase_add_test(tc, sscanf_spec_s_4);
   tcase_add_test(tc, sscanf_spec_s_5);
   tcase_add_test(tc, sscanf_spec_s_6);
+  tcase_add_test(tc, sscanf_spec_s_7);
 
   suite_add_tcase(s, tc);
   return s;

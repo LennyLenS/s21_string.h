@@ -25,10 +25,7 @@ int scanf_spec_s(Prototype *prot, const char *str, va_list args, char *buff_str,
                  int width_counter, int *j);
 void scanf_spec_n(va_list args, int *j, int space_counter_for_n);
 
-int s21_read_format_scanf(Prototype *prot, const char *format, int i,
-                          va_list args);
-int s21_check_prec_scanf(const char *format, int i, int *this_is_prec,
-                         Prototype *prot, va_list args);
+int s21_read_format_scanf(Prototype *prot, const char *format, int i);
 void s21_check_width_scanf(const char *format, int i, int *this_is_width,
                            Prototype *prot);
 void s21_check_flags_scanf(const char *format, int i, Prototype *prot,

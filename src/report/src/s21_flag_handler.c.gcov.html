@@ -1,0 +1,342 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - s21_string.info - src/s21_flag_handler.c</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">src</a> - s21_flag_handler.c<span style="font-size: 80%;"> (source / <a href="s21_flag_handler.c.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">s21_string.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">158</td>
+            <td class="headerCovTableEntry">159</td>
+            <td class="headerCovTableEntryHi">99.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2023-03-07 21:40:00</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="headerItem">Branches:</td>
+            <td class="headerCovTableEntry">129</td>
+            <td class="headerCovTableEntry">140</td>
+            <td class="headerCovTableEntryHi">92.1 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">           Branch data     Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>                :            : #include &quot;s21_sprintf.h&quot;</a>
+<a name="2"><span class="lineNum">       2 </span>                :            : #include &quot;s21_string_files/s21_string.h&quot;</a>
+<a name="3"><span class="lineNum">       3 </span>                :            : </a>
+<a name="4"><span class="lineNum">       4 </span>                :            : char *add_sign_or_space(char *buf_str, Prototype prot, int sign);</a>
+<a name="5"><span class="lineNum">       5 </span>                :            : </a>
+<a name="6"><span class="lineNum">       6 </span>                :            : char *main_func(char *str, Prototype *prot);</a>
+<a name="7"><span class="lineNum">       7 </span>                :            : </a>
+<a name="8"><span class="lineNum">       8 </span>                :            : char *add_char_left(char *str, int n, int str_size, char c, Prototype prot);</a>
+<a name="9"><span class="lineNum">       9 </span>                :            : char *add_char_right(char *str, int n, int str_size, char c);</a>
+<a name="10"><span class="lineNum">      10 </span>                :            : char *n_shift(char *str, int negativ_num, Prototype prot);</a>
+<a name="11"><span class="lineNum">      11 </span>                :            : char *add_sharp_sign(char *str, Prototype prot);</a>
+<a name="12"><span class="lineNum">      12 </span>                :            : </a>
+<a name="13"><span class="lineNum">      13 </span>                :<span class="lineCov">        973 : char *main_func(char *str, Prototype *prot) {</span></a>
+<a name="14"><span class="lineNum">      14 </span>                :<span class="lineCov">        973 :   prot-&gt;width_number =</span></a>
+<a name="15"><span class="lineNum">      15 </span>        [<span class="branchCov" title="Branch 0 was taken 425 times"> + </span><span class="branchCov" title="Branch 1 was taken 548 times"> + </span>]:<span class="lineCov">        973 :       prot-&gt;width_number != 0 ? prot-&gt;width_number : prot-&gt;width_star;</span></a>
+<a name="16"><span class="lineNum">      16 </span>                :            :   char *str1;</a>
+<a name="17"><span class="lineNum">      17 </span>                :            : </a>
+<a name="18"><span class="lineNum">      18 </span>                :            :   char *res;</a>
+<a name="19"><span class="lineNum">      19 </span>                :            :   int negativ_num;</a>
+<a name="20"><span class="lineNum">      20 </span>        [<span class="branchCov" title="Branch 0 was taken 308 times"> + </span><span class="branchCov" title="Branch 1 was taken 665 times"> + </span>]:<span class="lineCov">        973 :   if (*str == '-') {</span></a>
+<a name="21"><span class="lineNum">      21 </span>                :<span class="lineCov">        308 :     negativ_num = 1;</span></a>
+<a name="22"><span class="lineNum">      22 </span>                :<span class="lineCov">        308 :     str1 = (char *)malloc(s21_strlen(str));</span></a>
+<a name="23"><span class="lineNum">      23 </span>        [<span class="branchCov" title="Branch 0 was taken 3106 times"> + </span><span class="branchCov" title="Branch 1 was taken 308 times"> + </span>]:<span class="lineCov">       3414 :     for (int i = 1; i &lt;= (int)s21_strlen(str); ++i) {</span></a>
+<a name="24"><span class="lineNum">      24 </span>                :<span class="lineCov">       3106 :       str1[i - 1] = str[i];</span></a>
+<a name="25"><span class="lineNum">      25 </span>                :            :     }</a>
+<a name="26"><span class="lineNum">      26 </span>                :            :   } else {</a>
+<a name="27"><span class="lineNum">      27 </span>                :<span class="lineCov">        665 :     str1 = (char *)malloc(s21_strlen(str) + 1);</span></a>
+<a name="28"><span class="lineNum">      28 </span>        [<span class="branchCov" title="Branch 0 was taken 4526 times"> + </span><span class="branchCov" title="Branch 1 was taken 665 times"> + </span>]:<span class="lineCov">       5191 :     for (int i = 0; i &lt; (int)s21_strlen(str) + 1; ++i) {</span></a>
+<a name="29"><span class="lineNum">      29 </span>                :<span class="lineCov">       4526 :       str1[i] = str[i];</span></a>
+<a name="30"><span class="lineNum">      30 </span>                :            :     }</a>
+<a name="31"><span class="lineNum">      31 </span>                :<span class="lineCov">        665 :     negativ_num = 0;</span></a>
+<a name="32"><span class="lineNum">      32 </span>                :            :   }</a>
+<a name="33"><span class="lineNum">      33 </span>                :<span class="lineCov">        973 :   str = str1;</span></a>
+<a name="34"><span class="lineNum">      34 </span>  [<span class="branchCov" title="Branch 0 was taken 832 times"> + </span><span class="branchCov" title="Branch 1 was taken 141 times"> + </span><span class="branchCov" title="Branch 2 was taken 730 times"> + </span><span class="branchCov" title="Branch 3 was taken 102 times"> + </span> :<span class="lineCov">        973 :   if (prot-&gt;spec == 'f' || prot-&gt;spec == 'g' || prot-&gt;spec == 'G' ||</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 730 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]
+<a name="35"><span class="lineNum">      35 </span>  [<span class="branchCov" title="Branch 0 was taken 662 times"> + </span><span class="branchCov" title="Branch 1 was taken 68 times"> + </span><span class="branchCov" title="Branch 2 was taken 39 times"> + </span><span class="branchCov" title="Branch 3 was taken 623 times"> + </span>]:<span class="lineCov">        730 :       prot-&gt;spec == 'e' || prot-&gt;spec == 'E') {</span></a>
+<a name="36"><span class="lineNum">      36 </span>                :<span class="lineCov">        350 :     prot-&gt;prec_number = -1;</span></a>
+<a name="37"><span class="lineNum">      37 </span>                :            :   }</a>
+<a name="38"><span class="lineNum">      38 </span>  [<span class="branchCov" title="Branch 0 was taken 887 times"> + </span><span class="branchCov" title="Branch 1 was taken 86 times"> + </span><span class="branchCov" title="Branch 2 was taken 807 times"> + </span><span class="branchCov" title="Branch 3 was taken 80 times"> + </span> :<span class="lineCov">        973 :   if (prot-&gt;spec == 'o' || prot-&gt;spec == 'u' || prot-&gt;spec == 'x' ||</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 736 times"> + </span><span class="branchCov" title="Branch 5 was taken 71 times"> + </span>]
+<a name="39"><span class="lineNum">      39 </span>        [<span class="branchCov" title="Branch 0 was taken 75 times"> + </span><span class="branchCov" title="Branch 1 was taken 661 times"> + </span>]:<span class="lineCov">        736 :       prot-&gt;spec == 'X') {</span></a>
+<a name="40"><span class="lineNum">      40 </span>                :<span class="lineCov">        312 :     prot-&gt;plus_flag = 0;</span></a>
+<a name="41"><span class="lineNum">      41 </span>                :<span class="lineCov">        312 :     prot-&gt;space_flag = 0;</span></a>
+<a name="42"><span class="lineNum">      42 </span>                :            :   }</a>
+<a name="43"><span class="lineNum">      43 </span>        [<span class="branchCov" title="Branch 0 was taken 854 times"> + </span><span class="branchCov" title="Branch 1 was taken 119 times"> + </span>]:<span class="lineCov">        973 :   if (prot-&gt;spec != 's') {</span></a>
+<a name="44"><span class="lineNum">      44 </span>        [<span class="branchCov" title="Branch 0 was taken 196 times"> + </span><span class="branchCov" title="Branch 1 was taken 658 times"> + </span>]:<span class="lineCov">        854 :     if (prot-&gt;prec_number != -1) {</span></a>
+<a name="45"><span class="lineNum">      45 </span>  [<span class="branchCov" title="Branch 0 was taken 165 times"> + </span><span class="branchCov" title="Branch 1 was taken 31 times"> + </span><span class="branchCov" title="Branch 2 was taken 135 times"> + </span><span class="branchCov" title="Branch 3 was taken 30 times"> + </span> :<span class="lineCov">        196 :       if (prot-&gt;spec == 'd' || prot-&gt;spec == 'i' || prot-&gt;spec == 'o' ||</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 103 times"> + </span><span class="branchCov" title="Branch 5 was taken 32 times"> + </span>]
+<a name="46"><span class="lineNum">      46 </span>  [<span class="branchCov" title="Branch 0 was taken 67 times"> + </span><span class="branchCov" title="Branch 1 was taken 36 times"> + </span><span class="branchCov" title="Branch 2 was taken 35 times"> + </span><span class="branchCov" title="Branch 3 was taken 32 times"> + </span> :<span class="lineCov">        103 :           prot-&gt;spec == 'u' || prot-&gt;spec == 'x' || prot-&gt;spec == 'X' ||</span></a>
+<span class="lineNum">         </span>         <span class="branchNoCov" title="Branch 4 was not taken"> - </span><span class="branchCov" title="Branch 5 was taken 35 times"> + </span>]
+<a name="47"><span class="lineNum">      47 </span>        [<span class="branchNoExec" title="Branch 0 was not executed"> # </span><span class="branchNoExec" title="Branch 1 was not executed"> # </span>]:<span class="lineNoCov">          0 :           prot-&gt;spec == 'n') {  //  это только для целыx чисел</span></a>
+<a name="48"><span class="lineNum">      48 </span>        [<span class="branchCov" title="Branch 0 was taken 88 times"> + </span><span class="branchCov" title="Branch 1 was taken 108 times"> + </span>]:<span class="lineCov">        196 :         if (prot-&gt;prec_number &gt; (int)s21_strlen(str)) {</span></a>
+<a name="49"><span class="lineNum">      49 </span>                :            :           char *buff_str =</a>
+<a name="50"><span class="lineNum">      50 </span>                :<span class="lineCov">         88 :               add_char_left(str, prot-&gt;prec_number - (int)s21_strlen(str) - 1,</span></a>
+<a name="51"><span class="lineNum">      51 </span>                :<span class="lineCov">         88 :                             (int)s21_strlen(str) + 1, '0', *prot);</span></a>
+<a name="52"><span class="lineNum">      52 </span>                :<span class="lineCov">         88 :           free(str);</span></a>
+<a name="53"><span class="lineNum">      53 </span>                :<span class="lineCov">         88 :           str = buff_str;</span></a>
+<a name="54"><span class="lineNum">      54 </span>                :            :         }</a>
+<a name="55"><span class="lineNum">      55 </span>                :            :       }</a>
+<a name="56"><span class="lineNum">      56 </span>        [<span class="branchCov" title="Branch 0 was taken 21 times"> + </span><span class="branchCov" title="Branch 1 was taken 175 times"> + </span>]:<span class="lineCov">        196 :       if (prot-&gt;sharp_flag) {</span></a>
+<a name="57"><span class="lineNum">      57 </span>                :<span class="lineCov">         21 :         char *buff_str = add_sharp_sign(str, *prot);</span></a>
+<a name="58"><span class="lineNum">      58 </span>                :<span class="lineCov">         21 :         free(str);</span></a>
+<a name="59"><span class="lineNum">      59 </span>                :<span class="lineCov">         21 :         str = buff_str;</span></a>
+<a name="60"><span class="lineNum">      60 </span>                :            :       }</a>
+<a name="61"><span class="lineNum">      61 </span>  [<span class="branchCov" title="Branch 0 was taken 109 times"> + </span><span class="branchCov" title="Branch 1 was taken 87 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 109 times"> + </span>]:<span class="lineCov">        196 :       if (prot-&gt;width_number != 0 || prot-&gt;width_star != 0) {</span></a>
+<a name="62"><span class="lineNum">      62 </span>                :<span class="lineCov">         87 :         char *buff_str = n_shift(str, negativ_num, *prot);</span></a>
+<a name="63"><span class="lineNum">      63 </span>                :<span class="lineCov">         87 :         free(str);</span></a>
+<a name="64"><span class="lineNum">      64 </span>                :<span class="lineCov">         87 :         str = buff_str;</span></a>
+<a name="65"><span class="lineNum">      65 </span>                :            :       } else {</a>
+<a name="66"><span class="lineNum">      66 </span>                :<span class="lineCov">        109 :         char *buff_str = add_sign_or_space(str, *prot, negativ_num);</span></a>
+<a name="67"><span class="lineNum">      67 </span>                :<span class="lineCov">        109 :         free(str);</span></a>
+<a name="68"><span class="lineNum">      68 </span>                :<span class="lineCov">        109 :         str = buff_str;</span></a>
+<a name="69"><span class="lineNum">      69 </span>                :            :       }</a>
+<a name="70"><span class="lineNum">      70 </span>                :            :     } else {</a>
+<a name="71"><span class="lineNum">      71 </span>        [<span class="branchCov" title="Branch 0 was taken 49 times"> + </span><span class="branchCov" title="Branch 1 was taken 609 times"> + </span>]:<span class="lineCov">        658 :       if (prot-&gt;sharp_flag) {</span></a>
+<a name="72"><span class="lineNum">      72 </span>                :<span class="lineCov">         49 :         char *buff_str = add_sharp_sign(str, *prot);</span></a>
+<a name="73"><span class="lineNum">      73 </span>                :<span class="lineCov">         49 :         free(str);</span></a>
+<a name="74"><span class="lineNum">      74 </span>                :<span class="lineCov">         49 :         str = buff_str;</span></a>
+<a name="75"><span class="lineNum">      75 </span>                :            :       }</a>
+<a name="76"><span class="lineNum">      76 </span>  [<span class="branchCov" title="Branch 0 was taken 334 times"> + </span><span class="branchCov" title="Branch 1 was taken 324 times"> + </span><span class="branchNoCov" title="Branch 2 was not taken"> - </span><span class="branchCov" title="Branch 3 was taken 334 times"> + </span>]:<span class="lineCov">        658 :       if (prot-&gt;width_number != 0 || prot-&gt;width_star != 0) {</span></a>
+<a name="77"><span class="lineNum">      77 </span>                :<span class="lineCov">        324 :         char *buff_str = n_shift(str, negativ_num, *prot);</span></a>
+<a name="78"><span class="lineNum">      78 </span>                :<span class="lineCov">        324 :         free(str);</span></a>
+<a name="79"><span class="lineNum">      79 </span>                :<span class="lineCov">        324 :         str = buff_str;</span></a>
+<a name="80"><span class="lineNum">      80 </span>                :            :       } else {</a>
+<a name="81"><span class="lineNum">      81 </span>                :<span class="lineCov">        334 :         char *buff_str = add_sign_or_space(str, *prot, negativ_num);</span></a>
+<a name="82"><span class="lineNum">      82 </span>                :<span class="lineCov">        334 :         free(str);</span></a>
+<a name="83"><span class="lineNum">      83 </span>                :<span class="lineCov">        334 :         str = buff_str;</span></a>
+<a name="84"><span class="lineNum">      84 </span>                :            :       }</a>
+<a name="85"><span class="lineNum">      85 </span>                :            :     }</a>
+<a name="86"><span class="lineNum">      86 </span>                :            :   } else {</a>
+<a name="87"><span class="lineNum">      87 </span>        [<span class="branchCov" title="Branch 0 was taken 113 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span>]:<span class="lineCov">        119 :     if (!prot-&gt;minus_flag) {</span></a>
+<a name="88"><span class="lineNum">      88 </span>        [<span class="branchCov" title="Branch 0 was taken 22 times"> + </span><span class="branchCov" title="Branch 1 was taken 91 times"> + </span>]:<span class="lineCov">        113 :       if (prot-&gt;width_number &gt; (int)s21_strlen(str)) {</span></a>
+<a name="89"><span class="lineNum">      89 </span>                :            :         char *buff_str =</a>
+<a name="90"><span class="lineNum">      90 </span>                :<span class="lineCov">         22 :             add_char_left(str, prot-&gt;width_number - (int)s21_strlen(str) - 1,</span></a>
+<a name="91"><span class="lineNum">      91 </span>                :<span class="lineCov">         22 :                           (int)s21_strlen(str) + 1, ' ', *prot);</span></a>
+<a name="92"><span class="lineNum">      92 </span>                :<span class="lineCov">         22 :         free(str);</span></a>
+<a name="93"><span class="lineNum">      93 </span>                :<span class="lineCov">         22 :         str = buff_str;</span></a>
+<a name="94"><span class="lineNum">      94 </span>                :            :       }</a>
+<a name="95"><span class="lineNum">      95 </span>                :            :     } else {</a>
+<a name="96"><span class="lineNum">      96 </span>        [<span class="branchCov" title="Branch 0 was taken 2 times"> + </span><span class="branchCov" title="Branch 1 was taken 4 times"> + </span>]:<span class="lineCov">          6 :       if (prot-&gt;width_number &gt; (int)s21_strlen(str)) {</span></a>
+<a name="97"><span class="lineNum">      97 </span>                :            :         char *buff_str =</a>
+<a name="98"><span class="lineNum">      98 </span>                :<span class="lineCov">          2 :             add_char_right(str, prot-&gt;width_number - (int)s21_strlen(str) - 1,</span></a>
+<a name="99"><span class="lineNum">      99 </span>                :<span class="lineCov">          2 :                            (int)s21_strlen(str) + 1, ' ');</span></a>
+<a name="100"><span class="lineNum">     100 </span>                :<span class="lineCov">          2 :         free(str);</span></a>
+<a name="101"><span class="lineNum">     101 </span>                :<span class="lineCov">          2 :         str = buff_str;</span></a>
+<a name="102"><span class="lineNum">     102 </span>                :            :       }</a>
+<a name="103"><span class="lineNum">     103 </span>                :            :     }</a>
+<a name="104"><span class="lineNum">     104 </span>                :            :   }</a>
+<a name="105"><span class="lineNum">     105 </span>                :<span class="lineCov">        973 :   char *buff_str = add_char_right(str, 1, s21_strlen(str) + 1, '\0');</span></a>
+<a name="106"><span class="lineNum">     106 </span>                :<span class="lineCov">        973 :   free(str);</span></a>
+<a name="107"><span class="lineNum">     107 </span>                :<span class="lineCov">        973 :   str = buff_str;</span></a>
+<a name="108"><span class="lineNum">     108 </span>                :            : </a>
+<a name="109"><span class="lineNum">     109 </span>                :<span class="lineCov">        973 :   res = str;</span></a>
+<a name="110"><span class="lineNum">     110 </span>                :<span class="lineCov">        973 :   return res;</span></a>
+<a name="111"><span class="lineNum">     111 </span>                :            : }</a>
+<a name="112"><span class="lineNum">     112 </span>                :            : </a>
+<a name="113"><span class="lineNum">     113 </span>                :<span class="lineCov">         70 : char *add_sharp_sign(char *str, Prototype prot) {</span></a>
+<a name="114"><span class="lineNum">     114 </span>                :            :   char *res;</a>
+<a name="115"><span class="lineNum">     115 </span>  [<span class="branchCov" title="Branch 0 was taken 64 times"> + </span><span class="branchCov" title="Branch 1 was taken 6 times"> + </span><span class="branchCov" title="Branch 2 was taken 58 times"> + </span><span class="branchCov" title="Branch 3 was taken 6 times"> + </span> :<span class="lineCov">         70 :   if ((prot.spec == 'o' || prot.spec == 'x' || prot.spec == 'X') &amp;&amp;</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 11 times"> + </span><span class="branchCov" title="Branch 5 was taken 47 times"> + </span>]
+<a name="116"><span class="lineNum">     116 </span>  [<span class="branchCov" title="Branch 0 was taken 11 times"> + </span><span class="branchCov" title="Branch 1 was taken 12 times"> + </span><span class="branchCov" title="Branch 2 was taken 3 times"> + </span><span class="branchCov" title="Branch 3 was taken 8 times"> + </span>]:<span class="lineCov">         23 :       *str == '0' &amp;&amp; s21_strlen(str) == 1) {</span></a>
+<a name="117"><span class="lineNum">     117 </span>                :<span class="lineCov">          3 :     res = (char *)malloc((s21_strlen(str) + 1) * sizeof(char));</span></a>
+<a name="118"><span class="lineNum">     118 </span>                :<span class="lineCov">          3 :     s21_memcpy(res, str, s21_strlen(str) + 1);</span></a>
+<a name="119"><span class="lineNum">     119 </span>                :            : </a>
+<a name="120"><span class="lineNum">     120 </span>        [<span class="branchCov" title="Branch 0 was taken 5 times"> + </span><span class="branchCov" title="Branch 1 was taken 62 times"> + </span>]:<span class="lineCov">         67 :   } else if ((prot.spec == 'o' &amp;&amp;</span></a>
+<a name="121"><span class="lineNum">     121 </span>  [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 2 times"> + </span><span class="branchCov" title="Branch 2 was taken 2 times"> + </span><span class="branchCov" title="Branch 3 was taken 1 time"> + </span>]:<span class="lineCov">          5 :               (prot.prec_number == -1 || prot.prec_number == 0)) ||</span></a>
+<a name="122"><span class="lineNum">     122 </span>  [<span class="branchCov" title="Branch 0 was taken 59 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchCov" title="Branch 2 was taken 10 times"> + </span><span class="branchCov" title="Branch 3 was taken 49 times"> + </span>]:<span class="lineCov">         64 :              prot.spec == 'x' || prot.spec == 'X') {</span></a>
+<a name="123"><span class="lineNum">     123 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 15 times"> + </span>]:<span class="lineCov">         18 :     int n = prot.spec == 'o' ? 1 : 2;</span></a>
+<a name="124"><span class="lineNum">     124 </span>                :            : </a>
+<a name="125"><span class="lineNum">     125 </span>                :<span class="lineCov">         18 :     res = (char *)malloc((s21_strlen(str) + 1 + n) * sizeof(char));</span></a>
+<a name="126"><span class="lineNum">     126 </span>                :            : </a>
+<a name="127"><span class="lineNum">     127 </span>        [<span class="branchCov" title="Branch 0 was taken 87 times"> + </span><span class="branchCov" title="Branch 1 was taken 18 times"> + </span>]:<span class="lineCov">        105 :     for (int i = n; i &lt; (int)s21_strlen(str) + 2; i++) {</span></a>
+<a name="128"><span class="lineNum">     128 </span>                :<span class="lineCov">         87 :       res[i] = str[i - n];</span></a>
+<a name="129"><span class="lineNum">     129 </span>                :            :     }</a>
+<a name="130"><span class="lineNum">     130 </span>        [<span class="branchCov" title="Branch 0 was taken 3 times"> + </span><span class="branchCov" title="Branch 1 was taken 15 times"> + </span>]:<span class="lineCov">         18 :     if (prot.spec == 'o') {</span></a>
+<a name="131"><span class="lineNum">     131 </span>                :<span class="lineCov">          3 :       res[0] = '0';</span></a>
+<a name="132"><span class="lineNum">     132 </span>  [<span class="branchCov" title="Branch 0 was taken 10 times"> + </span><span class="branchCov" title="Branch 1 was taken 5 times"> + </span><span class="branchCov" title="Branch 2 was taken 10 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span>]:<span class="lineCov">         15 :     } else if (prot.spec == 'x' || prot.spec == 'X') {</span></a>
+<a name="133"><span class="lineNum">     133 </span>                :<span class="lineCov">         15 :       res[0] = '0';</span></a>
+<a name="134"><span class="lineNum">     134 </span>                :<span class="lineCov">         15 :       res[1] = prot.spec;</span></a>
+<a name="135"><span class="lineNum">     135 </span>                :            :     }</a>
+<a name="136"><span class="lineNum">     136 </span>                :<span class="lineCov">         18 :     res[s21_strlen(str) + n] = '\0';</span></a>
+<a name="137"><span class="lineNum">     137 </span>                :            :   } else {</a>
+<a name="138"><span class="lineNum">     138 </span>                :<span class="lineCov">         49 :     res = (char *)malloc((s21_strlen(str) + 1) * sizeof(char));</span></a>
+<a name="139"><span class="lineNum">     139 </span>                :<span class="lineCov">         49 :     s21_memcpy(res, str, s21_strlen(str) + 1);</span></a>
+<a name="140"><span class="lineNum">     140 </span>                :            :   }</a>
+<a name="141"><span class="lineNum">     141 </span>                :<span class="lineCov">         70 :   return res;</span></a>
+<a name="142"><span class="lineNum">     142 </span>                :            : }</a>
+<a name="143"><span class="lineNum">     143 </span>                :            : </a>
+<a name="144"><span class="lineNum">     144 </span>                :<span class="lineCov">        411 : char *n_shift(char *str, int negativ_num, Prototype prot) {</span></a>
+<a name="145"><span class="lineNum">     145 </span>                :<span class="lineCov">        411 :   int sign_size = 0;</span></a>
+<a name="146"><span class="lineNum">     146 </span>  [<span class="branchCov" title="Branch 0 was taken 229 times"> + </span><span class="branchCov" title="Branch 1 was taken 182 times"> + </span><span class="branchCov" title="Branch 2 was taken 199 times"> + </span><span class="branchCov" title="Branch 3 was taken 30 times"> + </span> :<span class="lineCov">        411 :   if (negativ_num == 1 || prot.plus_flag == 1 || prot.space_flag) {</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 29 times"> + </span><span class="branchCov" title="Branch 5 was taken 170 times"> + </span>]
+<a name="147"><span class="lineNum">     147 </span>                :<span class="lineCov">        241 :     sign_size = 1;</span></a>
+<a name="148"><span class="lineNum">     148 </span>                :            :   }</a>
+<a name="149"><span class="lineNum">     149 </span>        [<span class="branchCov" title="Branch 0 was taken 95 times"> + </span><span class="branchCov" title="Branch 1 was taken 316 times"> + </span>]:<span class="lineCov">        411 :   if (prot.minus_flag == 1) {</span></a>
+<a name="150"><span class="lineNum">     150 </span>        [<span class="branchCov" title="Branch 0 was taken 4 times"> + </span><span class="branchCov" title="Branch 1 was taken 91 times"> + </span>]:<span class="lineCov">         95 :     if ((int)s21_strlen(str) &gt;= (prot.width_number + prot.width_star)) {</span></a>
+<a name="151"><span class="lineNum">     151 </span>                :<span class="lineCov">          4 :       char *buff_str = add_sign_or_space(str, prot, negativ_num);</span></a>
+<a name="152"><span class="lineNum">     152 </span>                :<span class="lineCov">          4 :       str = buff_str;</span></a>
+<a name="153"><span class="lineNum">     153 </span>                :            :     } else {</a>
+<a name="154"><span class="lineNum">     154 </span>                :<span class="lineCov">         91 :       int str_size = s21_strlen(str);</span></a>
+<a name="155"><span class="lineNum">     155 </span>                :<span class="lineCov">         91 :       char *buff_str = add_sign_or_space(str, prot, negativ_num);</span></a>
+<a name="156"><span class="lineNum">     156 </span>                :<span class="lineCov">         91 :       str = buff_str;</span></a>
+<a name="157"><span class="lineNum">     157 </span>                :            :       buff_str =</a>
+<a name="158"><span class="lineNum">     158 </span>                :<span class="lineCov">         91 :           add_char_right(str, prot.width_number - str_size - 1 - sign_size,</span></a>
+<a name="159"><span class="lineNum">     159 </span>                :<span class="lineCov">         91 :                          str_size + 1 + sign_size, ' ');</span></a>
+<a name="160"><span class="lineNum">     160 </span>                :            : </a>
+<a name="161"><span class="lineNum">     161 </span>                :<span class="lineCov">         91 :       free(str);</span></a>
+<a name="162"><span class="lineNum">     162 </span>                :<span class="lineCov">         91 :       str = buff_str;</span></a>
+<a name="163"><span class="lineNum">     163 </span>                :            :     }</a>
+<a name="164"><span class="lineNum">     164 </span>                :            :   } else {</a>
+<a name="165"><span class="lineNum">     165 </span>        [<span class="branchCov" title="Branch 0 was taken 131 times"> + </span><span class="branchCov" title="Branch 1 was taken 185 times"> + </span>]:<span class="lineCov">        316 :     if ((int)s21_strlen(str) &gt;= prot.width_number) {</span></a>
+<a name="166"><span class="lineNum">     166 </span>                :<span class="lineCov">        131 :       char *buff_str = add_sign_or_space(str, prot, negativ_num);</span></a>
+<a name="167"><span class="lineNum">     167 </span>                :<span class="lineCov">        131 :       str = buff_str;</span></a>
+<a name="168"><span class="lineNum">     168 </span>                :            :     } else {</a>
+<a name="169"><span class="lineNum">     169 </span>  [<span class="branchCov" title="Branch 0 was taken 145 times"> + </span><span class="branchCov" title="Branch 1 was taken 40 times"> + </span><span class="branchCov" title="Branch 2 was taken 13 times"> + </span><span class="branchCov" title="Branch 3 was taken 132 times"> + </span>]:<span class="lineCov">        185 :       if (prot.zero_flag || *str == '0') {</span></a>
+<a name="170"><span class="lineNum">     170 </span>                :<span class="lineCov">        106 :         char *buff_str = add_char_left(</span></a>
+<a name="171"><span class="lineNum">     171 </span>                :<span class="lineCov">         53 :             str, prot.width_number - s21_strlen(str) - 1 - sign_size,</span></a>
+<a name="172"><span class="lineNum">     172 </span>                :<span class="lineCov">         53 :             s21_strlen(str) + 1, ' ', prot);</span></a>
+<a name="173"><span class="lineNum">     173 </span>                :<span class="lineCov">         53 :         str = buff_str;</span></a>
+<a name="174"><span class="lineNum">     174 </span>                :<span class="lineCov">         53 :         buff_str = add_sign_or_space(str, prot, negativ_num);</span></a>
+<a name="175"><span class="lineNum">     175 </span>                :<span class="lineCov">         53 :         free(str);</span></a>
+<a name="176"><span class="lineNum">     176 </span>                :<span class="lineCov">         53 :         str = buff_str;</span></a>
+<a name="177"><span class="lineNum">     177 </span>                :            : </a>
+<a name="178"><span class="lineNum">     178 </span>                :            :       } else {</a>
+<a name="179"><span class="lineNum">     179 </span>                :<span class="lineCov">        132 :         int str_size = s21_strlen(str);</span></a>
+<a name="180"><span class="lineNum">     180 </span>                :<span class="lineCov">        132 :         char *buff_str = add_sign_or_space(str, prot, negativ_num);</span></a>
+<a name="181"><span class="lineNum">     181 </span>                :<span class="lineCov">        132 :         str = buff_str;</span></a>
+<a name="182"><span class="lineNum">     182 </span>                :            :         buff_str =</a>
+<a name="183"><span class="lineNum">     183 </span>                :<span class="lineCov">        132 :             add_char_left(str, prot.width_number - str_size - 1 - sign_size,</span></a>
+<a name="184"><span class="lineNum">     184 </span>                :<span class="lineCov">        132 :                           str_size + 1 + sign_size, ' ', prot);</span></a>
+<a name="185"><span class="lineNum">     185 </span>                :<span class="lineCov">        132 :         free(str);</span></a>
+<a name="186"><span class="lineNum">     186 </span>                :<span class="lineCov">        132 :         str = buff_str;</span></a>
+<a name="187"><span class="lineNum">     187 </span>                :            :       }</a>
+<a name="188"><span class="lineNum">     188 </span>                :            :     }</a>
+<a name="189"><span class="lineNum">     189 </span>                :            :   }</a>
+<a name="190"><span class="lineNum">     190 </span>                :<span class="lineCov">        411 :   return str;</span></a>
+<a name="191"><span class="lineNum">     191 </span>                :            : }</a>
+<a name="192"><span class="lineNum">     192 </span>                :            : </a>
+<a name="193"><span class="lineNum">     193 </span>                :<span class="lineCov">        854 : char *add_sign_or_space(char *buf_str, Prototype prot, int sign) {</span></a>
+<a name="194"><span class="lineNum">     194 </span>                :            :   char *res;</a>
+<a name="195"><span class="lineNum">     195 </span>  [<span class="branchCov" title="Branch 0 was taken 779 times"> + </span><span class="branchCov" title="Branch 1 was taken 75 times"> + </span><span class="branchCov" title="Branch 2 was taken 506 times"> + </span><span class="branchCov" title="Branch 3 was taken 273 times"> + </span> :<span class="lineCov">       1235 :   if (prot.plus_flag == 1 || sign == 1 || prot.space_flag) {</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 33 times"> + </span><span class="branchCov" title="Branch 5 was taken 473 times"> + </span>]
+<a name="196"><span class="lineNum">     196 </span>                :<span class="lineCov">        381 :     int str_size = s21_strlen(buf_str);</span></a>
+<a name="197"><span class="lineNum">     197 </span>                :<span class="lineCov">        381 :     res = (char *)malloc((str_size + 2) * sizeof(char));</span></a>
+<a name="198"><span class="lineNum">     198 </span>                :            : </a>
+<a name="199"><span class="lineNum">     199 </span>        [<span class="branchCov" title="Branch 0 was taken 4379 times"> + </span><span class="branchCov" title="Branch 1 was taken 381 times"> + </span>]:<span class="lineCov">       4760 :     for (int i = 1; i &lt; str_size + 2; i++) {</span></a>
+<a name="200"><span class="lineNum">     200 </span>                :<span class="lineCov">       4379 :       res[i] = buf_str[i - 1];</span></a>
+<a name="201"><span class="lineNum">     201 </span>                :            :     }</a>
+<a name="202"><span class="lineNum">     202 </span>                :            : </a>
+<a name="203"><span class="lineNum">     203 </span>        [<span class="branchCov" title="Branch 0 was taken 308 times"> + </span><span class="branchCov" title="Branch 1 was taken 73 times"> + </span>]:<span class="lineCov">        381 :     if (sign == 1) {  // если отрицательное число то по дефолту ставим -</span></a>
+<a name="204"><span class="lineNum">     204 </span>                :<span class="lineCov">        308 :       res[0] = '-';</span></a>
+<a name="205"><span class="lineNum">     205 </span>  [<span class="branchCov" title="Branch 0 was taken 73 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 40 times"> + </span><span class="branchCov" title="Branch 3 was taken 33 times"> + </span>]:<span class="lineCov">         73 :     } else if (sign == 0 &amp;&amp; prot.plus_flag) {</span></a>
+<a name="206"><span class="lineNum">     206 </span>                :<span class="lineCov">         40 :       res[0] = '+';</span></a>
+<a name="207"><span class="lineNum">     207 </span>  [<span class="branchCov" title="Branch 0 was taken 33 times"> + </span><span class="branchNoCov" title="Branch 1 was not taken"> - </span><span class="branchCov" title="Branch 2 was taken 33 times"> + </span><span class="branchNoCov" title="Branch 3 was not taken"> - </span> :<span class="lineCov">         33 :     } else if (sign == 0 &amp;&amp; !prot.plus_flag &amp;&amp; prot.space_flag) {</span></a>
+<span class="lineNum">         </span>         <span class="branchCov" title="Branch 4 was taken 33 times"> + </span><span class="branchNoCov" title="Branch 5 was not taken"> - </span>]
+<a name="208"><span class="lineNum">     208 </span>                :<span class="lineCov">         33 :       res[0] = ' ';</span></a>
+<a name="209"><span class="lineNum">     209 </span>                :            :     }</a>
+<a name="210"><span class="lineNum">     210 </span>                :            :   } else {</a>
+<a name="211"><span class="lineNum">     211 </span>                :<span class="lineCov">        473 :     int str_size = s21_strlen(buf_str);</span></a>
+<a name="212"><span class="lineNum">     212 </span>                :<span class="lineCov">        473 :     res = (char *)malloc((str_size + 1) * sizeof(char));</span></a>
+<a name="213"><span class="lineNum">     213 </span>                :<span class="lineCov">        473 :     s21_memcpy(res, buf_str, s21_strlen(buf_str) + 1);</span></a>
+<a name="214"><span class="lineNum">     214 </span>                :            :   }</a>
+<a name="215"><span class="lineNum">     215 </span>                :            : </a>
+<a name="216"><span class="lineNum">     216 </span>                :<span class="lineCov">        854 :   return res;</span></a>
+<a name="217"><span class="lineNum">     217 </span>                :            : }</a>
+<a name="218"><span class="lineNum">     218 </span>                :            : </a>
+<a name="219"><span class="lineNum">     219 </span>                :<span class="lineCov">        295 : char *add_char_left(char *str, int n, int str_size, char c, Prototype prot) {</span></a>
+<a name="220"><span class="lineNum">     220 </span>        [<span class="branchCov" title="Branch 0 was taken 54 times"> + </span><span class="branchCov" title="Branch 1 was taken 241 times"> + </span>]:<span class="lineCov">        295 :   if (prot.zero_flag == 1) {</span></a>
+<a name="221"><span class="lineNum">     221 </span>                :<span class="lineCov">         54 :     c = '0';</span></a>
+<a name="222"><span class="lineNum">     222 </span>                :            :   }</a>
+<a name="223"><span class="lineNum">     223 </span>                :<span class="lineCov">        295 :   int j = str_size - 1;</span></a>
+<a name="224"><span class="lineNum">     224 </span>                :<span class="lineCov">        295 :   char *res = (char *)malloc((str_size + n + 1) * sizeof(char));</span></a>
+<a name="225"><span class="lineNum">     225 </span>                :            : </a>
+<a name="226"><span class="lineNum">     226 </span>        [<span class="branchCov" title="Branch 0 was taken 4895 times"> + </span><span class="branchCov" title="Branch 1 was taken 295 times"> + </span>]:<span class="lineCov">       5190 :   for (int i = str_size + n; i &gt;= 0; i--) {</span></a>
+<a name="227"><span class="lineNum">     227 </span>        [<span class="branchCov" title="Branch 0 was taken 2232 times"> + </span><span class="branchCov" title="Branch 1 was taken 2663 times"> + </span>]:<span class="lineCov">       4895 :     if (j &gt;= 0) {</span></a>
+<a name="228"><span class="lineNum">     228 </span>                :<span class="lineCov">       2232 :       res[i] = str[j];</span></a>
+<a name="229"><span class="lineNum">     229 </span>                :<span class="lineCov">       2232 :       j--;</span></a>
+<a name="230"><span class="lineNum">     230 </span>                :            :     } else {</a>
+<a name="231"><span class="lineNum">     231 </span>                :<span class="lineCov">       2663 :       res[i] = c;</span></a>
+<a name="232"><span class="lineNum">     232 </span>                :            :     }</a>
+<a name="233"><span class="lineNum">     233 </span>                :            :   }</a>
+<a name="234"><span class="lineNum">     234 </span>                :<span class="lineCov">        295 :   res[str_size + n] = '\0';</span></a>
+<a name="235"><span class="lineNum">     235 </span>                :<span class="lineCov">        295 :   return res;</span></a>
+<a name="236"><span class="lineNum">     236 </span>                :            : }</a>
+<a name="237"><span class="lineNum">     237 </span>                :            : </a>
+<a name="238"><span class="lineNum">     238 </span>                :<span class="lineCov">       1066 : char *add_char_right(char *str, int n, int str_size, char c) {</span></a>
+<a name="239"><span class="lineNum">     239 </span>                :<span class="lineCov">       1066 :   char *res = (char *)malloc((str_size + n + 1) * sizeof(char));</span></a>
+<a name="240"><span class="lineNum">     240 </span>        [<span class="branchCov" title="Branch 0 was taken 14293 times"> + </span><span class="branchCov" title="Branch 1 was taken 1066 times"> + </span>]:<span class="lineCov">      15359 :   for (int i = 0; i &lt; str_size + n; i++) {</span></a>
+<a name="241"><span class="lineNum">     241 </span>        [<span class="branchCov" title="Branch 0 was taken 11458 times"> + </span><span class="branchCov" title="Branch 1 was taken 2835 times"> + </span>]:<span class="lineCov">      14293 :     if (i &lt; str_size - 1) {</span></a>
+<a name="242"><span class="lineNum">     242 </span>                :<span class="lineCov">      11458 :       res[i] = str[i];</span></a>
+<a name="243"><span class="lineNum">     243 </span>                :            :     } else {</a>
+<a name="244"><span class="lineNum">     244 </span>                :<span class="lineCov">       2835 :       res[i] = c;</span></a>
+<a name="245"><span class="lineNum">     245 </span>                :            :     }</a>
+<a name="246"><span class="lineNum">     246 </span>                :            :   }</a>
+<a name="247"><span class="lineNum">     247 </span>                :<span class="lineCov">       1066 :   res[str_size + n] = '\0';</span></a>
+<a name="248"><span class="lineNum">     248 </span>                :<span class="lineCov">       1066 :   return res;</span></a>
+<a name="249"><span class="lineNum">     249 </span>                :            : }</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="https://github.com/linux-test-project/lcov" target="_parent">LCOV version 1.16</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

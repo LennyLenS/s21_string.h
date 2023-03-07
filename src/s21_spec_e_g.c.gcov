@@ -1,0 +1,439 @@
+        -:    0:Source:specificators/s21_spec_e_g.c
+        -:    1:#include "../s21_string_files/s21_string.h"
+        -:    2:#include "s21_artem_eg.h"
+        -:    3:
+      437:    4:int s21_double_to_str(long double num, char *str_double, int num_i) {
+     1652:    5:  while (num > 0) {
+     1215:    6:    int num_double = 0;
+     1215:    7:    num_double = (long int)num % 10;
+     1215:    8:    str_double[num_i] = num_double + '0';
+     1215:    9:    num_i++;
+     1215:   10:    num /= 10;
+     1215:   11:    num = (unsigned long int)num;
+        -:   12:  }
+      437:   13:  return num_i;
+        -:   14:}
+        -:   15:
+      208:   16:int s21_isnan(double number) {
+      208:   17:  int result = 0;
+      208:   18:  if (number != number) {
+        1:   19:    result = 1;
+        -:   20:  }
+      208:   21:  return result;
+        -:   22:}
+        -:   23:
+       68:   24:void s21_leading_zeros(char *str_int, int *save_precision_g_1,
+        -:   25:                       int *have_precision_g, int *check_g, bool prec_0) {
+       68:   26:  int counter_g_leading_zeros = 0;
+       68:   27:  int counter_g_prec = 0;
+       68:   28:  char str_degree_from_degree[1024] = {'\0'};
+       68:   29:  bool this_is_zero = false;
+       68:   30:  bool this_is_int = false;
+       68:   31:  bool check_for_g = false;
+       68:   32:  if (str_int[counter_g_prec] == '-' && str_int[counter_g_prec + 1] == '.') {
+    #####:   33:    counter_g_leading_zeros += 1;
+    #####:   34:    this_is_zero = true;
+    #####:   35:    this_is_int = true;
+       68:   36:  } else if (str_int[counter_g_prec] == '-')
+       40:   37:    counter_g_prec += 1;
+      329:   38:  while (this_is_int == false && this_is_zero == false) {
+      261:   39:    if (counter_g_prec < (int)s21_strlen(str_int) &&
+      255:   40:        str_int[counter_g_prec] != '.') {
+      193:   41:      counter_g_leading_zeros += 1;
+      193:   42:      counter_g_prec += 1;
+        -:   43:    } else {
+       68:   44:      counter_g_prec += 1;
+       68:   45:      this_is_int = true;
+        -:   46:    }
+        -:   47:  }
+       68:   48:  if (*have_precision_g == 0) {
+       22:   49:    *save_precision_g_1 = 6;
+       22:   50:    *save_precision_g_1 -= counter_g_leading_zeros;
+        -:   51:  } else
+       46:   52:    *save_precision_g_1 -= counter_g_leading_zeros;
+      418:   53:  for (int i = 1; i <= *save_precision_g_1; i++) {
+      350:   54:    if (str_int[counter_g_prec] != '\0') counter_g_prec++;
+        -:   55:  }
+       68:   56:  counter_g_prec--;
+       68:   57:  if (*check_g != 1) {
+       26:   58:    check_for_g = true;
+       26:   59:    str_degree_from_degree[0] = str_int[counter_g_prec + 1];
+       26:   60:    str_degree_from_degree[1] = str_int[counter_g_prec + 2];
+       26:   61:    int n = 3;
+       26:   62:    int n_degree = 2;
+       78:   63:    while (str_int[counter_g_prec + n] != '\0') {
+       52:   64:      str_degree_from_degree[n_degree] = str_int[counter_g_prec + n];
+       52:   65:      n++;
+       52:   66:      n_degree++;
+        -:   67:    }
+        -:   68:  }
+       68:   69:  bool this_is_not_zero = false;
+      209:   70:  while (this_is_not_zero == false) {
+      141:   71:    if (str_int[counter_g_prec] == '0') {
+       73:   72:      counter_g_prec--;
+        -:   73:    } else
+       68:   74:      this_is_not_zero = true;
+        -:   75:  }
+       68:   76:  if (this_is_not_zero == true) {
+       68:   77:    str_int[counter_g_prec + 1] = '\0';
+       68:   78:    if (check_for_g == true && prec_0 == false)
+       26:   79:      s21_strcat(str_int, str_degree_from_degree);
+        -:   80:  }
+       68:   81:}
+        -:   82:
+      209:   83:int s21_check_arg(Prototype *prot, char *intermediate_str,
+        -:   84:                  int counter_symbols_str, double num) {
+      209:   85:  int flag_check_arg = 0;
+      209:   86:  if (num == INFINITY || num == -INFINITY) {
+        1:   87:    int counter = 0;
+        1:   88:    if (num == -INFINITY) {
+    #####:   89:      intermediate_str[counter] = '-';
+    #####:   90:      counter++;
+        -:   91:    }
+        1:   92:    if (prot->spec == 'E' || prot->spec == 'G') {
+    #####:   93:      intermediate_str[counter] = 'I';
+    #####:   94:      intermediate_str[counter + 1] = 'N';
+    #####:   95:      intermediate_str[counter + 2] = 'F';
+        -:   96:    } else {
+        1:   97:      intermediate_str[counter] = 'i';
+        1:   98:      intermediate_str[counter + 1] = 'n';
+        1:   99:      intermediate_str[counter + 2] = 'f';
+        -:  100:    }
+        1:  101:    if (counter > 0)
+    #####:  102:      counter_symbols_str += 4;
+        -:  103:    else
+        1:  104:      counter_symbols_str += 3;
+        1:  105:    return counter_symbols_str;
+        -:  106:  }
+      208:  107:  if (s21_isnan(num) == 1) {
+        1:  108:    if (prot->spec == 'E' || prot->spec == 'G') {
+    #####:  109:      intermediate_str[0] = 'N';
+    #####:  110:      intermediate_str[1] = 'A';
+    #####:  111:      intermediate_str[2] = 'N';
+        -:  112:    } else {
+        1:  113:      intermediate_str[0] = 'n';
+        1:  114:      intermediate_str[1] = 'a';
+        1:  115:      intermediate_str[2] = 'n';
+        -:  116:    }
+        1:  117:    counter_symbols_str += 3;
+        1:  118:    return counter_symbols_str;
+        -:  119:  }
+      207:  120:  return flag_check_arg;
+        -:  121:}
+        -:  122:
+      207:  123:bool s21_mantisssa_and_degree(double *num, bool flag_zero,
+        -:  124:                              long long int *num_int, int *e, Prototype *prot) {
+      207:  125:  bool flag_zero_negative = false;
+      207:  126:  if (*num == 0) flag_zero = true;
+      207:  127:  if ((prot->spec == 'e' || prot->spec == 'E') &&
+      148:  128:      (*num > -1 && signbit(*num) && *num < 0.0))
+       17:  129:    flag_zero_negative = true;
+      207:  130:  if ((prot->spec == 'g' || prot->spec == 'G') &&
+      155:  131:      (*num > -1 && signbit(*num) && *num < 0.0))
+       10:  132:    flag_zero_negative = true;
+      207:  133:  *num_int = (long long int)*num;  // целая часть дробного числа
+        -:  134:  // Мантисса + подсчет степени
+      207:  135:  if (*num >= 1 || *num <= -1 || flag_zero == true) {
+      163:  136:    if ((*num_int >= 10 || *num_int <= -10)) {
+        -:  137:      do {
+     2376:  138:        *num /= 10;
+     2376:  139:        *e += 1;
+     2376:  140:      } while (*num > 10 || *num < -10);
+        -:  141:    }
+        -:  142:
+        -:  143:  } else {
+        -:  144:    do {
+      185:  145:      *num *= 10;
+      185:  146:      *e -= 1;
+      185:  147:      *num_int = (int)*num;
+      185:  148:    } while (*num_int == 0 && flag_zero == false);
+        -:  149:  }
+      207:  150:  return flag_zero_negative;
+        -:  151:}
+      286:  152:void s21_fractional_and_integer_part_of_a_number(long long int *num_int,
+        -:  153:                                                 double *num, Prototype *prot,
+        -:  154:                                                 bool flag_zero_negative,
+        -:  155:                                                 bool flag_minus_num_g) {
+        -:  156:  // Разбиваем дробное число на два интовых типа целое число и дробная часть
+        -:  157:  // здесь фиксить баг с точностью 1
+      286:  158:  *num_int = (long long int)*num;
+      286:  159:  if (*num_int >= 0)
+      102:  160:    *num -= *num_int;
+        -:  161:  else {
+      184:  162:    *num *= -1;
+      184:  163:    *num += *num_int;
+        -:  164:  }
+      286:  165:  if ((prot->spec == 'g' || prot->spec == 'G') && flag_zero_negative == true &&
+        -:  166:      flag_minus_num_g == true)
+       10:  167:    *num *= -1;
+      286:  168:}
+      200:  169:int s21_rounding_and_precision_number(
+        -:  170:    double *num, unsigned long int *multiply, Prototype *prot,
+        -:  171:    double *save_number_for_g, int *e, int *check_g, int *precision,
+        -:  172:    bool flag_zero_plus, bool flag_zero_negative, bool flag_g,
+        -:  173:    int *save_precision_for_rounding_g, bool this_is_used,
+        -:  174:    int *have_precision_g, int *save_precision_g_1, int *save_degree,
+        -:  175:    long long int *num_int) {
+        -:  176:  // Тут идет округление числа если точность задана в else будет вызываться
+        -:  177:  // функция точности
+        -:  178:  // если после знака запятой будет < 6 цифр, то нужно округлять
+      200:  179:  long long int flag = -1;
+      200:  180:  int dont_write_number_with_point = 0;
+      200:  181:  int counter_g_minus_e = 0;
+      200:  182:  int counter_g_plus_e = 0;
+      200:  183:  int counter_g_final_precison = 0;
+      200:  184:  int save_precision_g = -1;
+      200:  185:  double check_fractional_num_from_zeros_g = 0;
+      200:  186:  double check_fractional_num_g = 0;
+      200:  187:  bool flag_g_e_more_minus_four = false;
+      200:  188:  bool this_is_prec_with_zeros = false;
+      200:  189:  bool skip = false;
+        -:  190:
+      200:  191:  if (prot->prec_star != -1) {
+    #####:  192:    *precision = prot->prec_star;
+    #####:  193:    *save_precision_g_1 = *precision;
+    #####:  194:    *have_precision_g = 1;
+      200:  195:  } else if (prot->prec_number != -1) {
+      149:  196:    *precision = prot->prec_number;
+      149:  197:    *save_precision_g_1 = *precision;
+      149:  198:    *have_precision_g = 1;
+        -:  199:  }
+      200:  200:  *save_degree = *e;
+      200:  201:  if ((prot->spec == 'g' || prot->spec == 'G') &&
+       93:  202:      ((*e >= -4 && *e <= 5 && (*have_precision_g == 0)) ||
+       77:  203:       (*precision > *e && *e >= -4 && *have_precision_g == 1))) {
+       43:  204:    flag_g_e_more_minus_four = true;
+       43:  205:    *num = *save_number_for_g;
+       43:  206:    while (*e < 0) {
+    #####:  207:      *e += 1;
+    #####:  208:      counter_g_minus_e++;
+        -:  209:    }
+      43*:  210:    if (counter_g_minus_e > 0) counter_g_final_precison = counter_g_minus_e;
+        -:  211:  }
+      200:  212:  if (flag_g_e_more_minus_four == true) {
+       43:  213:    *num = *save_number_for_g;
+       43:  214:    *check_g = 1;
+        -:  215:  }
+      200:  216:  if (prot->prec_number == 0 || prot->prec_star == 0) {
+       60:  217:    dont_write_number_with_point = 1;
+       60:  218:    if (prot->spec == 'g' || prot->spec == 'G') *save_number_for_g = *num_int;
+        -:  219:  } else {
+      140:  220:    if (prot->prec_number == -1 || prot->prec_star == -1) {
+      140:  221:      if (prot->spec == 'g' || prot->spec == 'G') {
+       75:  222:        *precision -= 1;
+       75:  223:        save_precision_g = *precision;
+        -:  224:      }
+      140:  225:      if (counter_g_minus_e == 0 && flag_g_e_more_minus_four == true) {
+       43:  226:        this_is_used = true;
+       43:  227:        *precision += 1;
+       43:  228:        flag = (int)*num;
+       43:  229:        if (flag < 0) flag *= -1;
+      212:  230:        while (flag > 0) {
+      169:  231:          flag /= 10;
+      169:  232:          counter_g_plus_e++;
+        -:  233:        }
+       43:  234:        check_fractional_num_g = *save_number_for_g;
+       43:  235:        s21_fractional_and_integer_part_of_a_number(
+        -:  236:            &flag, &check_fractional_num_g, prot, 0, 0);
+       43:  237:        *precision -= counter_g_plus_e;
+       43:  238:        check_fractional_num_g =
+       43:  239:            round(check_fractional_num_g * pow(10, *precision)) /
+       43:  240:            pow(10, *precision);
+       43:  241:        check_fractional_num_from_zeros_g = *save_number_for_g;
+      275:  242:        for (int i = 0; i < *precision; i++)
+      232:  243:          check_fractional_num_from_zeros_g *= 10;
+       43:  244:        if ((long long int)check_fractional_num_from_zeros_g % 10 != 0)
+       35:  245:          this_is_prec_with_zeros = true;
+       43:  246:        int counter = *precision;
+      134:  247:        for (int i = 0; i < counter && this_is_prec_with_zeros == false; i++) {
+       91:  248:          check_fractional_num_g *= 10;
+       91:  249:          if ((long long int)check_fractional_num_g % 10 == 0) *precision -= 1;
+        -:  250:        }
+       43:  251:        *save_precision_for_rounding_g = *precision;
+       43:  252:        flag = -1;
+        -:  253:      }
+      140:  254:      if (prot->length == 'L')
+       21:  255:        *num = roundl(*num * pow(10, *precision + counter_g_final_precison)) /
+       21:  256:               pow(10, *precision + counter_g_final_precison);
+        -:  257:      else
+      119:  258:        *num = round(*num * pow(10, *precision + counter_g_final_precison)) /
+      119:  259:               pow(10, *precision + counter_g_final_precison);
+      140:  260:      if (flag_g == true && *check_g == 0)
+       32:  261:        *num = round(*num * pow(10, *precision + counter_g_final_precison)) /
+       32:  262:               pow(10, *precision + counter_g_final_precison);
+      140:  263:      if (this_is_used == true) {
+       43:  264:        *save_number_for_g = *num;
+        -:  265:      }
+      796:  266:      for (int i = 0; i < *precision; i++) {
+      656:  267:        *num *= 10;
+      656:  268:        if (*num == 0) {
+       35:  269:          skip = true;
+        -:  270:        }
+      656:  271:        flag = (long long int)*num;
+      656:  272:        if ((flag_zero_negative == false && flag_zero_plus == false &&
+      226:  273:             flag_g == true) &&
+      226:  274:            flag % 10 == 0)
+        1:  275:          *multiply *= 10;
+      656:  276:        if (flag == 0) *multiply *= 10;
+        -:  277:      }
+      187:  278:      while (flag % 10 == 0 && skip == false) {
+       47:  279:        *multiply /= 10;
+       47:  280:        flag /= 10;
+       47:  281:        flag = (long long int)flag;
+        -:  282:      }
+      140:  283:      if (this_is_used == true) {
+       43:  284:        *precision = save_precision_g;  // сохранение точности
+        -:  285:      }
+      140:  286:      if (flag_g == true && *check_g == 0)
+       32:  287:        *num = round(*num * pow(10, 0)) / pow(10, 0);
+      140:  288:      if (*num < 0) *num = fabs(*num);
+      140:  289:      *num = (unsigned long int)*num;  // получение дробного числа в виде инта
+        -:  290:    }
+        -:  291:  }
+      200:  292:  return dont_write_number_with_point;
+        -:  293:}
+      200:  294:void s21_writing_int_number_with_point(
+        -:  295:    long long int *num_int, int *symbol, char *str_int, bool flag_zero_negative,
+        -:  296:    int *counter_symbols_str, int *dont_write_number_with_point,
+        -:  297:    double *save_number_for_g, Prototype *prot, int *num_i_g,
+        -:  298:    bool flag_minus_num, int *have_precision_g, int *save_precision_g_1,
+        -:  299:    int *save_degree, int *e) {
+        -:  300:  // Записываем целое число в массив char в виде "-4." если целое число
+        -:  301:  // отрицательное. "4." если число положительное
+      200:  302:  bool check_g = false;
+      200:  303:  double send_to_function_num = 0;
+      200:  304:  if ((prot->spec == 'g' || prot->spec == 'G') &&
+       93:  305:      ((*save_degree >= -4 && *save_degree <= 5 &&
+       58:  306:        (prot->prec_number == -1 || prot->prec_star == -1)) ||
+      35*:  307:       (*save_precision_g_1 > *save_degree && *save_degree >= -4 &&
+    #####:  308:        (prot->prec_number != -1 || prot->prec_star != -1)))) {
+       58:  309:    if (*save_precision_g_1 <= *e && *save_precision_g_1 != 0)
+        7:  310:      *num_int = *num_int % 10;
+        -:  311:    else
+       51:  312:      *num_int = (long long int)*save_number_for_g;
+       58:  313:    check_g = true;
+        -:  314:  }
+      200:  315:  if (check_g == true) {
+       58:  316:    *symbol = *num_int;
+       58:  317:    send_to_function_num = *symbol;
+        -:  318:  } else
+      142:  319:    *symbol = *num_int % 10;
+      200:  320:  if (*dont_write_number_with_point == 1) {
+       60:  321:    if (*symbol < 0) {
+       43:  322:      *symbol *= -1;
+       43:  323:      str_int[0] = '-';
+       43:  324:      str_int[1] = *symbol + '0';
+        -:  325:    } else
+       17:  326:      str_int[0] = *symbol + '0';
+        -:  327:  } else {
+      140:  328:    if ((*symbol < 0 || flag_zero_negative == true) && check_g == false) {
+       68:  329:      *symbol *= -1;
+       68:  330:      str_int[0] = '-';
+       68:  331:      str_int[1] = *symbol + '0';
+       68:  332:      str_int[2] = '.';
+       68:  333:      *counter_symbols_str += 3;
+        -:  334:    } else {
+       72:  335:      if (check_g == true) {
+       50:  336:        *num_i_g = s21_double_to_str(send_to_function_num, str_int, 0);
+      50*:  337:        if (*num_i_g == 0 && send_to_function_num >= 0 &&
+    #####:  338:            flag_zero_negative == false) {
+    #####:  339:          str_int[0] = '0';
+    #####:  340:          str_int[1] = '.';
+        -:  341:        } else {
+       50:  342:          s21_reverse(str_int, 0);
+       50:  343:          if (flag_zero_negative == false && send_to_function_num >= 0)
+       23:  344:            str_int[*num_i_g] = '.';
+        -:  345:        }
+       50:  346:        if (flag_zero_negative == true) {
+    #####:  347:          send_to_function_num *= -1;
+    #####:  348:          str_int[0] = '-';
+    #####:  349:          str_int[1] = '0';
+    #####:  350:          str_int[2] = '.';
+        -:  351:        }
+       50:  352:        if ((*num_i_g == 0 && send_to_function_num < 0) &&
+       27:  353:            flag_zero_negative == false) {
+       27:  354:          unsigned long int counter = 10;
+       27:  355:          flag_minus_num = true;
+       27:  356:          send_to_function_num *= -1;
+       27:  357:          *num_i_g = s21_double_to_str(send_to_function_num, str_int, 0);
+       27:  358:          s21_reverse(str_int, 0);
+       27:  359:          s21_check_fractional_number_for_zeros(&counter, str_int,
+        -:  360:                                                flag_minus_num, 0, 0);
+       27:  361:          str_int[*num_i_g + 1] = '.';
+        -:  362:        }
+       50:  363:        if ((*num_i_g == 6 && *have_precision_g == 0) ||
+       44:  364:            (*num_i_g == *save_precision_g_1 && *have_precision_g == 1)) {
+        8:  365:          if (str_int[0] == '-') *num_i_g += 1;
+        8:  366:          str_int[*num_i_g] = '\0';
+        -:  367:        }
+        -:  368:      } else {
+       22:  369:        str_int[0] = *symbol + '0';
+       22:  370:        str_int[1] = '.';
+       22:  371:        *counter_symbols_str += 2;
+        -:  372:      }
+        -:  373:    }
+        -:  374:  }
+      200:  375:}
+        -:  376:
+      157:  377:int s21_concat_fractional_number_with_degree(
+        -:  378:    int num_i, int counter_symbols_str, char *str_double, double num,
+        -:  379:    Prototype *prot, char symbol_e, int e, char *str_degree,
+        -:  380:    int *dont_write_number_with_point) {
+        -:  381:  // Записываем дробную часть числа в массив char и соединяем дробную число
+        -:  382:  // с степенью
+      157:  383:  if (*dont_write_number_with_point != 1) {
+       97:  384:    num_i = s21_double_to_str(num, str_double, num_i);
+       97:  385:    s21_reverse(str_double, 0);
+        -:  386:  }
+      157:  387:  if (prot->spec == 'E' || prot->spec == 'G')
+       39:  388:    symbol_e = 'E';
+        -:  389:  else
+      118:  390:    symbol_e = 'e';
+      157:  391:  str_double[num_i] = symbol_e;
+      157:  392:  counter_symbols_str++;
+      157:  393:  if (e >= 0) {
+      113:  394:    str_double[num_i + 1] = '+';
+      113:  395:    counter_symbols_str++;
+        -:  396:  }
+      157:  397:  if (e < 0) {
+       44:  398:    str_double[num_i + 1] = '-';
+       44:  399:    counter_symbols_str++;
+        -:  400:  }
+      157:  401:  if (e >= 10) {
+       68:  402:    s21_double_to_str(e, str_degree, 0);
+       68:  403:    s21_reverse(str_degree, 0);
+        -:  404:  } else {
+       89:  405:    str_double[num_i + 2] = '0';
+       89:  406:    counter_symbols_str++;
+        -:  407:  }
+      157:  408:  if (e == 0) {
+        5:  409:    str_double[num_i + 3] = '0';
+        5:  410:    counter_symbols_str++;
+        -:  411:  } else {
+      152:  412:    if (e < 0) e *= -1;
+      152:  413:    s21_double_to_str(e, str_degree, 0);
+      152:  414:    s21_reverse(str_degree, 0);
+      152:  415:    s21_strcat(str_double, str_degree);  // соединяем число с степенью
+        -:  416:  }
+      157:  417:  return counter_symbols_str;
+        -:  418:}
+        -:  419:
+      227:  420:void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
+        -:  421:                                           char *str_double,
+        -:  422:                                           bool flag_minus_num, bool flag_g,
+        -:  423:                                           bool this_is_used) {
+        -:  424:  // Проверка на то,что есть ли в дробной части нули
+        -:  425:  (void)flag_g;
+        -:  426:  (void)this_is_used;
+      289:  427:  while (*multiply >= 10) {
+       62:  428:    int check = s21_strlen(str_double) - 1;
+      462:  429:    for (; check >= 0; check--) {
+      400:  430:      str_double[check + 1] = str_double[check];
+        -:  431:    }
+       62:  432:    if (flag_minus_num == true) {
+       27:  433:      str_double[0] = '-';
+        -:  434:    } else
+       35:  435:      str_double[0] = '0';
+       62:  436:    *multiply /= 10;
+        -:  437:  }
+      227:  438:}

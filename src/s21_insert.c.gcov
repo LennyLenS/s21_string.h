@@ -1,0 +1,31 @@
+        -:    0:Source:s21_string_files/s21_insert.c
+        -:    1:#include "s21_string.h"
+        -:    2:
+       10:    3:void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
+       10:    4:  s21_size_t i = 0;
+       10:    5:  s21_size_t src_ind = 0;
+       10:    6:  if (str == S21_NULL || src == S21_NULL) return S21_NULL;
+        6:    7:  s21_size_t src_len = s21_strlen(src);
+        6:    8:  s21_size_t str_len = s21_strlen(str);
+        6:    9:  if (src_len < start_index) return S21_NULL;
+        -:   10:
+        3:   11:  char *src_new = (char *)malloc(sizeof(char) * (src_len + str_len + 1));
+       3*:   12:  if (src_new == S21_NULL) return S21_NULL;
+       13:   13:  while (i < start_index) {
+       10:   14:    src_new[i] = src[i];
+       10:   15:    i++;
+       10:   16:    src_ind++;
+        -:   17:  };
+       28:   18:  while (*str != '\0') {
+       25:   19:    src_new[i] = *str;
+       25:   20:    str++;
+       25:   21:    i++;
+        -:   22:  };
+       16:   23:  while (src[src_ind] != '\0') {
+       13:   24:    src_new[i] = src[src_ind];
+       13:   25:    i++;
+       13:   26:    src_ind++;
+        -:   27:  };
+        3:   28:  src_new[i] = '\0';
+        3:   29:  return (void *)src_new;
+        -:   30:}

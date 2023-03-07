@@ -1,7 +1,6 @@
 #include "s21_sscanf.h"
 
-int s21_read_format_scanf(Prototype *prot, const char *format, int i,
-                          va_list args);
+int s21_read_format_scanf(Prototype *prot, const char *format, int i);
 int s21_check_prec_scanf(const char *format, int i, int *this_is_prec,
                          Prototype *prot, va_list args);
 void s21_check_width_scanf(const char *format, int i, int *this_is_width,
@@ -46,7 +45,7 @@ int s21_sscanf(const char *str, const char *format, ...) {
     };
 
     Prototype prot = {'\0', 0, 0, 0, 0, 0, 0, 0, -1, -1, '\0'};
-    i = s21_read_format_scanf(&prot, format, i, args);
+    i = s21_read_format_scanf(&prot, format, i);
     int space_counter_for_n = 0;
     if (prot.spec != 'c') {
       while (s21_strchr(SPACES, str[j]) != NULL) {
@@ -95,9 +94,6 @@ int s21_switch_scan_spec(Prototype *prot, const char *format, const char *str,
     case 'n':
       scanf_spec_n(args, j, space_counter_for_n);
       break;
-
-    default:
-      break;
   };
   return write_count;
 }
@@ -119,6 +115,7 @@ int scanf_spec_s(Prototype *prot, const char *str, va_list args, char *buff_str,
     if (prot->width_star != '*') *(p_args + k) = str[*j + k];
     k++;
   };
+  printf("ret = %d\n", ret);
   if (prot->width_star == '*') ret = 0;
   return ret;
 }
@@ -140,9 +137,10 @@ int scanf_spec_c(Prototype *prot, const char *str, char *buff_str, va_list args,
       buff_str[k] = str[*j + k];
       if (prot->width_star != '*') {
         *(p_args + k) = str[*j + k];
-        k++;
-      }
+      };
+      k++;
     };
+    k=1;
   };
   return k;
 }
@@ -201,15 +199,13 @@ int isNumber(char c) {
   return res;
 }
 
-int s21_read_format_scanf(Prototype *prot, const char *format, int i,
-                          va_list args) {
+int s21_read_format_scanf(Prototype *prot, const char *format, int i) {
   int this_is_width = 0;
   int this_is_prec = 0;
   i++;
   while (format[i]) {
     s21_check_flags_scanf(format, i, prot, &this_is_prec, &this_is_width);
     s21_check_width_scanf(format, i, &this_is_width, prot);
-    i = s21_check_prec_scanf(format, i, &this_is_prec, prot, args);
     if (format[i] == 'h') {
       prot->length = format[i];
     } else if (format[i] == 'l') {
@@ -219,31 +215,13 @@ int s21_read_format_scanf(Prototype *prot, const char *format, int i,
     }
     // Check spec
     if (format[i] == 'c' || format[i] == 'd' || format[i] == 'i' ||
-        format[i] == 'e' || format[i] == 'E' || format[i] == 'f' ||
-        format[i] == 'g' || format[i] == 'G' || format[i] == 'o' ||
-        format[i] == 's' || format[i] == 'u' || format[i] == 'x' ||
-        format[i] == 'X' || format[i] == 'p' || format[i] == 'n' ||
-        format[i] == '%')
+        format[i] == 'o' || format[i] == 's' || format[i] == 'p' ||
+        format[i] == 'n' || format[i] == '%')
       prot->spec = format[i];
     if (prot->spec == format[i])
       break;
     else
       i++;
-  }
-  return i;
-}
-
-int s21_check_prec_scanf(const char *format, int i, int *this_is_prec,
-                         Prototype *prot, va_list args) {
-  if (format[i] == '.') {
-    i++;
-    if (s21_check_number_scanf(format, i) == true && *this_is_prec == 0) {
-      prot->prec_number = s21_write_number_scanf(format, &i);
-      *this_is_prec = 1;
-    } else if (format[i] == '*' && *this_is_prec == 0) {
-      prot->prec_star = va_arg(args, int);
-      *this_is_prec = 1;
-    }
   }
   return i;
 }
@@ -268,8 +246,6 @@ void s21_check_flags_scanf(const char *format, int i, Prototype *prot,
     prot->minus_flag = 1;
   } else if (format[i] == ' ') {
     prot->space_flag = 1;
-  } else if (format[i] == '#') {
-    prot->sharp_flag = 1;
   } else if (format[i] == '0' && *this_is_prec == 0 && *this_is_width == 0) {
     prot->zero_flag = 1;
   }

@@ -1,0 +1,21 @@
+        -:    0:Source:s21_string_files/s21_strcmp.c
+        -:    1:#include <stdio.h>
+        -:    2:
+        -:    3:#include "s21_string.h"
+        7:    4:int s21_strcmp(const char *str1, const char *str2) {
+        7:    5:  int res = 0;
+        7:    6:  int flag = 1;
+       16:    7:  while (*str1 == *str2 && flag == 1) {
+        9:    8:    if (*str1 == '\0' && *str2 == '\0') {
+        3:    9:      flag = 0;
+        -:   10:    } else {
+        6:   11:      str1++;
+        6:   12:      str2++;
+        -:   13:    }
+        -:   14:  }
+        7:   15:  res = *str1 - *str2;
+        7:   16:  if (flag == 0) {
+        3:   17:    res = flag;
+        -:   18:  }
+        7:   19:  return res;
+        -:   20:}

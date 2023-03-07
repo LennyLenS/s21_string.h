@@ -1,0 +1,10 @@
+        -:    0:Source:s21_string_files/s21_strcpy.c
+        -:    1:#include "s21_string.h"
+      125:    2:char *s21_strcpy(char *dest, const char *src) {
+      125:    3:  int i = 0;
+     2563:    4:  for (i = 0; src[i] != '\0'; i++) {
+     2438:    5:    dest[i] = src[i];
+        -:    6:  }
+      125:    7:  dest[i] = '\0';
+      125:    8:  return dest;
+        -:    9:}
