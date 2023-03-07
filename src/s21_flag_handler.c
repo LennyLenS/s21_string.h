@@ -184,11 +184,11 @@ char *n_shift(char *str, int negativ_num, Prototype prot) {
   } else {
     if ((int)s21_strlen(str) >= prot.width_number) {
       char *buff_str = add_sign_or_space(str, prot, negativ_num);
-      printf("!!%s@\n", buff_str);
+      // printf("!!%s@\n", buff_str);
       str = buff_str;
     } else {
       if (prot.zero_flag || *str == '0') {
-        printf("%d\n", (int)s21_strlen(str));
+        // printf("%d\n", (int)s21_strlen(str));
         char *buff_str = add_char_left(
             str, prot.width_number - s21_strlen(str) - 1 - sign_size,
             s21_strlen(str) + 1, ' ', prot);

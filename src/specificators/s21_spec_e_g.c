@@ -85,37 +85,37 @@ int s21_check_arg(Prototype *prot, char *intermediate_str,
   if (num == INFINITY || num == -INFINITY) {
     int counter = 0;
     if (num == -INFINITY) {
-      intermediate_str[counter_symbols_str] = '-';
+      intermediate_str[counter] = '-';
       counter++;
     }
     if (prot->spec == 'E' || prot->spec == 'G') {
-      intermediate_str[counter_symbols_str + counter] = 'I';
-      intermediate_str[counter_symbols_str + counter + 1] = 'N';
-      intermediate_str[counter_symbols_str + counter + 2] = 'F';
+      intermediate_str[counter] = 'I';
+      intermediate_str[counter + 1] = 'N';
+      intermediate_str[counter + 2] = 'F';
     } else {
-      intermediate_str[counter_symbols_str + counter] = 'i';
-      intermediate_str[counter_symbols_str + counter + 1] = 'n';
-      intermediate_str[counter_symbols_str + counter + 2] = 'f';
+      intermediate_str[counter] = 'i';
+      intermediate_str[counter + 1] = 'n';
+      intermediate_str[counter + 2] = 'f';
     }
     if (counter > 0)
       counter_symbols_str += 4;
     else
       counter_symbols_str += 3;
-    // printf("s21check: %s\n", str);
+    // printf("s21check: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (s21_isnan(num) == 1) {
     if (prot->spec == 'E' || prot->spec == 'G') {
-      intermediate_str[counter_symbols_str] = 'N';
-      intermediate_str[counter_symbols_str + 1] = 'A';
-      intermediate_str[counter_symbols_str + 2] = 'N';
+      intermediate_str[0] = 'N';
+      intermediate_str[1] = 'A';
+      intermediate_str[2] = 'N';
     } else {
-      intermediate_str[counter_symbols_str] = 'n';
-      intermediate_str[counter_symbols_str + 1] = 'a';
-      intermediate_str[counter_symbols_str + 2] = 'n';
+      intermediate_str[0] = 'n';
+      intermediate_str[1] = 'a';
+      intermediate_str[2] = 'n';
     }
     counter_symbols_str += 3;
-    // printf("s21check: %s\n", str);
+    // printf("s21check: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   return flag_check_arg;

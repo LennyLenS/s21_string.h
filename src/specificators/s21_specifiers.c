@@ -442,6 +442,6 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
   }
 
   // printf("Дробная часть %s\n", str_double);
-  printf("Finally1: %s\n", intermediate_str);
+  // printf("Finally1: %s\n", intermediate_str);
   return counter_symbols_str;
 }

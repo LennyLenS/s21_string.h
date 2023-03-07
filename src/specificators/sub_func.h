@@ -28,6 +28,7 @@ void s21_long_double_to_str(long double num, char *str, int pres,
 
 void *s21_reverse(char *str, int neg_flag);
 
+
 int print_spaces(char *str, int n, int j);
 
 int prep_string(char *str, char *strng_arg, int n, int j);
