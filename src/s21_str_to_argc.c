@@ -40,13 +40,11 @@ int s21_args_to_str(int counter_symbols_str, char *str, Prototype *prot,
              prot->spec == 'G') {
     s21_spec_e(counter_symbols_str, intermediate_str, args, prot);
     res = main_func(intermediate_str, prot);
-    printf("res - !%s!\n", res);
   }
 
   int index = 0;
   while (res[index] != '\0') {
-    
-    str[counter_symbols_str++] = res[index++];
+        str[counter_symbols_str++] = res[index++];
   }
   str[counter_symbols_str] = '\0';
   if (prot->spec == 'f' || prot->spec == 'u' || prot->spec == 'o' ||

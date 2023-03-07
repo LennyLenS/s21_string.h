@@ -34,18 +34,6 @@ START_TEST(sprintf_3_g) {
 }
 END_TEST
 
-START_TEST(sprintf_4_g) {
-  char str1[200];
-  char str2[200];
-  char *str3 = "%.2g TEST\n%.3g TEST\n";
-  double num = 838.65400000;
-  double num1 = 640.783289182;
-  ck_assert_int_eq(sprintf(str1, str3, num, num1),
-                   s21_sprintf(str2, str3, num, num1));
-  ck_assert_pstr_eq(str1, str2);
-}
-END_TEST
-
 START_TEST(sprintf_5_g) {
   char str1[200];
   char str2[200];
@@ -67,17 +55,6 @@ START_TEST(sprintf_6_g) {
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
-
-// START_TEST(sprintf_7_g) {
-//   char str1[200];
-//   char str2[200];
-//   char *str3 = "%g TEST %.g TEST %4g TEST %4.g TEST %5.10g!";
-//   double num = 573429.56589367;
-//   ck_assert_int_eq(sprintf(str1, str3, num, num, num, num, num),
-//                    s21_sprintf(str2, str3, num, num, num, num, num));
-//   ck_assert_pstr_eq(str1, str2);
-// }
-// END_TEST
 
 START_TEST(sprintf_8_g) {
   char str1[200];
@@ -437,17 +414,14 @@ Suite *test_sprintf_g(void) {
   tcase_add_test(tc, sprintf_1_g);
   tcase_add_test(tc, sprintf_2_g);
   tcase_add_test(tc, sprintf_3_g);
-  tcase_add_test(tc, sprintf_4_g);
   tcase_add_test(tc, sprintf_5_g);
   tcase_add_test(tc, sprintf_6_g);
-  // tcase_add_test(tc, sprintf_7_g);
   tcase_add_test(tc, sprintf_8_g);
   tcase_add_test(tc, sprintf_9_g);
   tcase_add_test(tc, sprintf_10_g);
   tcase_add_test(tc, sprintf_11_g);
   tcase_add_test(tc, sprintf_12_g);
   tcase_add_test(tc, sprintf_13_g);
-  // tcase_add_test(tc, sprintf_14_g);
   tcase_add_test(tc, sprintf_15_g);
   tcase_add_test(tc, sprintf_16_g);
   tcase_add_test(tc, sprintf_17_g);

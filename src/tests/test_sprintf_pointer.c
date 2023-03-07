@@ -135,13 +135,11 @@ START_TEST(sprintf_10_pointer) {
   char str2[200];
   char* str3 = "%p Test Test %5.7p TEST %10p %#p %-p %+p ";
   char* val = 0;
-  ck_assert_int_eq(
-      sprintf(str1, str3, val, val, val, val, val, val, val),
-      s21_sprintf(str2, str3, val, val, val, val, val, val));
+  ck_assert_int_eq(sprintf(str1, str3, val, val, val, val, val, val, val),
+                   s21_sprintf(str2, str3, val, val, val, val, val, val));
   ck_assert_pstr_eq(str1, str2);
 }
 END_TEST
-
 
 // Spaces
 START_TEST(sprintf_11_pointer) {

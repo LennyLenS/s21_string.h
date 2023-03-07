@@ -36,7 +36,8 @@ void s21_leading_zeros(char *str_int, int *save_precision_g_1,
   } else if (str_int[counter_g_prec] == '-')
     counter_g_prec += 1;
   while (this_is_int == false && this_is_zero == false) {
-    if (str_int[counter_g_prec] != '.') {
+    if (counter_g_prec < (int)s21_strlen(str_int) &&
+        str_int[counter_g_prec] != '.') {
       counter_g_leading_zeros += 1;
       counter_g_prec += 1;
     } else {
@@ -324,8 +325,7 @@ void s21_writing_int_number_with_point(
     } else
       str_int[0] = *symbol + '0';
   } else {
-    if ((*symbol < 0 || flag_zero_negative == true) &&
-        check_g == false) {
+    if ((*symbol < 0 || flag_zero_negative == true) && check_g == false) {
       *symbol *= -1;
       str_int[0] = '-';
       str_int[1] = *symbol + '0';

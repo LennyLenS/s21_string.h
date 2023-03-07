@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "./s21_string_files/s21_string.h"
 #include "specificators/sub_func.h"
 
 #define SPACES " \t\n\v"

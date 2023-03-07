@@ -13,7 +13,7 @@ TEST_SPRINTF=$(wildcard tests/*.c)
 TEST_SPRINTF_OBJECTS=$(TEST_SPRINTF:.c=.o)
 
 ifeq ($(shell uname -s),Linux)
-	TEST_FLAGS += -lrt -lsubunit
+	TEST_FLAGS += -lrt
 endif
 
 all: clean sprintf

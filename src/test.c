@@ -14,16 +14,13 @@ int main() {
 
   char str1[200];
   char str2[200];
-  char *str3 = "%.2g TEST\n%.3g TEST\n";
-  double num = 838.65400000;
-  double num1 = 640.783289182;
+  char *str3 = "test: %020g!\ntest: %-020g!\ntest: %+025g";
+  double num = 837564.4753366;
 
-
-  sprintf(str1, str3, num, num1);
-  s21_sprintf(str2, str3, num, num1);
+  sprintf(str1, str3, num, num, num);
+  s21_sprintf(str2, str3, num, num, num);
 
   printf("!%s!\n!%s!\n", str1, str2);
-
 
   // char str7[200];
   // char str8[200];
@@ -35,6 +32,13 @@ int main() {
   // printf("!%s!\n!%s!\n", str7, str8);
 }
 
-
-
-
+// START_TEST(sprintf_22_g) {
+//   char str1[400];
+//   char str2[400];
+//   char *str3 = "test: %020g!\ntest: %-020g!\ntest: %+025g!";
+//   double num = 837564.4753366;
+//   ck_assert_int_eq(sprintf(str1, str3, num, num, num),
+//                    s21_sprintf(str2, str3, num, num, num));
+//   ck_assert_pstr_eq(str1, str2);
+// }
+// END_TEST
