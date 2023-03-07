@@ -140,7 +140,7 @@ int scanf_spec_c(Prototype *prot, const char *str, char *buff_str, va_list args,
       };
       k++;
     };
-    k=1;
+    k = 1;
   };
   return k;
 }

@@ -16,7 +16,7 @@ ifeq ($(shell uname -s),Linux)
 	TEST_FLAGS += -lrt
 endif
 
-all: clean sprintf
+all: clean s21_string.a
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $^ -o $@
@@ -41,12 +41,8 @@ make_style:
 clean:
 	rm -rf $(OBJECTS) $(EXECUTABLE) $(TESTS_OBJECTS) $(SPRINTF_OBJECTS) $(TEST_SPRINTF_OBJECTS) *.a *.gcov *.gcno *.gcda *.info report test *.o 
 
- 
-sprintf : $(SPRINTF_OBJECTS) s21_string.a test.c
-	$(CC) $^ -o sprintf -lm
-	./sprintf
 
-sprintf_test: $(TEST_SPRINTF_OBJECTS) s21_string.a
+test: $(TEST_SPRINTF_OBJECTS) s21_string.a
 	$(CC) $^ -o test $(TEST_FLAGS)
 	./test
 
