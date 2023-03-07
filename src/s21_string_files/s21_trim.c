@@ -1,7 +1,5 @@
 #include "s21_string.h"
 
-// Заменить в trim стандартные ф-ции на наши
-
 void *s21_trim(const char *src, const char *trim_chars) {
   if (src == S21_NULL) return S21_NULL;
   char trim_chars_tmp[512];
@@ -13,7 +11,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
   s21_size_t src_len = s21_strlen(src);
   char *str_new = (char *)malloc(sizeof(char) * (src_len + 1));
   s21_size_t ind_bgn = s21_strspn(src, trim_chars_tmp);
-  s21_size_t ind_end = src_len;  // to stand pointer on \0
+  s21_size_t ind_end = src_len;
 
   char *src_tmp = (char *)src + ind_end;
   char *src_end = src_tmp;

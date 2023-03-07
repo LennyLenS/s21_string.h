@@ -204,7 +204,6 @@ int s21_spec_id(va_list args, Prototype *prot, char *charbuf) {
 int s21_spec_s(char *str, va_list args, Prototype *prot) {
   int i = 0;
   int len = 0;
-  // int sp_qnt = 0;
   char *strng_arg = va_arg(args, char *);
 
   if (strng_arg == S21_NULL) {
@@ -218,9 +217,6 @@ int s21_spec_s(char *str, va_list args, Prototype *prot) {
 
   len = (int)s21_strlen(strng_arg);
 
-  //  if(strng_arg == S21_NULL){
-  //       s21_strcpy(str, "(null)");
-  //   } else
   if (prot->prec_number < len && prot->prec_number != -1) {
     i += prep_string(str, strng_arg, prot->prec_number, i);
   } else if (prot->prec_number == 0) {
@@ -234,8 +230,6 @@ int s21_spec_s(char *str, va_list args, Prototype *prot) {
 
 int s21_spec_c(char *str, va_list args, Prototype *prot) {
   char c = va_arg(args, int);
-  // if(c == '\0') c = 0;
-  //  printf(":%d:\n", c);
   int sp_qnt = 0;
   int i = 0;
   int ret = 0;
@@ -252,7 +246,6 @@ int s21_spec_c(char *str, va_list args, Prototype *prot) {
     i++;
   };
   if (c == 0) ret = -1;
-  // printf("i :%d: s:%d:\n", i, str[i]);
   return ret;
 }
 
@@ -296,7 +289,6 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
     num = va_arg(args, double);
   double save_number_for_g = num;
   if (s21_check_arg(prot, intermediate_str, counter_symbols_str, num) != 0) {
-    // printf("s21_stri: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (prot->spec == 'g' || prot->spec == 'G') flag_g = true;
@@ -317,13 +309,11 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
     } else
       str_int[0] = '1';
     s21_strcat(intermediate_str, str_int);
-    // printf("Finally1: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (flag_g == true && 1 > e && e >= -4 &&
       (prot->prec_number == 1 || prot->prec_star == 1))
     flag_g_prec_1 = false;
-  // ------------------------------------------ если .0 тут проверку сделать num
   if (prot->prec_number == 0 || prot->prec_star == 0) {
     num = round(num * pow(10, 0)) / pow(10, 0);
     prec_0 = true;
@@ -334,7 +324,6 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
   }
   s21_fractional_and_integer_part_of_a_number(
       &num_int, &num, prot, flag_zero_negative, flag_minus_num_g);
-  // при точности десять баг не выводит дробную часть
   dont_write_number_with_point = s21_rounding_and_precision_number(
       &num, &multiply, prot, &save_number_for_g, &e, &check_g, &precision,
       flag_zero_plus, flag_zero_negative, flag_g,
@@ -395,10 +384,8 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
       precision--;
       save_multiply *= 10;
     }
-    //  Разобраться с дробной частью частью когда степень e положительная
 
     save_number_for_g *= save_multiply;
-    // Разобраться с точностью
     if (num_i_g == 0) {
       while (precision > 0) {
         precision--;
@@ -422,7 +409,6 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
     }
     if (num_i_g == 0 && check_num_i_g == false)
       save_number_for_g *= multiply_for_fractional_num;
-    // ТУТ ТОЖЕ НАДО ОКРУГЛЯТЬ
     else {
       save_number_for_g *= multiply_num_i_g;
       save_number_for_g =
@@ -430,7 +416,6 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
           pow(10, save_precision_for_rounding_g);
     }
     save_number_for_g = (long long int)save_number_for_g;
-    // if (save_number_for_g < 0) save_number_for_g *= -1;
     s21_double_to_str(save_number_for_g, str_double_g, num_i);
     s21_reverse(str_double_g, 0);
     s21_strcat(str_double, str_double_g);
@@ -440,8 +425,5 @@ int s21_spec_e(int counter_symbols_str, char *intermediate_str, va_list args,
                         &check_g, prec_0);
     s21_strcat(intermediate_str, str_int);
   }
-
-  // printf("Дробная часть %s\n", str_double);
-  // printf("Finally1: %s\n", intermediate_str);
   return counter_symbols_str;
 }

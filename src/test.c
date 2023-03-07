@@ -12,14 +12,18 @@ int main() {
   // s21_sprintf(str2, str3, num, num, num, num, num);
   // printf("!%s!\n!%s!\n", str1, str2);
 
-  char str4[200];
-  char str5[200];
-  char *str6 = "test: %Lg!\n";
-  long double num1 = NAN;
-  sprintf(str4, str6, num1, num1, num1, num1, num1);
-  s21_sprintf(str5, str6, num1, num1, num1, num1, num1);
+  char str1[200];
+  char str2[200];
+  char *str3 = "%.2g TEST\n%.3g TEST\n";
+  double num = 838.65400000;
+  double num1 = 640.783289182;
 
-  printf("!%s!\n!%s!\n", str4, str5);
+
+  sprintf(str1, str3, num, num1);
+  s21_sprintf(str2, str3, num, num1);
+
+  printf("!%s!\n!%s!\n", str1, str2);
+
 
   // char str7[200];
   // char str8[200];
@@ -30,3 +34,7 @@ int main() {
 
   // printf("!%s!\n!%s!\n", str7, str8);
 }
+
+
+
+

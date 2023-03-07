@@ -101,7 +101,6 @@ int s21_check_arg(Prototype *prot, char *intermediate_str,
       counter_symbols_str += 4;
     else
       counter_symbols_str += 3;
-    // printf("s21check: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   if (s21_isnan(num) == 1) {
@@ -115,7 +114,6 @@ int s21_check_arg(Prototype *prot, char *intermediate_str,
       intermediate_str[2] = 'n';
     }
     counter_symbols_str += 3;
-    // printf("s21check: %s\n", intermediate_str);
     return counter_symbols_str;
   }
   return flag_check_arg;
@@ -231,13 +229,10 @@ int s21_rounding_and_precision_number(
         while (flag > 0) {
           flag /= 10;
           counter_g_plus_e++;
-        }  // придумать че делать если в дробной части < 3-ех
+        }
         check_fractional_num_g = *save_number_for_g;
         s21_fractional_and_integer_part_of_a_number(
             &flag, &check_fractional_num_g, prot, 0, 0);
-        // check_fractional_num_g =
-        //     round(check_fractional_num_g * pow(10, *precision)) /
-        //     pow(10, *precision);
         *precision -= counter_g_plus_e;
         check_fractional_num_g =
             round(check_fractional_num_g * pow(10, *precision)) /
@@ -245,7 +240,6 @@ int s21_rounding_and_precision_number(
         check_fractional_num_from_zeros_g = *save_number_for_g;
         for (int i = 0; i < *precision; i++)
           check_fractional_num_from_zeros_g *= 10;
-        // Здесь баг
         if ((long long int)check_fractional_num_from_zeros_g % 10 != 0)
           this_is_prec_with_zeros = true;
         int counter = *precision;
@@ -265,17 +259,14 @@ int s21_rounding_and_precision_number(
       if (flag_g == true && *check_g == 0)
         *num = round(*num * pow(10, *precision + counter_g_final_precison)) /
                pow(10, *precision + counter_g_final_precison);
-      // multiply сделать для g
       if (this_is_used == true) {
         *save_number_for_g = *num;
       }
       for (int i = 0; i < *precision; i++) {
-        // int counter = 0;
         *num *= 10;
         if (*num == 0) {
           skip = true;
         }
-        // баг с большим числом
         flag = (long long int)*num;
         if ((flag_zero_negative == false && flag_zero_plus == false &&
              flag_g == true) &&
@@ -307,7 +298,6 @@ void s21_writing_int_number_with_point(
     int *save_degree, int *e) {
   // Записываем целое число в массив char в виде "-4." если целое число
   // отрицательное. "4." если число положительное
-  //(void)*save_number_for_g;
   bool check_g = false;
   double send_to_function_num = 0;
   if ((prot->spec == 'g' || prot->spec == 'G') &&
@@ -315,7 +305,6 @@ void s21_writing_int_number_with_point(
         (prot->prec_number == -1 || prot->prec_star == -1)) ||
        (*save_precision_g_1 > *save_degree && *save_degree >= -4 &&
         (prot->prec_number != -1 || prot->prec_star != -1)))) {
-    // 838 точность 2 неверно 838 точность 3 верно
     if (*save_precision_g_1 <= *e && *save_precision_g_1 != 0)
       *num_int = *num_int % 10;
     else
@@ -336,7 +325,7 @@ void s21_writing_int_number_with_point(
       str_int[0] = *symbol + '0';
   } else {
     if ((*symbol < 0 || flag_zero_negative == true) &&
-        check_g == false) {  // если e будет мб ошибка
+        check_g == false) {
       *symbol *= -1;
       str_int[0] = '-';
       str_int[1] = *symbol + '0';
@@ -433,7 +422,6 @@ void s21_check_fractional_number_for_zeros(unsigned long int *multiply,
                                            bool flag_minus_num, bool flag_g,
                                            bool this_is_used) {
   // Проверка на то,что есть ли в дробной части нули
-  // Обнулить bool minus_num потому что эту функцию еще раз вызываю
   (void)flag_g;
   (void)this_is_used;
   while (*multiply >= 10) {

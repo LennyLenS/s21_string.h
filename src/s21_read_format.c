@@ -1,18 +1,13 @@
 #include "s21_sprintf.h"
-// Парсер %
-// %[флаги][ширина][.точность][длина]спецификатор
+
 int s21_read_format(Prototype *prot, const char *format, int i, va_list args) {
   int this_is_width = 0;
   int this_is_prec = 0;
   i++;
   while (format[i]) {
-    // Check flags
     s21_check_flags(format, i, prot, &this_is_prec, &this_is_width);
-    // Check width
     s21_check_width(format, i, &this_is_width, prot, args);
-    // Check prec
     i = s21_check_prec(format, i, &this_is_prec, prot, args);
-    // Check length
     if (format[i] == 'h') {
       prot->length = format[i];
     } else if (format[i] == 'l') {

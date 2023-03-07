@@ -7,17 +7,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 typedef struct {
-  char spec;         // спецификаторы
-  int minus_flag;    // флаг -
-  int plus_flag;     // флаг +
-  int space_flag;    // флаг ' '
-  int zero_flag;     // флаг 0
-  int sharp_flag;    // флаг #
-  int width_number;  // Ширина (число), *
+  char spec;    
+  int minus_flag;   
+  int plus_flag;     
+  int space_flag;    
+  int zero_flag;     
+  int sharp_flag;    
+  int width_number;  
   int width_star;
-  int prec_number;  // Точность если .число
-  int prec_star;    // Точность если .*
-  char length;      // Длина
+  int prec_number;  
+  int prec_star; 
+  char length;
 } Prototype;
 void shift_str(char *str, int size);
 

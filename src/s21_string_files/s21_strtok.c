@@ -38,8 +38,7 @@ char *s21_strtok(char *str, const char *delim) {
 
   if ((int)s21_strlen(str) == str_ind){
     str_cash = NULL;
-    return S21_NULL;  //  если строка пустая или полностью состоит из
-                      //  разделителей.
+    return S21_NULL;
   }
   ret_ind = str_ind;
 
@@ -59,6 +58,5 @@ char *s21_strtok(char *str, const char *delim) {
   }
   if (str[ret_ind] == '\0') return S21_NULL;
   str_cash = &str[str_ind];
-  // printf("%s\n", str_cash);
   return &str[ret_ind];
 }

@@ -8,7 +8,7 @@ void shift_str(char *str, int size) {
 }
 
 void UDecInNumSys(char *buff, unsigned long long int n, int mes,
-                  int flag) {  //  изменил int n на long long int n
+                  int flag) {
   int size_ans = 0;
   char str[2];
   str[0] = 'a';
@@ -20,7 +20,7 @@ void UDecInNumSys(char *buff, unsigned long long int n, int mes,
       size_ans += 1;
       shift_str(buff, size_ans);
       if (n % mes > 9) {
-        buff[0] = n % mes - 10 + str[flag];  // поменял 'A' на 'a'
+        buff[0] = n % mes - 10 + str[flag];
       } else {
         buff[0] = n % mes + '0';
       }
@@ -46,9 +46,7 @@ int s21_rounding(char *str, int count_before_dot, int pres, int neg_flag,
     str[1] = '0';
     str[0] = '1';
   } else if (trans == 1 && str[0] == '-') {
-    // printf("$%s$\n", str);
     shift_str(str + 1, count_before_dot + pres + add_point + 1);
-    // printf("$%s$\n", str);
     str[1] = '1';
     index++;
   } else if (trans == 1) {
@@ -117,20 +115,16 @@ void s21_long_double_to_str(long double num, char *str, int pres,
     }
   }
   str[index] = '\0';
-  // printf("%s\n", str);
 }
 
 void *s21_reverse(
     char *str,
-    int neg_flag) {  // str должен быть массивом или сделан через malloc, а не
-                     // указателем char * на область памяти в стеке
+    int neg_flag) {
   if (str == NULL) return NULL;
   int bgn = 0;
   if (neg_flag == 1) bgn = 1;
   int end = s21_strlen(str) - 1;
   char temp;
-  // printf("ee %s\n", str);
-  // printf("d %d  %d\n", bgn, end);
   while (bgn < end) {
     temp = str[bgn];
     *(str + bgn) = *(str + end);
@@ -138,7 +132,6 @@ void *s21_reverse(
     bgn++;
     end--;
   }
-  // printf("ff %s\n", str);
   return str;
 }
 

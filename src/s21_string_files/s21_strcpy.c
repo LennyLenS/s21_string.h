@@ -1,5 +1,4 @@
 #include "s21_string.h"
-// Копирует строку, на которую указывает src, в dest.
 char *s21_strcpy(char *dest, const char *src) {
   int i = 0;
   for (i = 0; src[i] != '\0'; i++) {

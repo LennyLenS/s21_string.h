@@ -7,8 +7,6 @@
 #include "s21_flag_handler.h"
 #define PRECISION 6;
 
-// %[флаги][ширина][.точность][длина]спецификатор
-
 
 int s21_sprintf(char *str, const char *format, ...);
 int s21_parser(char *str, const char *format, va_list args);

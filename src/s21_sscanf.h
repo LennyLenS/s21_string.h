@@ -10,7 +10,6 @@
 #include "specificators/sub_func.h"
 
 #define SPACES " \t\n\v"
-// #define S21_INFINITY 1.0 / 0.0
 
 long long int s21_atoi(char *str);
 int isNumber(char c);
